@@ -8,16 +8,18 @@ import android.util.AttributeSet;
 
 
 class MelodyKeyboardView extends KeyboardView {
+    static boolean inEditMode = true;
+
     public MelodyKeyboardView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        super(new ContextWrapperFix(context, inEditMode), attrs);
     }
 
     public MelodyKeyboardView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+        super(new ContextWrapperFix(context, inEditMode), attrs, defStyleAttr);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public MelodyKeyboardView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
+        super(new ContextWrapperFix(context, inEditMode), attrs, defStyleAttr, defStyleRes);
     }
 }

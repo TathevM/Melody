@@ -18,6 +18,11 @@ public class MelodyBoard {
         mMelodyKeyboardView.setPreviewEnabled(false);
     }
 
+    //Helper function for KeyboardView ContextWrapperFix
+    public static void setOnEditMode(boolean mode){
+        MelodyKeyboardView.inEditMode = mode;
+    }
+
     private KeyboardView.OnKeyboardActionListener mOnKeyboardActionListener = new KeyboardView.OnKeyboardActionListener() {
         @Override
         public void onPress(int primaryCode) {
