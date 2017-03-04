@@ -19,7 +19,7 @@
 
     <Row>
         <Key android:codes="-999" android:keyLabel="" android:keyEdgeFlags="left"/>
-        <Key android:codes="114" android:keyIcon="@drawable/ic_note_c"/>
+        <Key android:codes="114" android:keyIcon="@drawable/ic_note_c"  android:popupKeyboard="@xml/popup_notes_c"/>
         <Key android:codes="116" android:keyIcon="@drawable/ic_note_d"/>
         <Key android:codes="121" android:keyIcon="@drawable/ic_note_e"/>
         <Key android:codes="117" android:keyIcon="@drawable/ic_note_f"/>

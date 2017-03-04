@@ -3,6 +3,8 @@ package com.team_red.melody.melodyboard;
 import android.app.Activity;
 import android.content.Context;
 import android.inputmethodservice.KeyboardView;
+import android.view.MotionEvent;
+import android.view.View;
 
 
 public class MelodyBoard {
@@ -16,6 +18,15 @@ public class MelodyBoard {
         mMelodyKeyboardView.setKeyboard(melodyKeyboard);
         mMelodyKeyboardView.setOnKeyboardActionListener(mOnKeyboardActionListener);
         mMelodyKeyboardView.setPreviewEnabled(false);
+        mMelodyKeyboardView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    mMelodyKeyboardView.closing(); // Close popup keyboard if it's showing
+                }
+                return false;
+            }
+        });
     }
 
     //Helper function for KeyboardView ContextWrapperFix
