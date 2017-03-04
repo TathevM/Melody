@@ -10,7 +10,7 @@
     android:layout_width="match_parent"
     android:focusableInTouchMode="true"
     android:focusable="true"
-    android:visibility="visible"
+    android:visibility="gone"
     android:popupLayout="@layout/popup_layout"
     android:layout_height="wrap_content">
 </com.team_red.melody.melodyboard.MelodyKeyboardView>

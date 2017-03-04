@@ -5,8 +5,8 @@
           android:keyPreviewLayout="@null">
     <Row>
         <Key android:codes="121" android:keyIcon="@drawable/ic_icon_full_note" android:keyEdgeFlags="left"/>
-        <Key android:codes="039" android:keyIcon="@drawable/ic_icon_half_note"/>
-        <Key android:codes="038" android:keyIcon="@drawable/ic_icon_quarter_note"/>
+        <Key android:codes="39" android:keyIcon="@drawable/ic_icon_half_note"/>
+        <Key android:codes="38" android:keyIcon="@drawable/ic_icon_quarter_note"/>
         <Key android:codes="124" android:keyIcon="@drawable/ic_icon_eighth_note"/>
         <Key android:codes="888" android:keyIcon="@drawable/ic_icon_sixteenth_note" android:keyEdgeFlags="right"/>
     </Row>

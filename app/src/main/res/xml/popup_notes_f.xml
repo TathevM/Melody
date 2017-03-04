@@ -6,8 +6,8 @@
     <Row>
         <Key android:codes="117" android:keyIcon="@drawable/ic_icon_full_note" android:keyEdgeFlags="left"/>
         <Key android:codes="122" android:keyIcon="@drawable/ic_icon_half_note"/>
-        <Key android:codes="042" android:keyIcon="@drawable/ic_icon_quarter_note"/>
-        <Key android:codes="065" android:keyIcon="@drawable/ic_icon_eighth_note"/>
+        <Key android:codes="42" android:keyIcon="@drawable/ic_icon_quarter_note"/>
+        <Key android:codes="65" android:keyIcon="@drawable/ic_icon_eighth_note"/>
         <Key android:codes="888" android:keyIcon="@drawable/ic_icon_sixteenth_note" android:keyEdgeFlags="right"/>
     </Row>
 </Keyboard>

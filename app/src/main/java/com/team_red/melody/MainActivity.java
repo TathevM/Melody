@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import com.team_red.melody.melodyboard.MelodyBoard;
 
@@ -44,6 +45,10 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         MelodyBoard melodyBoard = new MelodyBoard(MainActivity.this);
+        EditText editText = (EditText) findViewById(R.id.test_edit_text);
+
+        melodyBoard.registerEditText(editText);
+        editText.clearFocus();
     }
 
     @Override

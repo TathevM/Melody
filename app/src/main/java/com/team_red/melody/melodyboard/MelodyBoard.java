@@ -3,14 +3,14 @@ package com.team_red.melody.melodyboard;
 import android.app.Activity;
 import android.content.Context;
 import android.inputmethodservice.KeyboardView;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.text.Editable;
+import android.text.InputType;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.FrameLayout;
-import android.widget.PopupWindow;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
+import com.team_red.melody.MainActivity;
 import com.team_red.melody.R;
 
 
@@ -41,6 +41,51 @@ public class MelodyBoard {
         MelodyKeyboardView.inEditMode = mode;
     }
 
+    private void showMelodyBoard(View v){
+        mMelodyKeyboardView.setVisibility(View.VISIBLE);
+        mMelodyKeyboardView.setEnabled(true);
+        if( v!=null ) ((InputMethodManager)context.getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(v.getWindowToken(), 0);
+    }
+
+    private void hideMelodyBoard(){
+        mMelodyKeyboardView.setVisibility(View.GONE);
+        mMelodyKeyboardView.setEnabled(false);
+    }
+
+    private boolean isMelodyBoardVisible(){
+        return mMelodyKeyboardView.getVisibility() == View.VISIBLE;
+    }
+
+    //registering edit text to receive custom keyboard events
+    public void registerEditText(EditText editText){
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) showMelodyBoard(v);
+                else hideMelodyBoard();
+            }
+        });
+        editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showMelodyBoard(v);
+            }
+        });
+        editText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                EditText editText1 = (EditText) v;
+                int inType = editText1.getInputType();
+                editText1.setInputType(InputType.TYPE_NULL);
+                editText1.onTouchEvent(event);
+                editText1.setInputType(inType);
+                return true;
+            }
+        });
+        //disable spell checking
+        editText.setInputType( editText.getInputType() | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS );
+    }
+
     private KeyboardView.OnKeyboardActionListener mOnKeyboardActionListener = new KeyboardView.OnKeyboardActionListener() {
         @Override
         public void onPress(int primaryCode) {
@@ -54,11 +99,17 @@ public class MelodyBoard {
 
         @Override
         public void onKey(int primaryCode, int[] keyCodes) {
-            if(mMelodyKeyboardView.isLongPressed()){
+            if (mMelodyKeyboardView.isLongPressed()) {
                 mMelodyKeyboardView.setLongPressed(false);
             }
-            else {
-            }
+            View focusCurrent = ((Activity) context).getWindow().getCurrentFocus();
+            //if(focusCurrent == null || focusCurrent.getClass()!=EditText.class ) return;
+            if (focusCurrent == null) return;
+            EditText editText = (EditText) focusCurrent;
+            Editable editable = editText.getText();
+            int start = editText.getSelectionStart();
+            editable.insert(start, Character.toString((char) primaryCode));
+
         }
 
         @Override

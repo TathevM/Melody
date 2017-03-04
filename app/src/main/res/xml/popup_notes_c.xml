@@ -6,7 +6,7 @@
     <Row>
         <Key android:codes="114" android:keyIcon="@drawable/ic_icon_full_note" android:keyEdgeFlags="left"/>
         <Key android:codes="108" android:keyIcon="@drawable/ic_icon_half_note"/>
-        <Key android:codes="037" android:keyIcon="@drawable/ic_icon_quarter_note"/>
+        <Key android:codes="37" android:keyIcon="@drawable/ic_icon_quarter_note"/>
         <Key android:codes="123" android:keyIcon="@drawable/ic_icon_eighth_note"/>
         <Key android:codes="888" android:keyIcon="@drawable/ic_icon_sixteenth_note" android:keyEdgeFlags="right"/>
     </Row>

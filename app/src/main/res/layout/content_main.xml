@@ -9,11 +9,12 @@
     tools:context="com.team_red.melody.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:id="@+id/test_edit_text"/>
 
-    <include layout="@layout/input">
+    <include layout="@layout/input"
+        android:visibility="gone">
     </include>
 </RelativeLayout>
