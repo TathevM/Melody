@@ -6,15 +6,17 @@ import android.inputmethodservice.KeyboardView;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.team_red.melody.R;
+
 
 public class MelodyBoard {
     private Context context;
     private MelodyKeyboardView mMelodyKeyboardView;
 
-    public MelodyBoard(Context context, int keyboardViewResID, int keyboardxml) {
+    public MelodyBoard(Context context) {
         this.context = context;
-        mMelodyKeyboardView = (MelodyKeyboardView) ((Activity) context).findViewById(keyboardViewResID);
-        MelodyKeyboard melodyKeyboard = new MelodyKeyboard(context , keyboardxml);
+        mMelodyKeyboardView = (MelodyKeyboardView) ((Activity) context).findViewById(R.id.keyboard_view);
+        MelodyKeyboard melodyKeyboard = new MelodyKeyboard(context , R.xml.keyboard_main);
         mMelodyKeyboardView.setKeyboard(melodyKeyboard);
         mMelodyKeyboardView.setOnKeyboardActionListener(mOnKeyboardActionListener);
         mMelodyKeyboardView.setPreviewEnabled(false);

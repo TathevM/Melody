@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        MelodyBoard melodyBoard = new MelodyBoard(MainActivity.this , R.id.keyboard_view , R.xml.keyboard_main);
+        MelodyBoard melodyBoard = new MelodyBoard(MainActivity.this);
     }
 
     @Override
