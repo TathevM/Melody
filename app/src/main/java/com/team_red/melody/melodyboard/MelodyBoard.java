@@ -3,8 +3,13 @@ package com.team_red.melody.melodyboard;
 import android.app.Activity;
 import android.content.Context;
 import android.inputmethodservice.KeyboardView;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
+import android.widget.PopupWindow;
 
 import com.team_red.melody.R;
 
@@ -49,7 +54,11 @@ public class MelodyBoard {
 
         @Override
         public void onKey(int primaryCode, int[] keyCodes) {
-
+            if(mMelodyKeyboardView.isLongPressed()){
+                mMelodyKeyboardView.setLongPressed(false);
+            }
+            else {
+            }
         }
 
         @Override
