@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+          android:keyWidth="10%p"
+          android:keyHeight="@dimen/key_height"
+          android:keyPreviewLayout="@null">
+    <Row>
+        <Key android:codes="111" android:keyIcon="@drawable/ic_icon_full_note" android:keyEdgeFlags="left"/>
+        <Key android:codes="099" android:keyIcon="@drawable/ic_icon_half_note"/>
+        <Key android:codes="041" android:keyIcon="@drawable/ic_icon_quarter_note"/>
+        <Key android:codes="068" android:keyIcon="@drawable/ic_icon_eighth_note"/>
+        <Key android:codes="888" android:keyIcon="@drawable/ic_icon_sixteenth_note" android:keyEdgeFlags="right"/>
+    </Row>
+</Keyboard>
