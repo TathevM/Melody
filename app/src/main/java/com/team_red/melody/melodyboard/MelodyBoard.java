@@ -2,6 +2,7 @@ package com.team_red.melody.melodyboard;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.inputmethodservice.KeyboardView;
 import android.text.Editable;
 import android.text.InputType;
@@ -10,7 +11,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import com.team_red.melody.MainActivity;
 import com.team_red.melody.R;
 
 
@@ -25,6 +25,7 @@ public class MelodyBoard {
         mMelodyKeyboardView.setKeyboard(melodyKeyboard);
         mMelodyKeyboardView.setOnKeyboardActionListener(mOnKeyboardActionListener);
         mMelodyKeyboardView.setPreviewEnabled(false);
+
         mMelodyKeyboardView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -41,23 +42,24 @@ public class MelodyBoard {
         MelodyKeyboardView.inEditMode = mode;
     }
 
-    private void showMelodyBoard(View v){
+    public void showMelodyBoard(View v){
         mMelodyKeyboardView.setVisibility(View.VISIBLE);
         mMelodyKeyboardView.setEnabled(true);
         if( v!=null ) ((InputMethodManager)context.getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 
-    private void hideMelodyBoard(){
+    public void hideMelodyBoard(){
         mMelodyKeyboardView.setVisibility(View.GONE);
         mMelodyKeyboardView.setEnabled(false);
     }
 
-    private boolean isMelodyBoardVisible(){
+    public boolean isMelodyBoardVisible(){
         return mMelodyKeyboardView.getVisibility() == View.VISIBLE;
     }
 
     //registering edit text to receive custom keyboard events
     public void registerEditText(EditText editText){
+        editText.setTypeface(Typeface.createFromAsset(context.getAssets() , "fonts/lassus.ttf"));
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -68,17 +70,24 @@ public class MelodyBoard {
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showMelodyBoard(v);
+                if(!isMelodyBoardVisible())
+                    showMelodyBoard(v);
             }
         });
         editText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                EditText editText1 = (EditText) v;
-                int inType = editText1.getInputType();
-                editText1.setInputType(InputType.TYPE_NULL);
-                editText1.onTouchEvent(event);
-                editText1.setInputType(inType);
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    EditText editText1 = (EditText) v;
+                    int clickPosition = editText1.getOffsetForPosition(event.getX(), event.getY());
+                    int inType = editText1.getInputType();
+                    editText1.setInputType(InputType.TYPE_NULL);
+                    editText1.onTouchEvent(event);
+                    editText1.setInputType(inType);
+                    if (clickPosition>0)
+                        editText1.setSelection(clickPosition);
+                    return true;
+                }
                 return true;
             }
         });

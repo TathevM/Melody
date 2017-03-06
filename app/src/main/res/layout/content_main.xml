@@ -12,9 +12,15 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="48sp"
         android:id="@+id/test_edit_text"/>
 
-    <include layout="@layout/input"
-        android:visibility="gone">
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="asd"
+        android:layout_below="@id/test_edit_text"/>
+
+    <include layout="@layout/input">
     </include>
 </RelativeLayout>
