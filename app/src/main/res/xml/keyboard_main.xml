@@ -30,7 +30,7 @@
     </Row>
 
     <Row>
-        <Key android:codes="-3" android:keyLabel=""/>
+        <Key android:codes="-10" android:keyLabel=""/>
     </Row>
 
 </Keyboard>

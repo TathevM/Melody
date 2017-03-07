@@ -18,6 +18,8 @@ public class MelodyBoard {
     public static final String FONT_NAME = "fonts/lassus.ttf";
     private static final int CODE_BACKSPACE = -5;
     private static final int CODE_CANCEL = -3;
+    private static final int CODE_SYMBOLS = -10;
+    private static final int CODE_MAIN = -11;
 
     private Context context;
     private MelodyKeyboardView mMelodyKeyboardView;
@@ -131,6 +133,14 @@ public class MelodyBoard {
                 case CODE_BACKSPACE:
                     if(start>0 && editable != null)
                         editable.delete(start - 1 , start);
+                    break;
+                case CODE_SYMBOLS:
+                    MelodyKeyboard symbols = new MelodyKeyboard(context , R.xml.keyboard_symbols);
+                    mMelodyKeyboardView.setKeyboard(symbols);
+                    break;
+                case CODE_MAIN:
+                    MelodyKeyboard main = new MelodyKeyboard(context , R.xml.keyboard_main);
+                    mMelodyKeyboardView.setKeyboard(main);
                     break;
                 default:
                     editable.insert(start, Character.toString((char) primaryCode));
