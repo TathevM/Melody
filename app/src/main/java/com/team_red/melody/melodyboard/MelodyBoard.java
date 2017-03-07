@@ -86,13 +86,14 @@ public class MelodyBoard {
                 if(!isMelodyBoardVisible())
                     showMelodyBoard(v);
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    //disabling and re-enabling input_type to prevent default keyboard popping up
                     EditText editText1 = (EditText) v;
                     int clickPosition = editText1.getOffsetForPosition(event.getX(), event.getY());
                     int inType = editText1.getInputType();
                     editText1.setInputType(InputType.TYPE_NULL);
                     editText1.onTouchEvent(event);
                     editText1.setInputType(inType);
-                    if (clickPosition>0)
+                    if (clickPosition > 0)
                         editText1.setSelection(clickPosition);
                     return true;
                 }
@@ -104,20 +105,12 @@ public class MelodyBoard {
     }
 
     private KeyboardView.OnKeyboardActionListener mOnKeyboardActionListener = new KeyboardView.OnKeyboardActionListener() {
-        @Override
-        public void onPress(int primaryCode) {
-
-        }
-
-        @Override
-        public void onRelease(int primaryCode) {
-
-        }
 
         @Override
         public void onKey(int primaryCode, int[] keyCodes) {
             if (mMelodyKeyboardView.isLongPressed()) {
                 mMelodyKeyboardView.setLongPressed(false);
+                return;
             }
             View focusCurrent = ((Activity) context).getWindow().getCurrentFocus();
             //if(focusCurrent == null || focusCurrent.getClass()!=EditText.class ) return;
@@ -146,6 +139,16 @@ public class MelodyBoard {
                     editable.insert(start, Character.toString((char) primaryCode));
                     break;
             }
+        }
+
+        @Override
+        public void onPress(int primaryCode) {
+
+        }
+
+        @Override
+        public void onRelease(int primaryCode) {
+
         }
 
         @Override
