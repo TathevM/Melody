@@ -15,6 +15,10 @@ import com.team_red.melody.R;
 
 
 public class MelodyBoard {
+    public static final String FONT_NAME = "fonts/lassus.ttf";
+    private static final int CODE_BACKSPACE = -5;
+    private static final int CODE_CANCEL = -3;
+
     private Context context;
     private MelodyKeyboardView mMelodyKeyboardView;
 
@@ -59,7 +63,7 @@ public class MelodyBoard {
 
     //registering edit text to receive custom keyboard events
     public void registerEditText(EditText editText){
-        editText.setTypeface(Typeface.createFromAsset(context.getAssets() , "fonts/lassus.ttf"));
+        editText.setTypeface(Typeface.createFromAsset(context.getAssets() , FONT_NAME));
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -77,6 +81,8 @@ public class MelodyBoard {
         editText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                if(!isMelodyBoardVisible())
+                    showMelodyBoard(v);
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
                     EditText editText1 = (EditText) v;
                     int clickPosition = editText1.getOffsetForPosition(event.getX(), event.getY());
@@ -117,8 +123,19 @@ public class MelodyBoard {
             EditText editText = (EditText) focusCurrent;
             Editable editable = editText.getText();
             int start = editText.getSelectionStart();
-            editable.insert(start, Character.toString((char) primaryCode));
 
+            switch (primaryCode){
+                case CODE_CANCEL:
+                    hideMelodyBoard();
+                    break;
+                case CODE_BACKSPACE:
+                    if(start>0 && editable != null)
+                        editable.delete(start - 1 , start);
+                    break;
+                default:
+                    editable.insert(start, Character.toString((char) primaryCode));
+                    break;
+            }
         }
 
         @Override

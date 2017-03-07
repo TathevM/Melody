@@ -26,7 +26,11 @@
         <Key android:codes="105" android:keyIcon="@drawable/ic_note_g" android:popupKeyboard="@xml/popup_notes_g"/>
         <Key android:codes="111" android:keyIcon="@drawable/ic_note_a" android:popupKeyboard="@xml/popup_notes_a"/>
         <Key android:codes="112" android:keyIcon="@drawable/ic_note_b" android:popupKeyboard="@xml/popup_notes_b"/>
-        <Key android:codes="-992" android:keyLabel="" android:keyEdgeFlags="right"/>
+        <Key android:codes="-5" android:keyLabel="DEL" android:keyEdgeFlags="right"/>
+    </Row>
+
+    <Row>
+        <Key android:codes="-3" android:keyLabel=""/>
     </Row>
 
 </Keyboard>
