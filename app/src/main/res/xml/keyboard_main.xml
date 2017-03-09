@@ -6,15 +6,15 @@
           android:keyHeight="@dimen/key_height">
 
     <Row>
-        <Key android:codes="63" android:keyLabel="\?" android:keyEdgeFlags="left"/>
-        <Key android:codes="60" android:keyLabel="&lt;"/>
-        <Key android:codes="198" android:keyLabel="Æ"/>
-        <Key android:codes="200" android:keyLabel="È"/>
-        <Key android:codes="205" android:keyLabel="Í"/>
-        <Key android:codes="48" android:keyLabel="0"/>
-        <Key android:codes="56" android:keyLabel="8"/>
-        <Key android:codes="55" android:keyLabel="7"/>
-        <Key android:codes="57" android:keyLabel="9" android:keyEdgeFlags="right"/>
+        <Key android:codes="-12" android:keyLabel="" android:keyEdgeFlags="left"/>
+        <Key android:codes="-13" android:keyLabel=""/>
+        <Key android:codes="-14" android:keyLabel=""/>
+        <Key android:codes="-15" android:keyLabel=""/>
+        <Key android:codes="-16" android:keyLabel=""/>
+        <Key android:codes="48" android:keyLabel=""/>
+        <Key android:codes="56" android:keyLabel=""/>
+        <Key android:codes="55" android:keyLabel=""/>
+        <Key android:codes="57" android:keyLabel="" android:keyEdgeFlags="right"/>
     </Row>
 
     <Row>

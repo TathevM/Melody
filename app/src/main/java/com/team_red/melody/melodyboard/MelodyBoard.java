@@ -21,6 +21,12 @@ public class MelodyBoard {
     private static final int CODE_CANCEL = -3;
     private static final int CODE_SYMBOLS = -10;
     private static final int CODE_MAIN = -11;
+    private static final int CODE_SHARP_TOGGLE = -12;
+    private static final int CODE_DOUBLE_SHARP_TOGGLE = -13;
+    private static final int CODE_FLAT_TOGGLE = -14;
+    private static final int CODE_DOUBLE_FLAT_TOGGLE = -15;
+    private static final int CODE_CANCEL_B_MAJOR_TOGGLE = -16;
+    private static final int CODE_DOT = -17;
 
     private Context context;
     private MelodyKeyboardView mMelodyKeyboardView;
@@ -137,6 +143,9 @@ public class MelodyBoard {
                 case CODE_MAIN:
                     MelodyKeyboard main = new MelodyKeyboard(context , R.xml.keyboard_main);
                     mMelodyKeyboardView.setKeyboard(main);
+                    break;
+                case CODE_SHARP_TOGGLE:
+                    
                     break;
                 default:
                     editable.insert(start, Character.toString((char) primaryCode));

@@ -20,9 +20,11 @@ public class MelodyAdapter extends RecyclerView.Adapter<MelodyAdapter.MelodyView
     private MelodyBoard mMelodyBoard;
 
     public MelodyAdapter(ArrayList<String> melodyStringList, MelodyBoard melodyBoard) {
-        //this.melodyStringList = melodyStringList; //TODO commented for test purposes
-        this.melodyStringList = new ArrayList<>();
+        this.melodyStringList = melodyStringList;
         this.mMelodyBoard = melodyBoard;
+
+        this.melodyStringList = new ArrayList<>();//TODO called for test purposes
+        this.melodyStringList.add("");
         this.melodyStringList.add("");
         this.melodyStringList.add("");
     }
@@ -34,7 +36,7 @@ public class MelodyAdapter extends RecyclerView.Adapter<MelodyAdapter.MelodyView
     }
 
     @Override
-    public void onBindViewHolder(final MelodyViewHolder holder, int position) {
+    public void onBindViewHolder(MelodyViewHolder holder, final int position) {
         holder.mEditText.setText(melodyStringList.get(position));
         holder.mEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -49,7 +51,7 @@ public class MelodyAdapter extends RecyclerView.Adapter<MelodyAdapter.MelodyView
 
             @Override
             public void afterTextChanged(Editable s) {
-                melodyStringList.set(holder.getAdapterPosition() , s.toString());
+                melodyStringList.set(position , s.toString());
             }
         });
     }
