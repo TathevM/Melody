@@ -3,6 +3,8 @@ package com.team_red.melody;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,7 +17,9 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.EditText;
 
+import com.team_red.melody.filemanager.MelodyFileManager;
 import com.team_red.melody.melodyboard.MelodyBoard;
+import com.team_red.melody.models.MelodyAdapter;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -49,12 +53,14 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         mMelodyBoard = new MelodyBoard(MainActivity.this);
+        RecyclerView rv = (RecyclerView) findViewById(R.id.composition);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        rv.setLayoutManager(llm);
+        MelodyAdapter melodyAdapter = new MelodyAdapter(null, mMelodyBoard);
+        rv.setAdapter(melodyAdapter);
+        rv.setHasFixedSize(true);
 
-        EditText editText = (EditText) findViewById(R.id.test_edit_text);
-        mMelodyBoard.registerEditText(editText);
-        editText.clearFocus();
-
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     @Override
@@ -81,14 +87,15 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()){
+            case R.id.action_save:
+                break;
+            case R.id.action_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
+        return false;
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

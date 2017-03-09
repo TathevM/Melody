@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.team_red.melody.Melody;
 import com.team_red.melody.R;
 
 
@@ -24,10 +25,11 @@ public class MelodyBoard {
     private Context context;
     private MelodyKeyboardView mMelodyKeyboardView;
 
+
     public MelodyBoard(Context context) {
         this.context = context;
         mMelodyKeyboardView = (MelodyKeyboardView) ((Activity) context).findViewById(R.id.keyboard_view);
-        MelodyKeyboard melodyKeyboard = new MelodyKeyboard(context , R.xml.keyboard_main);
+        MelodyKeyboard melodyKeyboard = new MelodyKeyboard(this.context , R.xml.keyboard_main);
         mMelodyKeyboardView.setKeyboard(melodyKeyboard);
         mMelodyKeyboardView.setOnKeyboardActionListener(mOnKeyboardActionListener);
         mMelodyKeyboardView.setPreviewEnabled(false);
@@ -35,8 +37,9 @@ public class MelodyBoard {
         mMelodyKeyboardView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN && mMelodyKeyboardView.isLongPressed()) {
                     mMelodyKeyboardView.closing(); // Close popup keyboard if it's showing
+                    //TODO check islongpressed and popup
                 }
                 return false;
             }
@@ -51,7 +54,8 @@ public class MelodyBoard {
     public void showMelodyBoard(View v){
         mMelodyKeyboardView.setVisibility(View.VISIBLE);
         mMelodyKeyboardView.setEnabled(true);
-        if( v!=null ) ((InputMethodManager)context.getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(v.getWindowToken(), 0);
+        if( v != null )
+            ((InputMethodManager)context.getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromInputMethod(v.getWindowToken() , 0);
     }
 
     public void hideMelodyBoard(){
@@ -66,12 +70,14 @@ public class MelodyBoard {
     //registering edit text to receive custom keyboard events
     public void registerEditText(EditText editText){
         editText.setTextSize(65);
-        editText.setTypeface(Typeface.createFromAsset(context.getAssets() , FONT_NAME));
+        editText.setTypeface(Typeface.createFromAsset(Melody.getContext().getAssets() , FONT_NAME));
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) showMelodyBoard(v);
-                else hideMelodyBoard();
+                if (hasFocus)
+                    showMelodyBoard(v);
+                else
+                    hideMelodyBoard();
             }
         });
         editText.setOnClickListener(new View.OnClickListener() {
@@ -84,19 +90,15 @@ public class MelodyBoard {
         editText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(!isMelodyBoardVisible())
-                    showMelodyBoard(v);
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    //disabling and re-enabling input_type to prevent default keyboard popping up
-                    EditText editText1 = (EditText) v;
-                    int clickPosition = editText1.getOffsetForPosition(event.getX(), event.getY());
-                    int inType = editText1.getInputType();
-                    editText1.setInputType(InputType.TYPE_NULL);
-                    editText1.onTouchEvent(event);
-                    editText1.setInputType(inType);
-                    if (clickPosition > 0)
-                        editText1.setSelection(clickPosition);
-                    return true;
+                //disabling and re-enabling input_type to prevent default keyboard popping up
+                EditText editText1 = (EditText) v;
+                int clickPosition = editText1.getOffsetForPosition(event.getX(), event.getY());
+                int inType = editText1.getInputType();
+                editText1.setInputType(InputType.TYPE_NULL);
+                editText1.onTouchEvent(event);
+                editText1.setInputType(inType);
+                if (clickPosition >= 0) {
+                    editText1.setSelection(clickPosition);
                 }
                 return true;
             }

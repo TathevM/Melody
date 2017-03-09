@@ -9,16 +9,12 @@
     tools:context="com.team_red.melody.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <EditText
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/test_edit_text"/>
+        android:layout_height="match_parent"
+        android:id="@+id/composition">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="asd"
-        android:layout_below="@id/test_edit_text"/>
+    </android.support.v7.widget.RecyclerView>
 
     <include layout="@layout/input">
     </include>
