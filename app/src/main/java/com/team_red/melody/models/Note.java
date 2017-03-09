@@ -16,6 +16,12 @@ public class Note implements Parcelable {
     private String sign;
     private int octave;
 
+    public Note(String value, String sign, int octave) {
+        this.value = value;
+        this.sign = sign;
+        this.octave = octave;
+    }
+
     public int describeContents() {
         return 0;
     }
@@ -56,5 +62,19 @@ public class Note implements Parcelable {
             ex.printStackTrace();
         }
         return object;
+    }
+
+    public static Note getNoteFromJson(JSONObject jsonNote){
+        String value = "";
+        String sign = "";
+        int octave = 0;
+        try {
+            value = jsonNote.getString(NOTE_VALUE_JSON_TAG);
+            sign = jsonNote.getString(NOTE_SIGN_JSON_TAG);
+            octave = jsonNote.getInt(NOTE_OCTAVE_JSON_TAG);
+        }catch (JSONException ex){
+            ex.printStackTrace();
+        }
+        return new Note(value , sign , octave);
     }
 }

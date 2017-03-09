@@ -12,7 +12,6 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="48sp"
         android:id="@+id/test_edit_text"/>
 
     <Button

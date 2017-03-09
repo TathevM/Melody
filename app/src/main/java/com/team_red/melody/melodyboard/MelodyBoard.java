@@ -65,6 +65,7 @@ public class MelodyBoard {
 
     //registering edit text to receive custom keyboard events
     public void registerEditText(EditText editText){
+        editText.setTextSize(65);
         editText.setTypeface(Typeface.createFromAsset(context.getAssets() , FONT_NAME));
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -110,7 +111,7 @@ public class MelodyBoard {
         public void onKey(int primaryCode, int[] keyCodes) {
             if (mMelodyKeyboardView.isLongPressed()) {
                 mMelodyKeyboardView.setLongPressed(false);
-                return;
+               // return;
             }
             View focusCurrent = ((Activity) context).getWindow().getCurrentFocus();
             //if(focusCurrent == null || focusCurrent.getClass()!=EditText.class ) return;
