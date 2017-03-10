@@ -4,10 +4,10 @@
           android:keyHeight="@dimen/key_height"
           android:keyPreviewLayout="@null">
     <Row>
-        <Key android:codes="121" android:keyIcon="@drawable/ic_icon_full_note" android:keyEdgeFlags="left"/>
-        <Key android:codes="39" android:keyIcon="@drawable/ic_icon_half_note"/>
-        <Key android:codes="38" android:keyIcon="@drawable/ic_icon_quarter_note"/>
-        <Key android:codes="124" android:keyIcon="@drawable/ic_icon_eighth_note" android:keyEdgeFlags="right"/>
+        <Key android:codes="240" android:keyIcon="@drawable/ic_icon_full_note" android:keyEdgeFlags="left"/>
+        <Key android:codes="241" android:keyIcon="@drawable/ic_icon_half_note"/>
+        <Key android:codes="242" android:keyIcon="@drawable/ic_icon_quarter_note"/>
+        <Key android:codes="243" android:keyIcon="@drawable/ic_icon_eighth_note" android:keyEdgeFlags="right"/>
         <!--<Key android:codes="888" android:keyIcon="@drawable/ic_icon_sixteenth_note" android:keyEdgeFlags="right"/>-->
     </Row>
 </Keyboard>

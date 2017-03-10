@@ -19,13 +19,13 @@
 
     <Row>
         <Key android:codes="-999" android:keyLabel="" android:keyEdgeFlags="left"/>
-        <Key android:codes="114" android:keyIcon="@drawable/ic_note_c"  android:popupKeyboard="@xml/popup_notes_c"/>
-        <Key android:codes="116" android:keyIcon="@drawable/ic_note_d" android:popupKeyboard="@xml/popup_notes_d"/>
-        <Key android:codes="121" android:keyIcon="@drawable/ic_note_e" android:popupKeyboard="@xml/popup_notes_e"/>
-        <Key android:codes="117" android:keyIcon="@drawable/ic_note_f" android:popupKeyboard="@xml/popup_notes_f"/>
-        <Key android:codes="105" android:keyIcon="@drawable/ic_note_g" android:popupKeyboard="@xml/popup_notes_g"/>
-        <Key android:codes="111" android:keyIcon="@drawable/ic_note_a" android:popupKeyboard="@xml/popup_notes_a"/>
-        <Key android:codes="112" android:keyIcon="@drawable/ic_note_b" android:popupKeyboard="@xml/popup_notes_b"/>
+        <Key android:codes="220" android:keyIcon="@drawable/ic_note_c"  android:popupKeyboard="@xml/popup_notes_c"/>
+        <Key android:codes="230" android:keyIcon="@drawable/ic_note_d" android:popupKeyboard="@xml/popup_notes_d"/>
+        <Key android:codes="240" android:keyIcon="@drawable/ic_note_e" android:popupKeyboard="@xml/popup_notes_e"/>
+        <Key android:codes="250" android:keyIcon="@drawable/ic_note_f" android:popupKeyboard="@xml/popup_notes_f"/>
+        <Key android:codes="260" android:keyIcon="@drawable/ic_note_g" android:popupKeyboard="@xml/popup_notes_g"/>
+        <Key android:codes="270" android:keyIcon="@drawable/ic_note_a" android:popupKeyboard="@xml/popup_notes_a"/>
+        <Key android:codes="280" android:keyIcon="@drawable/ic_note_b" android:popupKeyboard="@xml/popup_notes_b"/>
         <Key android:codes="-5" android:keyLabel="DEL" android:isRepeatable="true"  android:keyEdgeFlags="right"/>
     </Row>
 

@@ -16,7 +16,7 @@ import com.team_red.melody.R;
 
 
 public class MelodyBoard {
-    public static final String FONT_NAME = "fonts/lassus.ttf";
+    public static final String FONT_NAME = "fonts/Melody.ttf";
     private static final int CODE_BACKSPACE = -5;
     private static final int CODE_CANCEL = -3;
     private static final int CODE_SYMBOLS = -10;
@@ -145,7 +145,7 @@ public class MelodyBoard {
                     mMelodyKeyboardView.setKeyboard(main);
                     break;
                 case CODE_SHARP_TOGGLE:
-                    
+
                     break;
                 default:
                     editable.insert(start, Character.toString((char) primaryCode));
