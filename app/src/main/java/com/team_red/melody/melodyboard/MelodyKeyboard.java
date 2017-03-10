@@ -21,7 +21,7 @@ class MelodyKeyboard extends Keyboard {
         return new NoteKey(res,parent,x,y,parser);
     }
 
-    private static class NoteKey extends Keyboard.Key {
+    static class NoteKey extends Keyboard.Key {
 
         public NoteKey(Row parent) {
             super(parent);

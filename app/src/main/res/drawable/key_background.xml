@@ -9,4 +9,6 @@
     <!-- Pressed state -->
     <item
         android:state_pressed="true"
-        android:drawable="@drawable/key_background_pressed" /></selector>
+        android:drawable="@drawable/key_background_pressed" />
+
+</selector>

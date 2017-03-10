@@ -18,10 +18,10 @@
     </Row>
 
     <Row>
-        <Key android:codes="96" android:keyLabel="" android:keyHeight="@dimen/key_height" android:keyWidth="20%p" android:keyEdgeFlags="left"/>
-        <Key android:codes="49" android:keyLabel="" android:keyHeight="@dimen/key_height" android:keyWidth="20%p"/>
-        <Key android:codes="50" android:keyLabel="" android:keyHeight="@dimen/key_height" android:keyWidth="20%p"/>
-        <Key android:codes="61" android:keyLabel="" android:keyHeight="@dimen/key_height" android:keyWidth="20%p" android:keyEdgeFlags="right"/>
+        <Key android:codes="180" android:keyLabel="" android:keyHeight="@dimen/key_height" android:keyWidth="20%p" android:keyEdgeFlags="left"/>
+        <Key android:codes="181" android:keyLabel="" android:keyHeight="@dimen/key_height" android:keyWidth="20%p"/>
+        <Key android:codes="184" android:keyLabel="" android:keyHeight="@dimen/key_height" android:keyWidth="20%p"/>
+        <Key android:codes="185" android:keyLabel="" android:keyHeight="@dimen/key_height" android:keyWidth="20%p" android:keyEdgeFlags="right"/>
     </Row>
     <Row>
         <Key android:codes="-11" android:keyLabel=""/>

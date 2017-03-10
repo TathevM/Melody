@@ -3,7 +3,9 @@ package com.team_red.melody.melodyboard;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.InputType;
 import android.view.MotionEvent;
@@ -14,30 +16,26 @@ import android.widget.EditText;
 import com.team_red.melody.Melody;
 import com.team_red.melody.R;
 
+import java.util.List;
 
-public class MelodyBoard {
-    public static final String FONT_NAME = "fonts/Melody.ttf";
-    private static final int CODE_BACKSPACE = -5;
-    private static final int CODE_CANCEL = -3;
-    private static final int CODE_SYMBOLS = -10;
-    private static final int CODE_MAIN = -11;
-    private static final int CODE_SHARP_TOGGLE = -12;
-    private static final int CODE_DOUBLE_SHARP_TOGGLE = -13;
-    private static final int CODE_FLAT_TOGGLE = -14;
-    private static final int CODE_DOUBLE_FLAT_TOGGLE = -15;
-    private static final int CODE_CANCEL_B_MAJOR_TOGGLE = -16;
-    private static final int CODE_DOT = -17;
+
+public class MelodyBoard implements KeyboardView.OnKeyboardActionListener {
 
     private Context context;
     private MelodyKeyboardView mMelodyKeyboardView;
+    private boolean signToggled = false;
+    private int toggledSignType;
 
+    private void setToggledSignType(int toggledSignType) {
+        this.toggledSignType = toggledSignType;
+    }
 
     public MelodyBoard(Context context) {
         this.context = context;
         mMelodyKeyboardView = (MelodyKeyboardView) ((Activity) context).findViewById(R.id.keyboard_view);
         MelodyKeyboard melodyKeyboard = new MelodyKeyboard(this.context , R.xml.keyboard_main);
         mMelodyKeyboardView.setKeyboard(melodyKeyboard);
-        mMelodyKeyboardView.setOnKeyboardActionListener(mOnKeyboardActionListener);
+        mMelodyKeyboardView.setOnKeyboardActionListener(this);
         mMelodyKeyboardView.setPreviewEnabled(false);
 
         mMelodyKeyboardView.setOnTouchListener(new View.OnTouchListener() {
@@ -76,7 +74,7 @@ public class MelodyBoard {
     //registering edit text to receive custom keyboard events
     public void registerEditText(EditText editText){
         editText.setTextSize(65);
-        editText.setTypeface(Typeface.createFromAsset(Melody.getContext().getAssets() , FONT_NAME));
+        editText.setTypeface(Typeface.createFromAsset(Melody.getContext().getAssets() , MelodyStatics.FONT_NAME));
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -113,8 +111,6 @@ public class MelodyBoard {
         editText.setInputType( editText.getInputType() | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS );
     }
 
-    private KeyboardView.OnKeyboardActionListener mOnKeyboardActionListener = new KeyboardView.OnKeyboardActionListener() {
-
         @Override
         public void onKey(int primaryCode, int[] keyCodes) {
             if (mMelodyKeyboardView.isLongPressed()) {
@@ -126,31 +122,58 @@ public class MelodyBoard {
             if (focusCurrent == null) return;
             EditText editText = (EditText) focusCurrent;
             Editable editable = editText.getText();
+            String input = "";
             int start = editText.getSelectionStart();
 
             switch (primaryCode){
-                case CODE_CANCEL:
+                case MelodyStatics.CODE_CANCEL:
                     hideMelodyBoard();
                     break;
-                case CODE_BACKSPACE:
+                case MelodyStatics.CODE_BACKSPACE:
                     if(start>0 && editable != null)
                         editable.delete(start - 1 , start);
                     break;
-                case CODE_SYMBOLS:
+                case MelodyStatics.CODE_SYMBOLS:
                     MelodyKeyboard symbols = new MelodyKeyboard(context , R.xml.keyboard_symbols);
                     mMelodyKeyboardView.setKeyboard(symbols);
                     break;
-                case CODE_MAIN:
+                case MelodyStatics.CODE_MAIN:
                     MelodyKeyboard main = new MelodyKeyboard(context , R.xml.keyboard_main);
                     mMelodyKeyboardView.setKeyboard(main);
                     break;
-                case CODE_SHARP_TOGGLE:
-
+                case MelodyStatics.CODE_SHARP_TOGGLE:
+                    toggleSign();
+                    setToggledSignType(MelodyStatics.SHARP_DIVISOR);
+                    break;
+                case MelodyStatics.CODE_DOUBLE_SHARP_TOGGLE:
+                    toggleSign();
+                    setToggledSignType(MelodyStatics.DOUBLE_SHARP_DIVISOR);
+                    break;
+                case MelodyStatics.CODE_FLAT_TOGGLE:
+                    toggleSign();
+                    setToggledSignType(MelodyStatics.FLAT_DIVISOR);
+                    break;
+                case MelodyStatics.CODE_DOUBLE_FLAT_TOGGLE:
+                    toggleSign();
+                    setToggledSignType(MelodyStatics.DOUBLE_FLAT_DIVISOR);
+                    break;
+                case MelodyStatics.CODE_DOT:
+                    toggleSign();
+                    setToggledSignType(MelodyStatics.DOTE_DIVISOR);
                     break;
                 default:
-                    editable.insert(start, Character.toString((char) primaryCode));
+                    if(signToggled && toggledSignType != 0){
+                        input = Character.toString((char) ((primaryCode / 10) * 10 + toggledSignType));
+                        setToggledSignType(0);
+                        toggleSign();
+                    }
+                    editable.insert(start, input + Character.toString((char) primaryCode));
                     break;
             }
+        }
+
+        private void toggleSign(){
+            signToggled = !signToggled;
         }
 
         @Override
@@ -160,7 +183,16 @@ public class MelodyBoard {
 
         @Override
         public void onRelease(int primaryCode) {
-
+//            if((primaryCode == MelodyStatics.CODE_SHARP_TOGGLE
+//                    || primaryCode == MelodyStatics.CODE_DOUBLE_SHARP_TOGGLE
+//                    || primaryCode == MelodyStatics.CODE_FLAT_TOGGLE
+//                    || primaryCode == MelodyStatics.CODE_DOUBLE_FLAT_TOGGLE
+//                    || primaryCode == MelodyStatics.CODE_DOT)
+//                    && signToggled){
+//                List<Keyboard.Key> keys = mMelodyKeyboardView.getKeyboard().getKeys();
+//                mMelodyKeyboardView.invalidateKey(primaryCode);
+//                keys.get(primaryCode).icon = ContextCompat.getDrawable(context , R.drawable.key_toggled);
+//            }
         }
 
         @Override
@@ -187,5 +219,4 @@ public class MelodyBoard {
         public void swipeUp() {
 
         }
-    };
 }
