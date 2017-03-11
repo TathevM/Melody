@@ -20,6 +20,6 @@ class MelodyStatics {
     static final int CODE_DOUBLE_FLAT_TOGGLE = -16;
     static final int DOUBLE_FLAT_DIVISOR = 6;
 
-    static final int CODE_DOT = -19;
-    static final int DOTE_DIVISOR = 9;
+    static final int CODE_TOGGLE_NATURAL = -19;
+    static final int NATURAL_DIVISOR = 9;
 }

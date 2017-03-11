@@ -39,4 +39,9 @@ class MelodyKeyboardView extends KeyboardView {
         setLongPressed(true);
         return super.onLongPress(popupKey);
     }
+
+    public void setToggled(int keyCode){
+        ((MelodyKeyboard) getKeyboard()).setToggled(keyCode);
+        invalidateAllKeys();
+    }
 }

@@ -3,9 +3,7 @@ package com.team_red.melody.melodyboard;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
-import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
-import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.InputType;
 import android.view.MotionEvent;
@@ -15,8 +13,6 @@ import android.widget.EditText;
 
 import com.team_red.melody.Melody;
 import com.team_red.melody.R;
-
-import java.util.List;
 
 
 public class MelodyBoard implements KeyboardView.OnKeyboardActionListener {
@@ -125,49 +121,91 @@ public class MelodyBoard implements KeyboardView.OnKeyboardActionListener {
             String input = "";
             int start = editText.getSelectionStart();
 
-            switch (primaryCode){
+            switch (primaryCode) {
                 case MelodyStatics.CODE_CANCEL:
                     hideMelodyBoard();
                     break;
                 case MelodyStatics.CODE_BACKSPACE:
-                    if(start>0 && editable != null)
-                        editable.delete(start - 1 , start);
+                    if (start > 0 && editable != null)
+                        editable.delete(start - 1, start);
                     break;
                 case MelodyStatics.CODE_SYMBOLS:
-                    MelodyKeyboard symbols = new MelodyKeyboard(context , R.xml.keyboard_symbols);
+                    MelodyKeyboard symbols = new MelodyKeyboard(context, R.xml.keyboard_symbols);
                     mMelodyKeyboardView.setKeyboard(symbols);
                     break;
                 case MelodyStatics.CODE_MAIN:
-                    MelodyKeyboard main = new MelodyKeyboard(context , R.xml.keyboard_main);
+                    MelodyKeyboard main = new MelodyKeyboard(context, R.xml.keyboard_main);
                     mMelodyKeyboardView.setKeyboard(main);
                     break;
                 case MelodyStatics.CODE_SHARP_TOGGLE:
-                    toggleSign();
-                    setToggledSignType(MelodyStatics.SHARP_DIVISOR);
-                    break;
-                case MelodyStatics.CODE_DOUBLE_SHARP_TOGGLE:
-                    toggleSign();
-                    setToggledSignType(MelodyStatics.DOUBLE_SHARP_DIVISOR);
-                    break;
-                case MelodyStatics.CODE_FLAT_TOGGLE:
-                    toggleSign();
-                    setToggledSignType(MelodyStatics.FLAT_DIVISOR);
-                    break;
-                case MelodyStatics.CODE_DOUBLE_FLAT_TOGGLE:
-                    toggleSign();
-                    setToggledSignType(MelodyStatics.DOUBLE_FLAT_DIVISOR);
-                    break;
-                case MelodyStatics.CODE_DOT:
-                    toggleSign();
-                    setToggledSignType(MelodyStatics.DOTE_DIVISOR);
-                    break;
-                default:
-                    if(signToggled && toggledSignType != 0){
-                        input = Character.toString((char) ((primaryCode / 10) * 10 + toggledSignType));
+                    if (!signToggled)
+                        toggleSign();
+                    if(toggledSignType == MelodyStatics.SHARP_DIVISOR){
                         setToggledSignType(0);
                         toggleSign();
+                        mMelodyKeyboardView.setToggled(-1000);
+                        return;
                     }
+                    setToggledSignType(MelodyStatics.SHARP_DIVISOR);
+                    mMelodyKeyboardView.setToggled(primaryCode);
+                    break;
+                case MelodyStatics.CODE_DOUBLE_SHARP_TOGGLE:
+                    if (!signToggled)
+                        toggleSign();
+                    if(toggledSignType == MelodyStatics.DOUBLE_SHARP_DIVISOR){
+                        setToggledSignType(0);
+                        toggleSign();
+                        mMelodyKeyboardView.setToggled(-1000);
+                        return;
+                    }
+                    setToggledSignType(MelodyStatics.DOUBLE_SHARP_DIVISOR);
+                    mMelodyKeyboardView.setToggled(primaryCode);
+                    break;
+                case MelodyStatics.CODE_FLAT_TOGGLE:
+                    if (!signToggled)
+                        toggleSign();
+                    if(toggledSignType == MelodyStatics.FLAT_DIVISOR){
+                        setToggledSignType(0);
+                        toggleSign();
+                        mMelodyKeyboardView.setToggled(-1000);
+                        return;
+                    }
+                    setToggledSignType(MelodyStatics.FLAT_DIVISOR);
+                    mMelodyKeyboardView.setToggled(primaryCode);
+                    break;
+                case MelodyStatics.CODE_DOUBLE_FLAT_TOGGLE:
+                    if (!signToggled)
+                        toggleSign();
+                    if(toggledSignType == MelodyStatics.DOUBLE_FLAT_DIVISOR){
+                        setToggledSignType(0);
+                        toggleSign();
+                        mMelodyKeyboardView.setToggled(-1000);
+                        return;
+                    }
+                    setToggledSignType(MelodyStatics.DOUBLE_FLAT_DIVISOR);
+                    mMelodyKeyboardView.setToggled(primaryCode);
+                    break;
+                case MelodyStatics.CODE_TOGGLE_NATURAL:
+                    if (!signToggled)
+                        toggleSign();
+                    if(toggledSignType == MelodyStatics.NATURAL_DIVISOR){
+                        setToggledSignType(0);
+                        toggleSign();
+                        mMelodyKeyboardView.setToggled(-1000);
+                        return;
+                    }
+                    setToggledSignType(MelodyStatics.NATURAL_DIVISOR);
+                    mMelodyKeyboardView.setToggled(primaryCode);
+                    break;
+                default:
+                    if (primaryCode >= 200 && primaryCode < 360)
+                        if (signToggled && toggledSignType != 0) {
+                            input = Character.toString((char) ((primaryCode / 10) * 10 + toggledSignType));
+                        }
                     editable.insert(start, input + Character.toString((char) primaryCode));
+                    setToggledSignType(0);
+                    toggleSign();
+                    mMelodyKeyboardView.setToggled(-1000);
                     break;
             }
         }
@@ -183,16 +221,7 @@ public class MelodyBoard implements KeyboardView.OnKeyboardActionListener {
 
         @Override
         public void onRelease(int primaryCode) {
-//            if((primaryCode == MelodyStatics.CODE_SHARP_TOGGLE
-//                    || primaryCode == MelodyStatics.CODE_DOUBLE_SHARP_TOGGLE
-//                    || primaryCode == MelodyStatics.CODE_FLAT_TOGGLE
-//                    || primaryCode == MelodyStatics.CODE_DOUBLE_FLAT_TOGGLE
-//                    || primaryCode == MelodyStatics.CODE_DOT)
-//                    && signToggled){
-//                List<Keyboard.Key> keys = mMelodyKeyboardView.getKeyboard().getKeys();
-//                mMelodyKeyboardView.invalidateKey(primaryCode);
-//                keys.get(primaryCode).icon = ContextCompat.getDrawable(context , R.drawable.key_toggled);
-//            }
+
         }
 
         @Override

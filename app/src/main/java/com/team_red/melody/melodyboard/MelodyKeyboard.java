@@ -5,11 +5,34 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.inputmethodservice.Keyboard;
 
+import java.util.ArrayList;
+
 
 class MelodyKeyboard extends Keyboard {
 
-    public MelodyKeyboard(Context context, int xmlLayoutResId) {
+    private Key mSharpKey;
+    private Key mDoubleSharpKey;
+    private Key mFlatKey;
+    private Key mDoubleFlatKey;
+    private Key mNaturalKey;
+
+    private ArrayList<Key> mNoteModifierKeys;
+
+    public ArrayList<Key> getNoteModifierKeys() {
+        return mNoteModifierKeys;
+    }
+
+    private void setNoteModifierKeys() {
+        mNoteModifierKeys.add(mSharpKey);
+        mNoteModifierKeys.add(mDoubleSharpKey);
+        mNoteModifierKeys.add(mFlatKey);
+        mNoteModifierKeys.add(mDoubleFlatKey);
+        mNoteModifierKeys.add(mNaturalKey);
+    }
+
+    MelodyKeyboard(Context context, int xmlLayoutResId) {
         super(context, xmlLayoutResId);
+        mNoteModifierKeys = new ArrayList<>();
     }
 
     public MelodyKeyboard(Context context, int layoutTemplateResId, CharSequence characters, int columns, int horizontalPadding) {
@@ -18,7 +41,37 @@ class MelodyKeyboard extends Keyboard {
 
     @Override
     protected Key createKeyFromXml(Resources res, Row parent, int x, int y, XmlResourceParser parser) {
-        return new NoteKey(res,parent,x,y,parser);
+        Key key = new Key(res,parent,x,y,parser);
+        if (key.codes[0] == MelodyStatics.CODE_SHARP_TOGGLE) {
+            mSharpKey = key;
+           // mNoteModifierKeys.add(mSharpKey);
+        }
+        if (key.codes[0] == MelodyStatics.CODE_DOUBLE_SHARP_TOGGLE) {
+            mDoubleSharpKey = key;
+          //  mNoteModifierKeys.add(mDoubleSharpKey);
+        }
+        if (key.codes[0] == MelodyStatics.CODE_FLAT_TOGGLE) {
+            mFlatKey = key;
+//            mNoteModifierKeys.add(mFlatKey);
+        }
+        if (key.codes[0] == MelodyStatics.CODE_DOUBLE_FLAT_TOGGLE) {
+            mDoubleFlatKey = key;
+           // mNoteModifierKeys.add(mDoubleFlatKey);
+        }
+        if (key.codes[0] == MelodyStatics.CODE_TOGGLE_NATURAL) {
+            mNaturalKey = key;
+           // mNoteModifierKeys.add(mNaturalKey);
+        }
+        return key;
+    }
+
+    void setToggled(int keyCode){
+        if(mNoteModifierKeys.isEmpty())
+            setNoteModifierKeys();
+        for (Key k:mNoteModifierKeys) {
+            //k.on = (k.codes[0] == keyCode);
+            k.pressed = (k.codes[0] == keyCode);
+        }
     }
 
     static class NoteKey extends Keyboard.Key {
