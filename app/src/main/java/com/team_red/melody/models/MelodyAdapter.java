@@ -29,6 +29,14 @@ public class MelodyAdapter extends RecyclerView.Adapter<MelodyAdapter.MelodyView
         this.melodyStringList.add("");
     }
 
+    public ArrayList<String> getMelodyStringList() {
+        return melodyStringList;
+    }
+
+    public void setMelodyStringList(ArrayList<String> melodyStringList) {
+        this.melodyStringList = melodyStringList;
+    }
+
     @Override
     public MelodyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_composition_line , parent , false);

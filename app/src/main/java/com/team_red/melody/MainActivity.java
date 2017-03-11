@@ -20,12 +20,17 @@ import android.widget.EditText;
 import com.team_red.melody.filemanager.MelodyFileManager;
 import com.team_red.melody.melodyboard.MelodyBoard;
 import com.team_red.melody.models.MelodyAdapter;
+import com.team_red.melody.models.Note;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
     private MelodyBoard mMelodyBoard;
+    MelodyFileManager mMelodyFileManager;
+    MelodyAdapter melodyAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +57,13 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        mMelodyFileManager = MelodyFileManager.getMelodyFileManager();
+
         mMelodyBoard = new MelodyBoard(MainActivity.this);
         RecyclerView rv = (RecyclerView) findViewById(R.id.composition);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
-        MelodyAdapter melodyAdapter = new MelodyAdapter(null, mMelodyBoard);
+        melodyAdapter = new MelodyAdapter(null, mMelodyBoard);
         rv.setAdapter(melodyAdapter);
         rv.setHasFixedSize(true);
 
@@ -90,6 +97,8 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()){
             case R.id.action_save:
+                ArrayList<Note> a = mMelodyFileManager.MakeNotesFromString(melodyAdapter.getMelodyStringList());
+                mMelodyFileManager.saveComposition(a , "asd" , "asd" , 1);
                 break;
             case R.id.action_settings:
                 return true;

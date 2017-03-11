@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class MelodyFileManager {
     public static final String COMPOSER_JSON_TAG = "composer_name";
     public static final String COMPOSITION_NAME_JSON_TAG = "composition_name";
     public static final String COMPOSITION_ARRAY_JSON_TAG = "composition";
-    public static final String COMPOSITION_JSON_DIR = "compositions";
+    public static String COMPOSITION_JSON_DIR = Melody.getContext().getFilesDir()  + File.separator ;
 
     private static MelodyFileManager melodyFileManager;
 
@@ -39,7 +40,7 @@ public class MelodyFileManager {
     public ArrayList<Note> loadComposition(String filename){
         ArrayList<Note> retValue = new ArrayList<>();
         try {
-            File f = new File(Melody.getContext().getFilesDir() + "/" + filename);
+            File f = new File(COMPOSITION_JSON_DIR +  filename);
             FileInputStream is = new FileInputStream(f);
             int size = is.available();
             byte[] buffer = new byte[size];
@@ -63,11 +64,11 @@ public class MelodyFileManager {
     public void saveComposition(ArrayList<Note> composition, String composerName, String compositionName, int _ID){
         JSONObject jsonComposition = new JSONObject();
         JSONArray jsonArray = new JSONArray();
-        FileOutputStream os;
+        OutputStream os;
         try{
             jsonComposition.put(COMPOSER_JSON_TAG, composerName);
             jsonComposition.put(COMPOSITION_NAME_JSON_TAG, compositionName);
-            for (int i = 0; i<composition.size() ; i++)
+            for (int i = 0; i < composition.size() ; i++)
             {
                 jsonArray.put(i , composition.get(i).getJSONObject());
             }
@@ -77,7 +78,9 @@ public class MelodyFileManager {
         }
 
         try{
-            os = Melody.getContext().openFileOutput(COMPOSITION_JSON_DIR + "/" + composerName + " - " + compositionName , Context.MODE_PRIVATE);
+            File f = new File(COMPOSITION_JSON_DIR + composerName + " - " + compositionName);
+            f.createNewFile();
+            os = new FileOutputStream(f);
             os.write(jsonComposition.toString().getBytes());
             os.close();
         }catch (IOException ex){
