@@ -4,6 +4,7 @@ package com.team_red.melody.filemanager;
 import android.content.Context;
 
 import com.team_red.melody.Melody;
+import com.team_red.melody.melodyboard.MelodyStatics;
 import com.team_red.melody.models.Note;
 
 import org.json.JSONArray;
@@ -15,6 +16,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MelodyFileManager {
     public static final String COMPOSER_JSON_TAG = "composer_name";
@@ -81,5 +83,49 @@ public class MelodyFileManager {
         }catch (IOException ex){
             ex.printStackTrace();
         }
+    }
+
+    public ArrayList<Note> MakeNotesFromString(ArrayList<String> input){
+        ArrayList<Note> result = new ArrayList<>();
+        for(int i = 0; i < input.size(); i++){
+            char[] temp = input.get(i).toCharArray();
+            int prevSign = 0;
+
+            for(int j = 0; j < temp.length; j++){
+                int code = (int) temp[i];
+
+                if(code >= 200 && code < 360)
+                {
+                    if(code%10 < 5) {
+                        result.add(new Note(code, prevSign, 0));
+                        prevSign = 0;
+                    }
+                    else{
+                        prevSign = code;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    public ArrayList<String> makeStringFromNotes(ArrayList<Note> input){
+        ArrayList<String> result = new ArrayList<>();
+        for(int i = 0; i < input.size(); i+=12) {
+            List<Note> subList;
+            if (i + 12 <= input.size())
+                subList = input.subList(i , i+12);
+            else
+                subList = input.subList( i , input.size());
+            String temp = "";
+            for (int j = 0; j < subList.size() ; j++) {
+                if (subList.get(i).getSign() == 0)
+                    temp = temp + ((char) subList.get(j).getValue());
+                else
+                    temp = temp + ((char) subList.get(j).getSign()) + ((char) subList.get(j).getValue());
+            }
+            result.add(temp);
+        }
+        return result;
     }
 }

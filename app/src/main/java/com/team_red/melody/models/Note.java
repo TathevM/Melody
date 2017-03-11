@@ -12,11 +12,11 @@ public class Note implements Parcelable {
     public static final String NOTE_SIGN_JSON_TAG = "sign";
     public static final String NOTE_OCTAVE_JSON_TAG = "octave";
 
-    private String value;
-    private String sign;
+    private int value;
+    private int sign;
     private int octave;
 
-    public Note(String value, String sign, int octave) {
+    public Note(int value, int sign, int octave) {
         this.value = value;
         this.sign = sign;
         this.octave = octave;
@@ -27,8 +27,8 @@ public class Note implements Parcelable {
     }
 
     public void writeToParcel(Parcel out, int flags) {
-        out.writeString(value);
-        out.writeString(sign);
+        out.writeInt(value);
+        out.writeInt(sign);
         out.writeInt(octave);
     }
 
@@ -44,8 +44,8 @@ public class Note implements Parcelable {
     };
 
     private Note(Parcel in) {
-        value = in.readString();
-        sign = in.readString();
+        value = in.readInt();
+        sign = in.readInt();
         octave = in.readInt();
     }
 
@@ -53,10 +53,7 @@ public class Note implements Parcelable {
         JSONObject object = new JSONObject();
         try {
             object.put(NOTE_VALUE_JSON_TAG , value);
-            if(!sign.isEmpty())
-                object.put(NOTE_SIGN_JSON_TAG , sign);
-            else
-                object.put(NOTE_SIGN_JSON_TAG , JSONObject.NULL);
+            object.put(NOTE_SIGN_JSON_TAG , sign);
             object.put(NOTE_OCTAVE_JSON_TAG , octave);
         }catch (JSONException ex){
             ex.printStackTrace();
@@ -65,16 +62,28 @@ public class Note implements Parcelable {
     }
 
     public static Note getNoteFromJson(JSONObject jsonNote){
-        String value = "";
-        String sign = "";
+        int value = 0;
+        int sign = 0;
         int octave = 0;
         try {
-            value = jsonNote.getString(NOTE_VALUE_JSON_TAG);
-            sign = jsonNote.getString(NOTE_SIGN_JSON_TAG);
+            value = jsonNote.getInt(NOTE_VALUE_JSON_TAG);
+            sign = jsonNote.getInt(NOTE_SIGN_JSON_TAG);
             octave = jsonNote.getInt(NOTE_OCTAVE_JSON_TAG);
         }catch (JSONException ex){
             ex.printStackTrace();
         }
         return new Note(value , sign , octave);
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public int getSign() {
+        return sign;
+    }
+
+    public int getOctave() {
+        return octave;
     }
 }
