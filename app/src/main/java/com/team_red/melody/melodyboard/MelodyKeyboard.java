@@ -15,6 +15,7 @@ class MelodyKeyboard extends Keyboard {
     private Key mFlatKey;
     private Key mDoubleFlatKey;
     private Key mNaturalKey;
+    private Key mDoteKey;
 
     private ArrayList<Key> mNoteModifierKeys;
 
@@ -28,6 +29,7 @@ class MelodyKeyboard extends Keyboard {
         mNoteModifierKeys.add(mFlatKey);
         mNoteModifierKeys.add(mDoubleFlatKey);
         mNoteModifierKeys.add(mNaturalKey);
+        mNoteModifierKeys.add(mDoteKey);
     }
 
     MelodyKeyboard(Context context, int xmlLayoutResId) {
@@ -61,6 +63,9 @@ class MelodyKeyboard extends Keyboard {
         if (key.codes[0] == MelodyStatics.CODE_TOGGLE_NATURAL) {
             mNaturalKey = key;
            // mNoteModifierKeys.add(mNaturalKey);
+        }
+        if(key.codes[0] == MelodyStatics.CODE_DOT_TOGGLE){
+            mDoteKey = key;
         }
         return key;
     }

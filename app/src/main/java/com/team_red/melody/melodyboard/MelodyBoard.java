@@ -119,6 +119,7 @@ public class MelodyBoard implements KeyboardView.OnKeyboardActionListener {
             EditText editText = (EditText) focusCurrent;
             Editable editable = editText.getText();
             String input = "";
+            String dotInput="";
             int start = editText.getSelectionStart();
 
             switch (primaryCode) {
@@ -129,17 +130,17 @@ public class MelodyBoard implements KeyboardView.OnKeyboardActionListener {
                     if (start > 0 && editable != null)
                         editable.delete(start - 1, start);
                     break;
-                case MelodyStatics.CODE_SYMBOLS:
-                    MelodyKeyboard symbols = new MelodyKeyboard(context, R.xml.keyboard_symbols);
-                    mMelodyKeyboardView.setKeyboard(symbols);
-                    break;
-                case MelodyStatics.CODE_MAIN:
-                    MelodyKeyboard main = new MelodyKeyboard(context, R.xml.keyboard_main);
-                    mMelodyKeyboardView.setKeyboard(main);
-                    mMelodyKeyboardView.setToggled(-1000);
-                    setToggledSignType(0);
-                    signToggled = false;
-                    break;
+//                case MelodyStatics.CODE_SYMBOLS:
+//                    MelodyKeyboard symbols = new MelodyKeyboard(context, R.xml.keyboard_symbols);
+//                    mMelodyKeyboardView.setKeyboard(symbols);
+//                    break;
+//                case MelodyStatics.CODE_MAIN:
+//                    MelodyKeyboard main = new MelodyKeyboard(context, R.xml.keyboard_main);
+//                    mMelodyKeyboardView.setKeyboard(main);
+//                    mMelodyKeyboardView.setToggled(-1000);
+//                    setToggledSignType(0);
+//                    signToggled = false;
+//                    break;
                 case MelodyStatics.CODE_SHARP_TOGGLE:
                     if (!signToggled)
                         toggleSign();
@@ -200,10 +201,26 @@ public class MelodyBoard implements KeyboardView.OnKeyboardActionListener {
                     setToggledSignType(MelodyStatics.NATURAL_DIVISOR);
                     mMelodyKeyboardView.setToggled(primaryCode);
                     break;
+                case MelodyStatics.CODE_DOT_TOGGLE:
+                    if (!signToggled)
+                        toggleSign();
+                    if (toggledSignType == MelodyStatics.DOTE_DIVISOR) {
+                        setToggledSignType(0);
+                        toggleSign();
+                        mMelodyKeyboardView.setToggled(-1000);
+                        return;
+                    }
+                    setToggledSignType(MelodyStatics.DOTE_DIVISOR);
+                    mMelodyKeyboardView.setToggled(primaryCode);
+                    break;
                 default:
                     if (primaryCode >= 200 && primaryCode < 360) {
                         if (signToggled && toggledSignType != 0) {
                             input = Character.toString((char) ((primaryCode / 10) * 10 + toggledSignType));
+                            if(toggledSignType > 200){
+                                dotInput = input;
+                                input = "";
+                            }
                             setToggledSignType(0);
                             toggleSign();
                             mMelodyKeyboardView.setToggled(-1000);
@@ -216,7 +233,7 @@ public class MelodyBoard implements KeyboardView.OnKeyboardActionListener {
                             setToggledSignType(0);
                         }
                     }
-                    editable.insert(start, input + Character.toString((char) primaryCode));
+                    editable.insert(start, input + Character.toString((char) primaryCode) + dotInput);
                     break;
             }
         }

@@ -3,6 +3,7 @@ package com.team_red.melody.models;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +61,7 @@ public class MelodyAdapter extends RecyclerView.Adapter<MelodyAdapter.MelodyView
             @Override
             public void afterTextChanged(Editable s) {
                 melodyStringList.set(position , s.toString());
+                Log.d("text1" , s.toString());
             }
         });
     }
@@ -76,7 +78,7 @@ public class MelodyAdapter extends RecyclerView.Adapter<MelodyAdapter.MelodyView
         MelodyViewHolder(View itemView) {
             super(itemView);
             mEditText = (EditText) itemView.findViewById(R.id.composition_line_edit_text);
-            mEditText.setTag(getAdapterPosition());
+            //mEditText.setTag(getAdapterPosition());
             mMelodyBoard.registerEditText(mEditText);
         }
     }

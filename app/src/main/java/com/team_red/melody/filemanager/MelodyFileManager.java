@@ -95,7 +95,7 @@ public class MelodyFileManager {
             int prevSign = 0;
 
             for(int j = 0; j < temp.length; j++){
-                int code = (int) temp[i];
+                int code = (int) temp[j];
 
                 if(code >= 200 && code < 360)
                 {

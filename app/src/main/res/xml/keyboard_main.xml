@@ -30,10 +30,11 @@
     </Row>
 
     <Row>
-        <Key android:codes="-10" android:keyLabel=""/>
-        <Key android:codes="161" android:keyLabel="" android:keyWidth="30%p"/>
-        <Key android:codes="162" android:keyLabel="" android:keyWidth="30%p"/>
-        <Key android:codes="163" android:keyLabel="" android:keyWidth="30%p"/>
+        <Key android:codes="-20" android:keyLabel="+" android:keyWidth="15%p" android:keyEdgeFlags="left"/>
+        <Key android:codes="-21" android:keyLabel="-" android:keyWidth="15%p"/>
+        <Key android:codes="162" android:keyLabel="" android:keyWidth="40%p" android:popupKeyboard="@xml/popup_space"/>
+        <Key android:codes="180,181" android:keyLabel="" android:keyWidth="15%p"/>
+        <Key android:codes="184,185" android:keyLabel="" android:keyEdgeFlags="right" android:keyWidth="15%p"/>
     </Row>
 
 </Keyboard>
