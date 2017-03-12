@@ -10,6 +10,9 @@ public class MelodyStatics {
     public static final int CODE_OCTAVE_PLUS = -20;
     public static final int CODE_OCTAVE_MINUS = -21;
 
+    public static final int CODE_SOL_CLEF = 180;
+    public static final int CODE_BASS_CLEF = 181;
+
     public static final int CODE_DOT_TOGGLE = -100;
     public static final int DOTE_DIVISOR = 209;
 

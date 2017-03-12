@@ -28,6 +28,7 @@ public class MelodyAdapter extends RecyclerView.Adapter<MelodyAdapter.MelodyView
         this.melodyStringList.add("");
         this.melodyStringList.add("");
         this.melodyStringList.add("");
+        this.melodyStringList.add("");
     }
 
     public ArrayList<String> getMelodyStringList() {
@@ -60,8 +61,16 @@ public class MelodyAdapter extends RecyclerView.Adapter<MelodyAdapter.MelodyView
 
             @Override
             public void afterTextChanged(Editable s) {
-                melodyStringList.set(position , s.toString());
-                Log.d("text1" , s.toString());
+                if (s.length() > 0)
+                    if (s.charAt(0) != (char) 181) {
+                        if (s.charAt(0) != (char) 180) {
+                            s.insert(0, String.valueOf((char) 180));
+                            mMelodyBoard.setClefType(180);
+                        }
+                    }
+                    else
+                        mMelodyBoard.setClefType(181);
+                melodyStringList.set(position, s.toString());
             }
         });
     }

@@ -44,4 +44,10 @@ class MelodyKeyboardView extends KeyboardView {
         ((MelodyKeyboard) getKeyboard()).setToggled(keyCode);
         invalidateAllKeys();
     }
+
+    public void setOctaveToggled(int keyCode)
+    {
+        ((MelodyKeyboard) getKeyboard()).setOctaveToggled(keyCode);
+        invalidateAllKeys();
+    }
 }

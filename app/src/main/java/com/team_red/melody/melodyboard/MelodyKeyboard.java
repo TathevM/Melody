@@ -16,6 +16,10 @@ class MelodyKeyboard extends Keyboard {
     private Key mDoubleFlatKey;
     private Key mNaturalKey;
     private Key mDoteKey;
+    private Key mOctavePlusKey;
+    private Key mOctaveMinusKey;
+
+    private ArrayList<Key> mOctaveModifierKeys;
 
     private ArrayList<Key> mNoteModifierKeys;
 
@@ -30,11 +34,14 @@ class MelodyKeyboard extends Keyboard {
         mNoteModifierKeys.add(mDoubleFlatKey);
         mNoteModifierKeys.add(mNaturalKey);
         mNoteModifierKeys.add(mDoteKey);
+        mOctaveModifierKeys.add(mOctavePlusKey);
+        mOctaveModifierKeys.add(mOctaveMinusKey);
     }
 
     MelodyKeyboard(Context context, int xmlLayoutResId) {
         super(context, xmlLayoutResId);
         mNoteModifierKeys = new ArrayList<>();
+        mOctaveModifierKeys = new ArrayList<>();
     }
 
     public MelodyKeyboard(Context context, int layoutTemplateResId, CharSequence characters, int columns, int horizontalPadding) {
@@ -67,6 +74,12 @@ class MelodyKeyboard extends Keyboard {
         if(key.codes[0] == MelodyStatics.CODE_DOT_TOGGLE){
             mDoteKey = key;
         }
+        if(key.codes[0] == MelodyStatics.CODE_OCTAVE_PLUS){
+            mOctavePlusKey = key;
+        }
+        if(key.codes[0] == MelodyStatics.CODE_OCTAVE_MINUS){
+            mOctaveMinusKey = key;
+        }
         return key;
     }
 
@@ -75,6 +88,14 @@ class MelodyKeyboard extends Keyboard {
             setNoteModifierKeys();
         for (Key k:mNoteModifierKeys) {
             //k.on = (k.codes[0] == keyCode);
+            k.pressed = (k.codes[0] == keyCode);
+        }
+    }
+
+    void setOctaveToggled(int keyCode){
+        if (mOctaveModifierKeys.isEmpty())
+            setNoteModifierKeys();
+        for (Key k: mOctaveModifierKeys){
             k.pressed = (k.codes[0] == keyCode);
         }
     }

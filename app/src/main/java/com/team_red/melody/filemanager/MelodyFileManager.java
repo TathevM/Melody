@@ -1,10 +1,8 @@
 package com.team_red.melody.filemanager;
 
 
-import android.content.Context;
 
 import com.team_red.melody.Melody;
-import com.team_red.melody.melodyboard.MelodyStatics;
 import com.team_red.melody.models.Note;
 
 import org.json.JSONArray;
@@ -23,7 +21,7 @@ public class MelodyFileManager {
     public static final String COMPOSER_JSON_TAG = "composer_name";
     public static final String COMPOSITION_NAME_JSON_TAG = "composition_name";
     public static final String COMPOSITION_ARRAY_JSON_TAG = "composition";
-    public static String COMPOSITION_JSON_DIR = Melody.getContext().getFilesDir()  + File.separator ;
+    public static String COMPOSITION_JSON_DIR = Melody.getContext().getFilesDir()  + File.separator;
 
     private static MelodyFileManager melodyFileManager;
 
@@ -107,6 +105,8 @@ public class MelodyFileManager {
                         prevSign = code;
                     }
                 }
+                else if (code > 400)
+                    prevSign = code;
             }
         }
         return result;
@@ -124,8 +124,12 @@ public class MelodyFileManager {
             for (int j = 0; j < subList.size() ; j++) {
                 if (subList.get(i).getSign() == 0)
                     temp = temp + ((char) subList.get(j).getValue());
-                else
-                    temp = temp + ((char) subList.get(j).getSign()) + ((char) subList.get(j).getValue());
+                else {
+                    if(subList.get(i).getSign() > 400)
+                        temp = temp +  ((char) subList.get(j).getValue()) + ((char) subList.get(j).getSign());
+                    else
+                        temp = temp + ((char) subList.get(j).getSign()) + ((char) subList.get(j).getValue());
+                }
             }
             result.add(temp);
         }

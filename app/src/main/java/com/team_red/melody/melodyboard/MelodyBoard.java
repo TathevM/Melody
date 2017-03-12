@@ -21,6 +21,8 @@ public class MelodyBoard implements KeyboardView.OnKeyboardActionListener {
     private MelodyKeyboardView mMelodyKeyboardView;
     private boolean signToggled = false;
     private int toggledSignType;
+    private int octave = 0;
+    private int clefType = 180;
 
     private void setToggledSignType(int toggledSignType) {
         this.toggledSignType = toggledSignType;
@@ -107,7 +109,11 @@ public class MelodyBoard implements KeyboardView.OnKeyboardActionListener {
         editText.setInputType( editText.getInputType() | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS );
     }
 
-        @Override
+    public void setClefType(int clefType) {
+        this.clefType = clefType;
+    }
+
+    @Override
         public void onKey(int primaryCode, int[] keyCodes) {
             if (mMelodyKeyboardView.isLongPressed()) {
                 mMelodyKeyboardView.setLongPressed(false);
@@ -130,17 +136,6 @@ public class MelodyBoard implements KeyboardView.OnKeyboardActionListener {
                     if (start > 0 && editable != null)
                         editable.delete(start - 1, start);
                     break;
-//                case MelodyStatics.CODE_SYMBOLS:
-//                    MelodyKeyboard symbols = new MelodyKeyboard(context, R.xml.keyboard_symbols);
-//                    mMelodyKeyboardView.setKeyboard(symbols);
-//                    break;
-//                case MelodyStatics.CODE_MAIN:
-//                    MelodyKeyboard main = new MelodyKeyboard(context, R.xml.keyboard_main);
-//                    mMelodyKeyboardView.setKeyboard(main);
-//                    mMelodyKeyboardView.setToggled(-1000);
-//                    setToggledSignType(0);
-//                    signToggled = false;
-//                    break;
                 case MelodyStatics.CODE_SHARP_TOGGLE:
                     if (!signToggled)
                         toggleSign();
@@ -213,8 +208,37 @@ public class MelodyBoard implements KeyboardView.OnKeyboardActionListener {
                     setToggledSignType(MelodyStatics.DOTE_DIVISOR);
                     mMelodyKeyboardView.setToggled(primaryCode);
                     break;
+                case MelodyStatics.CODE_OCTAVE_PLUS:
+                    if (octave <= 0){
+                        octave = 1;
+                        mMelodyKeyboardView.setOctaveToggled(primaryCode);
+                    }
+                    else if (octave == 1){
+                        octave = 0;
+                        mMelodyKeyboardView.setOctaveToggled(-1000);
+                    }
+                    break;
+                case MelodyStatics.CODE_OCTAVE_MINUS:
+                    if (octave  >= 0){
+                        octave = -1;
+                        mMelodyKeyboardView.setOctaveToggled(primaryCode);
+                    }
+                    else if (octave == -1){
+                        octave = 0;
+                        mMelodyKeyboardView.setOctaveToggled(-1000);
+                    }
+                    break;
                 default:
                     if (primaryCode >= 200 && primaryCode < 360) {
+                        if (clefType == MelodyStatics.CODE_SOL_CLEF){
+                            if (octave == 1)
+                                primaryCode = primaryCode + 70;
+                        }
+                        else {
+                            primaryCode = primaryCode + 50;
+                            if(octave == -1)
+                                primaryCode = primaryCode - 70;
+                        }
                         if (signToggled && toggledSignType != 0) {
                             input = Character.toString((char) ((primaryCode / 10) * 10 + toggledSignType));
                             if(toggledSignType > 200){
