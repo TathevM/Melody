@@ -3,14 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/login_input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="  Type your name maestro      "
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,5 +11,13 @@
         android:layout_below="@+id/login_input"
         android:layout_alignRight="@+id/login_input"
         android:layout_alignEnd="@+id/login_input" />
+
+    <EditText
+        android:id="@+id/login_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="  Type your name maestro      "
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
