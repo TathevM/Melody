@@ -9,13 +9,18 @@
     tools:context="com.team_red.melody.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+    <include
+        android:id="@+id/keyboard_view"
+        layout="@layout/input">
+    </include>
+
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/keyboard_view"
         android:id="@+id/composition">
 
     </android.support.v7.widget.RecyclerView>
 
-    <include layout="@layout/input">
-    </include>
 </RelativeLayout>

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.team_red.melody.R;
@@ -15,17 +16,18 @@ import com.team_red.melody.melodyboard.MelodyBoard;
 import java.util.ArrayList;
 
 
-public class MelodyAdapter extends RecyclerView.Adapter<MelodyAdapter.MelodyViewHolder> {
+public class MelodyAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<String> melodyStringList;
     private MelodyBoard mMelodyBoard;
+    private static final int VIEW_TYPE_LINES = 1;
+    private static final int VIEW_TYPE_BOTTOM = 2;
 
     public MelodyAdapter(ArrayList<String> melodyStringList, MelodyBoard melodyBoard) {
         this.melodyStringList = melodyStringList;
         this.mMelodyBoard = melodyBoard;
 
         this.melodyStringList = new ArrayList<>();//TODO called for test purposes
-        this.melodyStringList.add("");
         this.melodyStringList.add("");
         this.melodyStringList.add("");
         this.melodyStringList.add("");
@@ -40,47 +42,74 @@ public class MelodyAdapter extends RecyclerView.Adapter<MelodyAdapter.MelodyView
     }
 
     @Override
-    public MelodyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_composition_line , parent , false);
-        return new MelodyViewHolder(v);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder vh;
+        View v;
+        switch (viewType) {
+            case VIEW_TYPE_BOTTOM:
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_add_line , parent, false);
+                vh = new ButtonViewHolder(v);
+                break;
+            default:
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_composition_line, parent, false);
+                vh = new MelodyViewHolder(v);
+                break;
+        }
+        return vh;
     }
 
     @Override
-    public void onBindViewHolder(MelodyViewHolder holder, final int position) {
-        holder.mEditText.setText(melodyStringList.get(position));
-        holder.mEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    public int getItemViewType(int position) {
+        return (position == melodyStringList.size()) ? VIEW_TYPE_BOTTOM :VIEW_TYPE_LINES;
+    }
 
-            }
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        if (holder instanceof MelodyViewHolder) {
+            mMelodyBoard.registerEditText(((MelodyViewHolder)holder).mEditText);
+            ((MelodyViewHolder) holder).mEditText.setText(melodyStringList.get(position));
+            ((MelodyViewHolder) holder).mEditText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
 
-            }
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.length() > 0)
-                    if (s.charAt(0) != (char) 181) {
-                        if (s.charAt(0) != (char) 180) {
-                            s.insert(0, String.valueOf((char) 180));
-                            mMelodyBoard.setClefType(180);
-                        }
-                    }
-                    else
-                        mMelodyBoard.setClefType(181);
-                melodyStringList.set(position, s.toString());
-            }
-        });
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (s.length() > 0)
+                        if (s.charAt(0) != (char) 181) {
+                            if (s.charAt(0) != (char) 180) {
+                                s.insert(0, String.valueOf((char) 180));
+                                mMelodyBoard.setClefType(180);
+                            }
+                        } else
+                            mMelodyBoard.setClefType(181);
+                    melodyStringList.set(position, s.toString());
+                }
+            });
+        }
+        else {
+            ((ButtonViewHolder) holder).mButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    melodyStringList.add("");
+                    notifyDataSetChanged();
+                }
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
-        return melodyStringList.size();
+        return melodyStringList.size() + 1;
     }
 
-    class MelodyViewHolder extends RecyclerView.ViewHolder{
+    private static class MelodyViewHolder extends RecyclerView.ViewHolder{
 
         EditText mEditText;
 
@@ -88,7 +117,13 @@ public class MelodyAdapter extends RecyclerView.Adapter<MelodyAdapter.MelodyView
             super(itemView);
             mEditText = (EditText) itemView.findViewById(R.id.composition_line_edit_text);
             //mEditText.setTag(getAdapterPosition());
-            mMelodyBoard.registerEditText(mEditText);
+        }
+    }
+    private static class ButtonViewHolder extends RecyclerView.ViewHolder{
+        Button mButton;
+        ButtonViewHolder(View itemView) {
+            super(itemView);
+            mButton = (Button) itemView.findViewById(R.id.add_line_button);
         }
     }
 }

@@ -114,10 +114,10 @@ public class MelodyFileManager {
 
     public ArrayList<String> makeStringFromNotes(ArrayList<Note> input){
         ArrayList<String> result = new ArrayList<>();
-        for(int i = 0; i < input.size(); i+=12) {
+        for(int i = 0; i < input.size(); i+=20) {
             List<Note> subList;
             if (i + 12 <= input.size())
-                subList = input.subList(i , i+12);
+                subList = input.subList(i , i+20);
             else
                 subList = input.subList( i , input.size());
             String temp = "";
