@@ -21,6 +21,7 @@ import com.team_red.melody.filemanager.MelodyFileManager;
 import com.team_red.melody.melodyboard.MelodyBoard;
 import com.team_red.melody.models.MelodyAdapter;
 import com.team_red.melody.models.Note;
+import com.team_red.melody.sound.SoundPoolManager;
 
 import java.util.ArrayList;
 
@@ -110,6 +111,21 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.action_settings:
                 return true;
+            case R.id.action_play_sound:
+                ArrayList<Integer> sounds = mMelodyFileManager.getResIDOfMusic(mMelodyFileManager.MakeNotesFromString(melodyAdapter.getMelodyStringList()));
+                SoundPoolManager.getInstance().setSounds(sounds);
+                try {
+                    SoundPoolManager.getInstance().InitializeSoundPool(this, new SoundPoolManager.ISoundPoolLoaded() {
+                        @Override
+                        public void onSuccess() {
+                            SoundPoolManager.getInstance().setPlaySound(true);
+                            SoundPoolManager.getInstance().playSound(SoundPoolManager.getInstance().getSounds().get(0));
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }

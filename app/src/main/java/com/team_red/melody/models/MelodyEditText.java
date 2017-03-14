@@ -9,7 +9,7 @@ import android.text.InputFilter;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 
-import com.team_red.melody.Melody;
+import com.team_red.melody.MelodyApplication;
 import com.team_red.melody.melodyboard.MelodyStatics;
 
 public class MelodyEditText extends android.support.v7.widget.AppCompatEditText {
@@ -39,7 +39,7 @@ public class MelodyEditText extends android.support.v7.widget.AppCompatEditText 
         bounds = new Rect();
         mTextPaint = new TextPaint();
         mTextPaint.setColor(Color.BLACK);
-        Typeface typeface = Typeface.createFromAsset(Melody.getContext().getAssets(), MelodyStatics.FONT_NAME);
+        Typeface typeface = Typeface.createFromAsset(MelodyApplication.getContext().getAssets(), MelodyStatics.FONT_NAME);
         mTextPaint.setTypeface(typeface);
 
         mTextPaint.setTextSize(TEXT_SIZE + (TEXT_SIZE /2));
@@ -56,7 +56,7 @@ public class MelodyEditText extends android.support.v7.widget.AppCompatEditText 
             height = getHeight();
 
             //getting and setting maximum text length for edit text
-
+            // TODO move this to OnMeasure
             char testChar = (char) 161;
             mTextPaint.getTextBounds(String.valueOf(testChar) , 0 , 1 , bounds);
             int maxLengthOfText = width / bounds.width();
@@ -64,10 +64,5 @@ public class MelodyEditText extends android.support.v7.widget.AppCompatEditText 
         }
         //mTextPaint.getTextBounds(getText().toString(), 0, getText().length(), bounds);
         canvas.drawText(String.copyValueOf(background) ,0 , height / 2 + height/ 6 , mTextPaint);
-    }
-
-    @Override
-    protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
-        super.onTextChanged(text, start, lengthBefore, lengthAfter);
     }
 }

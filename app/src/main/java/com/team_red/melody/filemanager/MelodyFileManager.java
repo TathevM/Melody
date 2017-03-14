@@ -2,7 +2,8 @@ package com.team_red.melody.filemanager;
 
 
 
-import com.team_red.melody.Melody;
+import com.team_red.melody.MelodyApplication;
+import com.team_red.melody.R;
 import com.team_red.melody.models.Note;
 
 import org.json.JSONArray;
@@ -22,7 +23,9 @@ public class MelodyFileManager {
     public static final String COMPOSITION_NAME_JSON_TAG = "composition_name";
     public static final String COMPOSITION_ARRAY_JSON_TAG = "composition";
     public static final String MAX_CHARACTERS_TAG = "max_chars_per_line";
-    public static String COMPOSITION_JSON_DIR = Melody.getContext().getFilesDir()  + File.separator;
+    public static String COMPOSITION_JSON_DIR = MelodyApplication.getContext().getFilesDir()  + File.separator;
+    public static String SOUND_FILE_PREFIX = "s";
+    public static String SOUND_FILE_SUFIX = ".mp3";
 
     private static MelodyFileManager melodyFileManager;
     private int currentMaxCharacters;
@@ -60,6 +63,25 @@ public class MelodyFileManager {
             ex.printStackTrace();
         }
         return retValue;
+    }
+
+    public ArrayList<Integer> getResIDOfMusic(ArrayList<Note> input){
+        ArrayList<Integer> result = new ArrayList<>();
+        for(int i = 0; i < input.size(); i++)
+        {
+            if(220 <= input.get(i).getValue() && input.get(i).getValue() < 290 ) {
+                String tempName = SOUND_FILE_PREFIX + String.valueOf(input.get(i).getValue());
+                try {
+                    int id = R.raw.class.getField(tempName).getInt(null);
+                    result.add(id);
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return result;
     }
 
     public void saveComposition(ArrayList<Note> composition, String composerName, String compositionName, int _ID){

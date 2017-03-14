@@ -2,7 +2,6 @@ package com.team_red.melody.melodyboard;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.inputmethodservice.KeyboardView;
 import android.text.Editable;
 import android.text.InputType;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import com.team_red.melody.Melody;
 import com.team_red.melody.R;
 import com.team_red.melody.models.MelodyEditText;
 
@@ -73,7 +71,7 @@ public class MelodyBoard implements KeyboardView.OnKeyboardActionListener {
     //registering edit text to receive custom keyboard events
     public void registerEditText(MelodyEditText editText){
         //editText.setTextSize(65);
-        //editText.setTypeface(Typeface.createFromAsset(Melody.getContext().getAssets() , MelodyStatics.FONT_NAME));
+        //editText.setTypeface(Typeface.createFromAsset(MelodyApplication.getContext().getAssets() , MelodyStatics.FONT_NAME));
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
