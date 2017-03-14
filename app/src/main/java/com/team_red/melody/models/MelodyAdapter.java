@@ -16,12 +16,12 @@ import com.team_red.melody.melodyboard.MelodyBoard;
 import java.util.ArrayList;
 
 
-public class MelodyAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MelodyAdapter extends RecyclerView.Adapter<MelodyAdapter.MelodyViewHolder> {
 
     private ArrayList<String> melodyStringList;
     private MelodyBoard mMelodyBoard;
-    private static final int VIEW_TYPE_LINES = 1;
-    private static final int VIEW_TYPE_BOTTOM = 2;
+//    private static final int VIEW_TYPE_LINES = 1;
+//    private static final int VIEW_TYPE_BOTTOM = 2;
 
     public MelodyAdapter(ArrayList<String> melodyStringList, MelodyBoard melodyBoard) {
         this.melodyStringList = melodyStringList;
@@ -41,34 +41,45 @@ public class MelodyAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.melodyStringList = melodyStringList;
     }
 
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RecyclerView.ViewHolder vh;
-        View v;
-        switch (viewType) {
-            case VIEW_TYPE_BOTTOM:
-                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_add_line , parent, false);
-                vh = new ButtonViewHolder(v);
-                break;
-            default:
-                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_composition_line, parent, false);
-                vh = new MelodyViewHolder(v);
-                break;
-        }
-        return vh;
+    public void addNewLinesToList(){
+        melodyStringList.add("");
+        melodyStringList.add("");
+        melodyStringList.add("");
+        melodyStringList.add("");
+        melodyStringList.add("");
+        notifyDataSetChanged();
     }
 
     @Override
-    public int getItemViewType(int position) {
-        return (position == melodyStringList.size()) ? VIEW_TYPE_BOTTOM :VIEW_TYPE_LINES;
+    public MelodyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+//        RecyclerView.ViewHolder vh;
+//        View v;
+//        switch (viewType) {
+//            case VIEW_TYPE_BOTTOM:
+//                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_add_line , parent, false);
+//                vh = new ButtonViewHolder(v);
+//                break;
+//            default:
+//                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_composition_line, parent, false);
+//                vh = new MelodyViewHolder(v);
+//                break;
+//        }
+//        return vh;
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_composition_line, parent, false);
+        return new MelodyViewHolder(v);
     }
 
+//    @Override
+//    public int getItemViewType(int position) {
+//        return (position == melodyStringList.size()) ? VIEW_TYPE_BOTTOM :VIEW_TYPE_LINES;
+//    }
+
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        if (holder instanceof MelodyViewHolder) {
-            mMelodyBoard.registerEditText(((MelodyViewHolder)holder).mEditText);
-            ((MelodyViewHolder) holder).mEditText.setText(melodyStringList.get(position));
-            ((MelodyViewHolder) holder).mEditText.addTextChangedListener(new TextWatcher() {
+    public void onBindViewHolder(final MelodyViewHolder holder,int position) {
+//        if (holder instanceof MelodyViewHolder) {
+            mMelodyBoard.registerEditText(holder.mEditText);
+            holder.mEditText.setText(melodyStringList.get(position));
+            holder.mEditText.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -89,41 +100,42 @@ public class MelodyAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHold
                             }
                         } else
                             mMelodyBoard.setClefType(181);
-                    melodyStringList.set(position, s.toString());
+                    melodyStringList.set(holder.getAdapterPosition(), s.toString());
                 }
             });
-        }
-        else {
-            ((ButtonViewHolder) holder).mButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    melodyStringList.add("");
-                    notifyDataSetChanged();
-                }
-            });
-        }
+//        }
+//        else {
+//            ((ButtonViewHolder) holder).mButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    melodyStringList.add("");
+//                    notifyDataSetChanged();
+//                }
+//            });
+//        }
     }
 
     @Override
     public int getItemCount() {
-        return melodyStringList.size() + 1;
+        return melodyStringList.size();
     }
 
-    private static class MelodyViewHolder extends RecyclerView.ViewHolder{
 
-        EditText mEditText;
+    static class MelodyViewHolder extends RecyclerView.ViewHolder{
+
+        MelodyEditText mEditText;
 
         MelodyViewHolder(View itemView) {
             super(itemView);
-            mEditText = (EditText) itemView.findViewById(R.id.composition_line_edit_text);
+            mEditText = (MelodyEditText) itemView.findViewById(R.id.composition_line_edit_text);
             //mEditText.setTag(getAdapterPosition());
         }
     }
-    private static class ButtonViewHolder extends RecyclerView.ViewHolder{
-        Button mButton;
-        ButtonViewHolder(View itemView) {
-            super(itemView);
-            mButton = (Button) itemView.findViewById(R.id.add_line_button);
-        }
-    }
+//    private static class ButtonViewHolder extends RecyclerView.ViewHolder{
+//        Button mButton;
+//        ButtonViewHolder(View itemView) {
+//            super(itemView);
+//            mButton = (Button) itemView.findViewById(R.id.add_line_button);
+//        }
+//    }
 }

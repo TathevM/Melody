@@ -21,9 +21,11 @@ public class MelodyFileManager {
     public static final String COMPOSER_JSON_TAG = "composer_name";
     public static final String COMPOSITION_NAME_JSON_TAG = "composition_name";
     public static final String COMPOSITION_ARRAY_JSON_TAG = "composition";
+    public static final String MAX_CHARACTERS_TAG = "max_chars_per_line";
     public static String COMPOSITION_JSON_DIR = Melody.getContext().getFilesDir()  + File.separator;
 
     private static MelodyFileManager melodyFileManager;
+    private int currentMaxCharacters;
 
     public static MelodyFileManager getMelodyFileManager(){
         if(melodyFileManager == null){
@@ -45,6 +47,7 @@ public class MelodyFileManager {
             is.read(buffer);
             is.close();
             JSONObject jsonComposition = new JSONObject(new String(buffer, "UTF-8"));
+            currentMaxCharacters = jsonComposition.getInt(MAX_CHARACTERS_TAG);
             JSONArray jsonCompositionArray = jsonComposition.getJSONArray(COMPOSITION_ARRAY_JSON_TAG);
             for(int i=0; i<jsonCompositionArray.length() ; i++)
             {
@@ -66,6 +69,7 @@ public class MelodyFileManager {
         try{
             jsonComposition.put(COMPOSER_JSON_TAG, composerName);
             jsonComposition.put(COMPOSITION_NAME_JSON_TAG, compositionName);
+            jsonComposition.put(MAX_CHARACTERS_TAG , currentMaxCharacters);
             for (int i = 0; i < composition.size() ; i++)
             {
                 jsonArray.put(i , composition.get(i).getJSONObject());
@@ -88,7 +92,10 @@ public class MelodyFileManager {
 
     public ArrayList<Note> MakeNotesFromString(ArrayList<String> input){
         ArrayList<Note> result = new ArrayList<>();
+        int maxCharactersPerLine = 0;
         for(int i = 0; i < input.size(); i++){
+            if(input.get(i).length() > maxCharactersPerLine)
+                maxCharactersPerLine = input.get(i).length();
             char[] temp = input.get(i).toCharArray();
             int prevSign = 0;
 
@@ -109,15 +116,17 @@ public class MelodyFileManager {
                     prevSign = code;
             }
         }
+        currentMaxCharacters = maxCharactersPerLine;
         return result;
     }
 
     public ArrayList<String> makeStringFromNotes(ArrayList<Note> input){
         ArrayList<String> result = new ArrayList<>();
-        for(int i = 0; i < input.size(); i+=20) {
+        int offset = currentMaxCharacters;
+        for(int i = 0; i < input.size(); i += offset) {
             List<Note> subList;
             if (i + 12 <= input.size())
-                subList = input.subList(i , i+20);
+                subList = input.subList(i , i + offset);
             else
                 subList = input.subList( i , input.size());
             String temp = "";

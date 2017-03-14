@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<EditText
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:lines="1"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:maxLength="20"
-    android:maxLines="1"
-    android:id="@+id/composition_line_edit_text"
-    xmlns:android="http://schemas.android.com/apk/res/android"/>
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.team_red.melody.models.MelodyEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:maxLines="1"
+        android:id="@+id/composition_line_edit_text"
+        xmlns:android="http://schemas.android.com/apk/res/android"/>
+</LinearLayout>

@@ -66,6 +66,14 @@ public class MainActivity extends AppCompatActivity
         melodyAdapter = new MelodyAdapter(null, mMelodyBoard);
         rv.setAdapter(melodyAdapter);
         rv.setHasFixedSize(true);
+        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if(!recyclerView.canScrollVertically(1))
+                    ((MelodyAdapter)recyclerView.getAdapter()).addNewLinesToList();
+            }
+        });
 
         //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
