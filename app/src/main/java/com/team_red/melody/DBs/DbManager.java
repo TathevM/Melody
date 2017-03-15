@@ -19,12 +19,7 @@ public class DbManager {
     public DbManager(Context context) {
         mDbHelper = new DbHelper(context);
         mDb = mDbHelper.getWritableDatabase();
-        insertUser("Aram");
-        insertUser("Vazgen");
-        insertUser("Ruben");
-        insertUser("Hayk");
-        insertUser("Tathev");
-        insertUser("Vahan");
+
 
     }
 
@@ -67,7 +62,7 @@ public class DbManager {
 
 
 
-        Cursor cursor = mDb.query(TableManager.COMPOSITIONS_TABLE,null,TableManager.COMPOSITOR_ID + "=?", new String[] {Integer.toString(compositorID)},null,null,null);
+        Cursor cursor = mDb.query(TableManager.COMPOSITIONS_TABLE ,null ,TableManager.COMPOSITOR_ID + "=?" , new String[] {Integer.toString(compositorID)},null ,null ,null);
         while (cursor.moveToNext()) {
 
             int compositionID = cursor.getInt(cursor.getColumnIndex(TableManager.COMPOSITION_ID));

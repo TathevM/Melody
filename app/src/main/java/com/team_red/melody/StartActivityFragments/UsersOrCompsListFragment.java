@@ -37,6 +37,7 @@ public class UsersOrCompsListFragment extends Fragment {
         mdbManager = new DbManager(getContext());
         adapter = new RVAdapter();
         adapter.setUsersList(mdbManager.getUsers());
+        adapter.notifyDataSetChanged();
     }
 
     @Override

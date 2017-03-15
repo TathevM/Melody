@@ -46,16 +46,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         if (!IS_USER_CHOSEN) {
-
-
-
             holder.mUserOrCompName.setText(usersList.get(position).getUserName());
-
         }
         else
-
             holder.mUserOrCompName.setText(compositionsList.get(position).getCompositionName());
-
     }
 
     @Override
