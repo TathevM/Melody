@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
+import android.os.Handler;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,11 @@ public class SoundPoolManager {
     private List<Integer> sounds;
     private HashMap<Integer, SoundSampleEntity> hashMap;
     private boolean isPlaySound;
+
+    private Handler h = new Handler();
+    private Runnable mRunnable;
+    private int delay = 300;
+    private int handlerCounter;
 
     public synchronized static SoundPoolManager getInstance() {
         return instance;
@@ -109,6 +115,25 @@ public class SoundPoolManager {
         }
     }
 
+    public void playMelody(){
+        h = new Handler();
+        handlerCounter = 0;
+        h.post(new Runnable() {
+            @Override
+            public void run() {
+                if (isPlaySound() && handlerCounter < hashMap.size()){
+                    SoundSampleEntity entity = hashMap.get(sounds.get(handlerCounter));
+                    if (entity.getSampleId() > 0 && entity.isLoaded()) {
+                        soundPool.play(entity.getSampleId(), .99f, .99f, 1, 0, 1f);
+                    }
+                    mRunnable = this;
+                    h.postDelayed(mRunnable , delay);
+                    handlerCounter++;
+                }
+            }
+        });
+    }
+
     public void release() {
         if (soundPool != null) {
             soundPool.release();
@@ -121,6 +146,8 @@ public class SoundPoolManager {
                 SoundSampleEntity entity = entry.getValue();
                 soundPool.stop(entity.getSampleId());
             }
+            isPlaySound = false;
+            handlerCounter = 0;
         }
     }
 

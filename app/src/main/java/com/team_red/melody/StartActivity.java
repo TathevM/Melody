@@ -50,19 +50,4 @@ public class StartActivity extends AppCompatActivity {
         return true;
 
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case   R.id.saveIcon:
-                break;
-            case   R.id.shareIcon:
-                break;
-            case   R.id.exportIcon:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
 }

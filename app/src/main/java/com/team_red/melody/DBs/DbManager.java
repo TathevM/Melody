@@ -6,8 +6,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.team_red.melody.Models.Composition;
-import com.team_red.melody.Models.User;
+import com.team_red.melody.models.Composition;
+import com.team_red.melody.models.User;
 
 import java.util.ArrayList;
 

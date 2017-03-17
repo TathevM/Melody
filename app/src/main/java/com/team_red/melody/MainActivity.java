@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onSuccess() {
                             SoundPoolManager.getInstance().setPlaySound(true);
-                            SoundPoolManager.getInstance().playSound(SoundPoolManager.getInstance().getSounds().get(0));
+                            SoundPoolManager.getInstance().playMelody();
                         }
                     });
                 } catch (Exception e) {

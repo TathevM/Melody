@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.team_red.melody.DBs.DbManager;
 import com.team_red.melody.MainActivity;
-import com.team_red.melody.Models.User;
 import com.team_red.melody.R;
 
 

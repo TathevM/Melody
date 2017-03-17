@@ -6,10 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.team_red.melody.DBs.DbManager;
-import com.team_red.melody.Models.Composition;
-import com.team_red.melody.Models.User;
+
 import com.team_red.melody.R;
+import com.team_red.melody.models.Composition;
+import com.team_red.melody.models.User;
 
 import java.util.ArrayList;
 
