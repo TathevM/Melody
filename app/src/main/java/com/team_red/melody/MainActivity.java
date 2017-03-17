@@ -1,11 +1,8 @@
 package com.team_red.melody;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,14 +11,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
-import android.widget.EditText;
 
 import com.team_red.melody.filemanager.MelodyFileManager;
 import com.team_red.melody.melodyboard.MelodyBoard;
 import com.team_red.melody.models.MelodyAdapter;
 import com.team_red.melody.models.Note;
-import com.team_red.melody.sound.SoundPoolManager;
+import com.team_red.melody.sound.MelodyPoolManager;
 
 import java.util.ArrayList;
 
@@ -32,6 +27,7 @@ public class MainActivity extends AppCompatActivity
     private MelodyBoard mMelodyBoard;
     MelodyFileManager mMelodyFileManager;
     MelodyAdapter melodyAdapter;
+    MenuItem playButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +92,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        playButton = menu.findItem(R.id.action_play_sound);
         return true;
     }
 
@@ -112,14 +109,20 @@ public class MainActivity extends AppCompatActivity
             case R.id.action_settings:
                 return true;
             case R.id.action_play_sound:
+                togglePlayButton();
                 ArrayList<Integer> sounds = mMelodyFileManager.getResIDOfMusic(mMelodyFileManager.MakeNotesFromString(melodyAdapter.getMelodyStringList()));
-                SoundPoolManager.getInstance().setSounds(sounds);
+                MelodyPoolManager.getInstance().setSounds1(sounds);
                 try {
-                    SoundPoolManager.getInstance().InitializeSoundPool(this, new SoundPoolManager.ISoundPoolLoaded() {
+                    MelodyPoolManager.getInstance().InitializeMelodyPool(this, new MelodyPoolManager.IMelodyPoolLoaded() {
                         @Override
                         public void onSuccess() {
-                            SoundPoolManager.getInstance().setPlaySound(true);
-                            SoundPoolManager.getInstance().playMelody();
+                            MelodyPoolManager.getInstance().setPlaySound(true);
+                            MelodyPoolManager.getInstance().playMelody(new MelodyPoolManager.IMelodyPoolPlaybackFinished() {
+                                @Override
+                                public void onFinishPlayBack() {
+                                    togglePlayButton();
+                                }
+                            });
                         }
                     });
                 } catch (Exception e) {
@@ -155,5 +158,9 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void togglePlayButton(){
+        playButton.setEnabled(!playButton.isEnabled());
     }
 }
