@@ -6,10 +6,14 @@
     <com.team_red.melody.models.MelodyEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:lines="1"
+        android:ellipsize="end"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:maxLines="1"
         android:id="@+id/composition_line_edit_text"
-        xmlns:android="http://schemas.android.com/apk/res/android"/>
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_marginLeft="@dimen/note_margin_paper"
+        android:layout_marginStart="@dimen/note_margin_paper"
+        android:layout_marginRight="@dimen/note_margin_paper"
+        android:layout_marginEnd="@dimen/note_margin_paper"/>
 </LinearLayout>

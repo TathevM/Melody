@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Button android:id="@+id/add_line_button"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:text="+"
-        android:gravity="center"
-        xmlns:android="http://schemas.android.com/apk/res/android"/>
