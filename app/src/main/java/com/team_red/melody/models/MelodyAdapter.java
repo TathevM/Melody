@@ -12,6 +12,9 @@ import com.team_red.melody.melodyboard.MelodyBoard;
 
 import java.util.ArrayList;
 
+import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_ONE_HANDED;
+import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_TWO_HANDED;
+
 
 public class MelodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -90,7 +93,7 @@ public class MelodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             mMelodyBoard.registerEditText(((MelodyTwoLineViewHolder) holder).mEditText1);
             mMelodyBoard.registerEditText(((MelodyTwoLineViewHolder) holder).mEditText2);
             ((MelodyTwoLineViewHolder) holder).mEditText1.setText(melodyStringList1.get(position));
-            ((MelodyTwoLineViewHolder) holder).mEditText2.setText(melodyStringList1.get(position));
+            ((MelodyTwoLineViewHolder) holder).mEditText2.setText(melodyStringList2.get(position));
             setTextChange(((MelodyTwoLineViewHolder) holder).mEditText1 , holder);
             setTextChange(((MelodyTwoLineViewHolder) holder).mEditText2 , holder);
         }
@@ -119,6 +122,7 @@ public class MelodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         } else
                             mMelodyBoard.setClefType(181);
                     melodyStringList1.set(holder.getAdapterPosition(), s.toString());
+                //TODO solve problem of string lists
             }
         });
     }
@@ -126,6 +130,10 @@ public class MelodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public int getItemCount() {
         return melodyStringList2 == null ? melodyStringList1.size() : Math.max(melodyStringList1.size() , melodyStringList2.size());
+    }
+
+    public int getCompositionType(){
+        return melodyStringList2 == null ? SHEET_TYPE_ONE_HANDED : SHEET_TYPE_TWO_HANDED;
     }
 
 

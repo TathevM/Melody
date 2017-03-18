@@ -18,14 +18,18 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_ONE_HANDED;
+import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_TWO_HANDED;
+
 public class MelodyFileManager {
     public static final String COMPOSER_JSON_TAG = "composer_name";
     public static final String COMPOSITION_NAME_JSON_TAG = "composition_name";
-    public static final String COMPOSITION_ARRAY_JSON_TAG = "composition";
+    public static final String COMPOSITION_ARRAY1_JSON_TAG = "composition1";
+    public static final String COMPOSITION_ARRAY2_JSON_TAG = "composition2";
     public static final String MAX_CHARACTERS_TAG = "max_chars_per_line";
     public static String COMPOSITION_JSON_DIR = MelodyApplication.getContext().getFilesDir()  + File.separator;
     public static String SOUND_FILE_PREFIX = "s";
-    public static String SOUND_FILE_SUFIX = ".mp3";
+    public static String COMPOSITION_TYPE_TAG = "hand_type";
 
     private static MelodyFileManager melodyFileManager;
     private int currentMaxCharacters;
@@ -51,7 +55,7 @@ public class MelodyFileManager {
             is.close();
             JSONObject jsonComposition = new JSONObject(new String(buffer, "UTF-8"));
             currentMaxCharacters = jsonComposition.getInt(MAX_CHARACTERS_TAG);
-            JSONArray jsonCompositionArray = jsonComposition.getJSONArray(COMPOSITION_ARRAY_JSON_TAG);
+            JSONArray jsonCompositionArray = jsonComposition.getJSONArray(COMPOSITION_ARRAY1_JSON_TAG);
             for(int i=0; i<jsonCompositionArray.length() ; i++)
             {
                 retValue.add(Note.getNoteFromJson(jsonCompositionArray.getJSONObject(i)));
@@ -84,19 +88,20 @@ public class MelodyFileManager {
         return result;
     }
 
-    public void saveComposition(ArrayList<Note> composition, String composerName, String compositionName, int _ID){
+    public void saveOneHandedComposition(ArrayList<Note> composition, String composerName, String compositionName, int _ID){
         JSONObject jsonComposition = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         OutputStream os;
         try{
             jsonComposition.put(COMPOSER_JSON_TAG, composerName);
             jsonComposition.put(COMPOSITION_NAME_JSON_TAG, compositionName);
+            jsonComposition.put(COMPOSITION_TYPE_TAG , SHEET_TYPE_ONE_HANDED);
             jsonComposition.put(MAX_CHARACTERS_TAG , currentMaxCharacters);
             for (int i = 0; i < composition.size() ; i++)
             {
                 jsonArray.put(i , composition.get(i).getJSONObject());
             }
-            jsonComposition.put(COMPOSITION_ARRAY_JSON_TAG, jsonArray);
+            jsonComposition.put(COMPOSITION_ARRAY1_JSON_TAG, jsonArray);
         }catch (JSONException ex){
             ex.printStackTrace();
         }
@@ -110,6 +115,42 @@ public class MelodyFileManager {
         }catch (IOException ex){
             ex.printStackTrace();
         }
+    }
+
+    public void saveTwoHandedComposition(ArrayList<Note> comp1, ArrayList<Note> comp2, String composerName, String compositionName, int _ID){
+        JSONObject jsonComposition = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+        OutputStream os;
+        try{
+            jsonComposition.put(COMPOSER_JSON_TAG, composerName);
+            jsonComposition.put(COMPOSITION_NAME_JSON_TAG, compositionName);
+            jsonComposition.put(COMPOSITION_TYPE_TAG , SHEET_TYPE_TWO_HANDED);
+            jsonComposition.put(MAX_CHARACTERS_TAG , currentMaxCharacters);
+            for (int i = 0; i < comp1.size() ; i++)
+            {
+                jsonArray.put(i , comp1.get(i).getJSONObject());
+            }
+            jsonComposition.put(COMPOSITION_ARRAY1_JSON_TAG, jsonArray);
+
+            jsonArray = new JSONArray();
+            for (int i = 0; i < comp2.size() ; i++)
+            {
+                jsonArray.put(i , comp2.get(i).getJSONObject());
+            }
+            jsonComposition.put(COMPOSITION_ARRAY2_JSON_TAG, jsonArray);
+        }catch (JSONException ex){
+            ex.printStackTrace();
+        }
+        try{
+            File f = new File(COMPOSITION_JSON_DIR + composerName + " - " + compositionName);
+            f.createNewFile();
+            os = new FileOutputStream(f);
+            os.write(jsonComposition.toString().getBytes());
+            os.close();
+        }catch (IOException ex){
+            ex.printStackTrace();
+        }
+
     }
 
     public ArrayList<Note> MakeNotesFromString(ArrayList<String> input){

@@ -45,7 +45,7 @@ public class LoginFragment extends Fragment {
                     Intent mIntent = new Intent(getActivity(), MainActivity.class);
                     mIntent.putExtra("id", -1);
                     startActivity(mIntent);
-
+                    getActivity().finish();
                 }
                 else
 

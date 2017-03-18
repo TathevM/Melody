@@ -30,4 +30,7 @@ public class MelodyStatics {
 
     public static final int CODE_TOGGLE_NATURAL = -19;
     public static final int NATURAL_DIVISOR = 9;
+
+    public static final int SHEET_TYPE_ONE_HANDED = 1;
+    public static final int SHEET_TYPE_TWO_HANDED = 2;
 }

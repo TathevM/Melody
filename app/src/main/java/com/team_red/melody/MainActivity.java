@@ -20,12 +20,13 @@ import com.team_red.melody.sound.MelodyPoolManager;
 
 import java.util.ArrayList;
 
+import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_ONE_HANDED;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
     private MelodyBoard mMelodyBoard;
-    MelodyFileManager mMelodyFileManager;
     MelodyAdapter melodyAdapter;
     MenuItem playButton;
 
@@ -54,8 +55,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        mMelodyFileManager = MelodyFileManager.getMelodyFileManager();
-
         mMelodyBoard = new MelodyBoard(MainActivity.this);
         RecyclerView rv = (RecyclerView) findViewById(R.id.composition);
         LinearLayoutManager llm = new LinearLayoutManager(this);
@@ -73,8 +72,6 @@ public class MainActivity extends AppCompatActivity
                     ((MelodyAdapter)recyclerView.getAdapter()).addNewLinesToList();
             }
         });
-
-        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     @Override
@@ -105,14 +102,21 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()){
             case R.id.action_save:
-                ArrayList<Note> a = mMelodyFileManager.MakeNotesFromString(melodyAdapter.getMelodyStringList1());
-                mMelodyFileManager.saveComposition(a , "asd" , "asd" , 1);
+                if(melodyAdapter.getCompositionType() == SHEET_TYPE_ONE_HANDED) {
+                    ArrayList<Note> a = MelodyFileManager.getMelodyFileManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1());
+                    MelodyFileManager.getMelodyFileManager().saveOneHandedComposition(a, "asd", "asd", 1);
+                }
+                else {
+                    ArrayList<Note> a = MelodyFileManager.getMelodyFileManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1());
+                    ArrayList<Note> b = MelodyFileManager.getMelodyFileManager().MakeNotesFromString(melodyAdapter.getMelodyStringList2());
+                    MelodyFileManager.getMelodyFileManager().saveTwoHandedComposition(a, b, "asd" , "asd" , 1);
+                }
                 break;
             case R.id.action_settings:
                 return true;
             case R.id.action_play_sound:
                 togglePlayButton();
-                ArrayList<Integer> sounds = mMelodyFileManager.getResIDOfMusic(mMelodyFileManager.MakeNotesFromString(melodyAdapter.getMelodyStringList1()));
+                ArrayList<Integer> sounds = MelodyFileManager.getMelodyFileManager().getResIDOfMusic(MelodyFileManager.getMelodyFileManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1()));
                 MelodyPoolManager.getInstance().setSounds1(sounds);
                 try {
                     MelodyPoolManager.getInstance().InitializeMelodyPool(this, new MelodyPoolManager.IMelodyPoolLoaded() {
