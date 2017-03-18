@@ -60,7 +60,8 @@ public class MainActivity extends AppCompatActivity
         RecyclerView rv = (RecyclerView) findViewById(R.id.composition);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
-        melodyAdapter = new MelodyAdapter(null, mMelodyBoard);
+        melodyAdapter = new MelodyAdapter(mMelodyBoard);
+        melodyAdapter.setMelodyStringList1(new ArrayList<String>());
         rv.setAdapter(melodyAdapter);
         rv.setHasFixedSize(true);
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -103,14 +104,14 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()){
             case R.id.action_save:
-                ArrayList<Note> a = mMelodyFileManager.MakeNotesFromString(melodyAdapter.getMelodyStringList());
+                ArrayList<Note> a = mMelodyFileManager.MakeNotesFromString(melodyAdapter.getMelodyStringList1());
                 mMelodyFileManager.saveComposition(a , "asd" , "asd" , 1);
                 break;
             case R.id.action_settings:
                 return true;
             case R.id.action_play_sound:
                 togglePlayButton();
-                ArrayList<Integer> sounds = mMelodyFileManager.getResIDOfMusic(mMelodyFileManager.MakeNotesFromString(melodyAdapter.getMelodyStringList()));
+                ArrayList<Integer> sounds = mMelodyFileManager.getResIDOfMusic(mMelodyFileManager.MakeNotesFromString(melodyAdapter.getMelodyStringList1()));
                 MelodyPoolManager.getInstance().setSounds1(sounds);
                 try {
                     MelodyPoolManager.getInstance().InitializeMelodyPool(this, new MelodyPoolManager.IMelodyPoolLoaded() {
