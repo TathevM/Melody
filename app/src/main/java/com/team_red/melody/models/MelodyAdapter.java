@@ -85,34 +85,12 @@ public class MelodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             mMelodyBoard.registerEditText(((MelodyOneLineViewHolder) holder).mEditText);
             ((MelodyOneLineViewHolder) holder).mEditText.setText(melodyStringList1.get(position));
             setTextChange(((MelodyOneLineViewHolder) holder).mEditText , holder);
-//            ((MelodyOneLineViewHolder) holder).mEditText.addTextChangedListener(new TextWatcher() {
-//                @Override
-//                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//                }
-//
-//                @Override
-//                public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//                }
-//
-//                @Override
-//                public void afterTextChanged(Editable s) {
-//                    if (s.length() > 0)
-//                        if (s.charAt(0) != (char) 181) {
-//                            if (s.charAt(0) != (char) 180) {
-//                                s.insert(0, String.valueOf((char) 180));
-//                                mMelodyBoard.setClefType(180);
-//                            }
-//                        } else
-//                            mMelodyBoard.setClefType(181);
-//                    melodyStringList1.set(holder.getAdapterPosition(), s.toString());
-//                }
-//            });
         }
         else {
             mMelodyBoard.registerEditText(((MelodyTwoLineViewHolder) holder).mEditText1);
             mMelodyBoard.registerEditText(((MelodyTwoLineViewHolder) holder).mEditText2);
+            ((MelodyTwoLineViewHolder) holder).mEditText1.setText(melodyStringList1.get(position));
+            ((MelodyTwoLineViewHolder) holder).mEditText2.setText(melodyStringList1.get(position));
             setTextChange(((MelodyTwoLineViewHolder) holder).mEditText1 , holder);
             setTextChange(((MelodyTwoLineViewHolder) holder).mEditText2 , holder);
         }

@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity
         rv.setLayoutManager(llm);
         melodyAdapter = new MelodyAdapter(mMelodyBoard);
         melodyAdapter.setMelodyStringList1(new ArrayList<String>());
+        melodyAdapter.setMelodyStringList2(new ArrayList<String>());
         rv.setAdapter(melodyAdapter);
         rv.setHasFixedSize(true);
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
