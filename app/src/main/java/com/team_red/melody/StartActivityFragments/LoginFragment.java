@@ -19,9 +19,12 @@ import com.team_red.melody.R;
 
 public class LoginFragment extends Fragment {
 
-    Button startButton;
-    EditText loginInput;
-    DbManager dbManager;
+    public static final String USER_ID_TAG = "user_id";
+    public static final String COMP_ID_TAG = "comp_tag";
+
+    private Button startButton;
+    private EditText loginInput;
+    private DbManager dbManager;
 
     @Nullable
     @Override
@@ -41,21 +44,18 @@ public class LoginFragment extends Fragment {
             public void onClick(View view) {
                 String userName = loginInput.getText().toString();
                 if (!userName.equalsIgnoreCase("")){
-                    dbManager.insertUser(userName);
+                    long id = dbManager.insertUser(userName);
                     Intent mIntent = new Intent(getActivity(), MainActivity.class);
-                    mIntent.putExtra("id", -1);
+                    mIntent.putExtra(USER_ID_TAG, id);
                     startActivity(mIntent);
                     getActivity().finish();
                 }
                 else
-
                     Toast.makeText(getContext(),"Write your name maestro", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
-
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +65,5 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
     }
 }

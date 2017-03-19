@@ -15,6 +15,7 @@ import com.team_red.melody.DBs.DbManager;
 import com.team_red.melody.MainActivity;
 import com.team_red.melody.R;
 
+import static com.team_red.melody.StartActivityFragments.LoginFragment.COMP_ID_TAG;
 
 
 public class UsersOrCompsListFragment extends Fragment {
@@ -26,8 +27,7 @@ public class UsersOrCompsListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.users_or_compositions_list_fragment, container , false);
-        return view;
+        return inflater.inflate(R.layout.users_or_compositions_list_fragment, container , false);
     }
 
 
@@ -37,7 +37,6 @@ public class UsersOrCompsListFragment extends Fragment {
         mdbManager = new DbManager(getContext());
         adapter = new RVAdapter();
         adapter.setUsersList(mdbManager.getUsers());
-        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -52,17 +51,16 @@ public class UsersOrCompsListFragment extends Fragment {
             @Override
             public void onItemClick(int ID) {
                 if (!adapter.IS_USER_CHOSEN) {
-
                     adapter.setCompositionsList(mdbManager.getCompositions(ID));
-
                     adapter.IS_USER_CHOSEN = true;
                     adapter.notifyDataSetChanged();
                 }
-                else
+                else {
                     myIntent = new Intent(getActivity(), MainActivity.class);
-                    myIntent.putExtra("id",ID);
+                    myIntent.putExtra(COMP_ID_TAG, ID);
                     startActivity(myIntent);
-
+                    getActivity().finish();
+                }
             }
         });
     }

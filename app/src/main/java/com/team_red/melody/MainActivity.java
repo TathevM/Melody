@@ -1,6 +1,8 @@
 package com.team_red.melody;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.design.widget.NavigationView;
@@ -11,7 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import com.team_red.melody.DBs.DbManager;
 import com.team_red.melody.filemanager.MelodyFileManager;
 import com.team_red.melody.melodyboard.MelodyBoard;
 import com.team_red.melody.models.Composition;
@@ -22,6 +28,8 @@ import com.team_red.melody.sound.MelodyPoolManager;
 
 import java.util.ArrayList;
 
+import static com.team_red.melody.StartActivityFragments.LoginFragment.COMP_ID_TAG;
+import static com.team_red.melody.StartActivityFragments.LoginFragment.USER_ID_TAG;
 import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_ONE_HANDED;
 
 public class MainActivity extends AppCompatActivity
@@ -33,6 +41,9 @@ public class MainActivity extends AppCompatActivity
     private MenuItem playButton;
     private User currentUser;
     private Composition currentComposition;
+    private DbManager mDbManager;
+    private boolean isCompositionSelected;
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +52,14 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -59,7 +70,24 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        mDbManager = new DbManager(this);
+        getInitData();
         initActivity();
+    }
+
+    private void getInitData(){
+        int userID = getIntent().getIntExtra(USER_ID_TAG , -1);
+        int compID = getIntent().getIntExtra(COMP_ID_TAG , -1);
+        if(userID != -1){
+            currentUser = mDbManager.getUserByID(userID);
+            ((TextView) findViewById(R.id.compositor_label)).setText(currentUser.getUserName());
+        }
+        if (compID != -1)
+        {
+            currentComposition = mDbManager.getCompByID(compID);
+            isCompositionSelected = true;
+            fab.setVisibility(View.GONE);
+        }
     }
 
     private void initActivity(){
@@ -68,8 +96,14 @@ public class MainActivity extends AppCompatActivity
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
         melodyAdapter = new MelodyAdapter(mMelodyBoard);
-        melodyAdapter.setMelodyStringList1(new ArrayList<String>());
-        melodyAdapter.setMelodyStringList2(new ArrayList<String>());
+        if (isCompositionSelected) {
+            if(currentComposition.getType() == SHEET_TYPE_ONE_HANDED)
+                melodyAdapter.setMelodyStringList1(new ArrayList<String>());
+            else {
+                melodyAdapter.setMelodyStringList1(new ArrayList<String>());
+                melodyAdapter.setMelodyStringList2(new ArrayList<String>());
+            }
+        }
         rv.setAdapter(melodyAdapter);
         rv.setHasFixedSize(true);
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -112,12 +146,12 @@ public class MainActivity extends AppCompatActivity
             case R.id.action_save:
                 if(melodyAdapter.getCompositionType() == SHEET_TYPE_ONE_HANDED) {
                     ArrayList<Note> a = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1());
-                    MelodyFileManager.getManager().saveOneHandedComposition(a, "asd", "asd", 1);
+                    MelodyFileManager.getManager().saveOneHandedComposition(a, currentUser.getUserName() , currentComposition.getCompositionName(), 1);
                 }
                 else {
                     ArrayList<Note> a = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1());
                     ArrayList<Note> b = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList2());
-                    MelodyFileManager.getManager().saveTwoHandedComposition(a, b, "asd" , "asd" , 1);
+                    MelodyFileManager.getManager().saveTwoHandedComposition(a, b, currentUser.getUserName() , currentComposition.getCompositionName() , 1);
                 }
                 break;
             case R.id.action_settings:

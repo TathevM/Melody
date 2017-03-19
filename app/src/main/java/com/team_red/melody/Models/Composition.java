@@ -8,14 +8,19 @@ public class Composition {
     private int compositorID;
     private String jsonFileName;
     private String path;
+    private int type;
 
 
-    public Composition(int compositionID, String compositionName, int compositorID, String jsonFileName, String path) {
+    public Composition(int compositionID, String compositionName, int compositorID, String jsonFileName, int type) {
         this.compositionID = compositionID;
         this.compositionName = compositionName;
         this.compositorID = compositorID;
         this.jsonFileName = jsonFileName;
-        this.path = path;
+        this.type = type;
+    }
+
+    public int getType() {
+        return type;
     }
 
     public int getCompositionID() {

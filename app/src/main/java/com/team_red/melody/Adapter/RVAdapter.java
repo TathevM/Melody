@@ -37,7 +37,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
         if (!IS_USER_CHOSEN) {
             holder.mUserOrCompName.setText(usersList.get(position).getUserName());
         }
@@ -47,7 +46,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
 
     @Override
     public int getItemCount() {
-        return 0;
+        return  IS_USER_CHOSEN ? compositionsList.size() : usersList.size();
     }
 
     @Override
@@ -64,6 +63,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
         ViewHolder(View itemView) {
             super(itemView);
             mUserOrCompName = (TextView) itemView.findViewById(R.id.userOrCompName);
+            itemView.setOnClickListener(this);
         }
 
         @Override
