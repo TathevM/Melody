@@ -15,12 +15,9 @@ import com.team_red.melody.DBs.DbManager;
 import com.team_red.melody.MainActivity;
 import com.team_red.melody.R;
 
-import static com.team_red.melody.StartActivityFragments.LoginFragment.USER_ID_TAG;
 
 
 public class UsersOrCompsListFragment extends Fragment {
-
-    public static final String COMPOSITION_ID_TAG = "comp_id";
 
     RVAdapter adapter;
     DbManager mdbManager;
@@ -40,17 +37,17 @@ public class UsersOrCompsListFragment extends Fragment {
         mdbManager = new DbManager(getContext());
         adapter = new RVAdapter();
         adapter.setUsersList(mdbManager.getUsers());
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.usersOrCompositionsList);
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        LinearLayoutManager llm = new LinearLayoutManager(getContext());
         rv.setLayoutManager(llm);
         rv.setAdapter(adapter);
         rv.setHasFixedSize(true);
-        adapter.notifyDataSetChanged();
         adapter.setOnListItemClickListener(new RVAdapter.OnListItemClickListener() {
             @Override
             public void onItemClick(int ID) {
@@ -63,10 +60,8 @@ public class UsersOrCompsListFragment extends Fragment {
                 }
                 else
                     myIntent = new Intent(getActivity(), MainActivity.class);
-//                    myIntent.putExtra(USER_ID_TAG,);
-                    myIntent.putExtra(COMPOSITION_ID_TAG,ID);
+                    myIntent.putExtra("id",ID);
                     startActivity(myIntent);
-                    getActivity().finish();
 
             }
         });

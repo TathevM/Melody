@@ -1,4 +1,4 @@
-package com.team_red.melody.models;
+package com.team_red.melody.Models;
 
 
 
