@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pordznakan">
+
+    <ImageView
+        android:id="@+id/app_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_melody"
+        android:layout_centerInParent="true"/>
+    <TextView
+        android:id="@+id/quote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_centerHorizontal="true"
+        android:text="I really believe in melody."
+        android:textStyle="italic"
+        android:textSize="19sp"
+        android:layout_below="@id/app_logo"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aulis Sallinen"
+        android:textStyle="bold"
+        android:layout_below="@id/quote"
+        android:layout_alignRight="@id/quote"
+        android:layout_alignEnd="@id/quote"/>
+
+
+</RelativeLayout>

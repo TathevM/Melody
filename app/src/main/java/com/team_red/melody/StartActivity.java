@@ -25,8 +25,6 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.application_start_activity);
 
         initFragments();
-
-
     }
 
     public  void  initFragments(){
@@ -39,7 +37,6 @@ public class StartActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.AccountChooser, usersOrCompsListFragment, "usersCompsList");
         fragmentTransaction.commit();
 
-
     }
 
     @Override
@@ -51,18 +48,18 @@ public class StartActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case   R.id.saveIcon:
-                break;
-            case   R.id.shareIcon:
-                break;
-            case   R.id.exportIcon:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case   R.id.saveIcon:
+//                break;
+//            case   R.id.shareIcon:
+//                break;
+//            case   R.id.exportIcon:
+//                break;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
 
 }

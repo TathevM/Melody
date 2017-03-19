@@ -2,6 +2,7 @@ package com.team_red.melody.StartActivityFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -14,11 +15,12 @@ import android.widget.Toast;
 
 import com.team_red.melody.DBs.DbManager;
 import com.team_red.melody.MainActivity;
-import com.team_red.melody.Models.User;
+import com.team_red.melody.models.User;
 import com.team_red.melody.R;
 
 
 public class LoginFragment extends Fragment {
+    public static final String USER_ID_TAG = "user_id";
 
     Button startButton;
     EditText loginInput;
@@ -42,11 +44,12 @@ public class LoginFragment extends Fragment {
             public void onClick(View view) {
                 String userName = loginInput.getText().toString();
                 if (!userName.equalsIgnoreCase("")){
-                    dbManager.insertUser(userName);
+                    long id = dbManager.insertUser(userName);
+                    // query for same named user
                     Intent mIntent = new Intent(getActivity(), MainActivity.class);
-                    mIntent.putExtra("id", -1);
+                    mIntent.putExtra(USER_ID_TAG, id);
                     startActivity(mIntent);
-
+                    getActivity().finish();
                 }
                 else
 

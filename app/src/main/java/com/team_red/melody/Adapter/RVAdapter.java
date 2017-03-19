@@ -7,9 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.team_red.melody.DBs.DbManager;
-import com.team_red.melody.Models.Composition;
-import com.team_red.melody.Models.User;
 import com.team_red.melody.R;
+import com.team_red.melody.models.Composition;
+import com.team_red.melody.models.User;
 
 import java.util.ArrayList;
 
@@ -24,9 +24,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
 
     private OnListItemClickListener onListItemClickListener;
 
-
-
-
+    public RVAdapter() {
+    }
 
     public void setOnListItemClickListener(OnListItemClickListener onListItemClickListener) {
         this.onListItemClickListener = onListItemClickListener;
@@ -39,7 +38,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
 
     public void setCompositionsList(ArrayList<Composition> compositionsList) {
         this.compositionsList = compositionsList;
-        notifyDataSetChanged();
     }
 
     @Override
@@ -54,12 +52,15 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
 
     @Override
     public int getItemCount() {
-        return 0;
+        if(IS_USER_CHOSEN)
+            return compositionsList.size();
+        else
+            return usersList.size();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_user_or_composition, parent );
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_user_or_composition, parent, false );
 
 
         ViewHolder viewHolder = new ViewHolder(view);
@@ -76,6 +77,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
             super(itemView);
 
             mUserOrCompName = (TextView) itemView.findViewById(R.id.userOrCompName);
+            itemView.setOnClickListener(this);
         }
 
         @Override
@@ -83,15 +85,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
             if(onListItemClickListener != null) {
 
                 if (!IS_USER_CHOSEN) {
-
                     onListItemClickListener.onItemClick(usersList.get(getAdapterPosition()).getID());
-
                 }
 
                 else
-
                     onListItemClickListener.onItemClick(compositionsList.get(getAdapterPosition()).getCompositionID());
-
             }
         }
     }

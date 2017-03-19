@@ -6,8 +6,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.team_red.melody.Models.Composition;
-import com.team_red.melody.Models.User;
+import com.team_red.melody.models.Composition;
+import com.team_red.melody.models.User;
 
 import java.util.ArrayList;
 
@@ -50,8 +50,8 @@ public class DbManager {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TableManager.COMPOSITION_NAME, composition.getCompositionName());
         contentValues.put(TableManager.COMPOSITOR_ID, composition.getCompositionID());
-        contentValues.put(TableManager.FILENAME, composition.getJsonFileName());
-        contentValues.put(TableManager.PATH, composition.getPath());
+//        contentValues.put(TableManager.FILENAME, composition.getJsonFileName());
+//        contentValues.put(TableManager.PATH, composition.getPath());
 
         return mDb.insert(TableManager.COMPOSITIONS_TABLE, null, contentValues);
     }
