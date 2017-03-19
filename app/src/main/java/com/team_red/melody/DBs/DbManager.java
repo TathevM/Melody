@@ -62,7 +62,7 @@ public class DbManager {
         Cursor cursor = mDb.query(TableManager.COMPOSITIONS_TABLE , null , TableManager.COMPOSITION_ID + "=?", new String[]{String.valueOf(id)}, null, null, null);
         if(cursor.getCount() != 0){
             cursor.moveToFirst();
-            String compName = cursor.getString(cursor.getColumnIndex(TableManager.USERNAME));
+            String compName = cursor.getString(cursor.getColumnIndex(TableManager.COMPOSITION_NAME));
             String compFileName = cursor.getString(cursor.getColumnIndex(TableManager.FILENAME));
             int compositorID = cursor.getInt(cursor.getColumnIndex(TableManager.COMPOSITOR_ID));
             int type = cursor.getInt(cursor.getColumnIndex(TableManager.TYPE));
@@ -75,12 +75,12 @@ public class DbManager {
         }
     }
 
-    public  long insertComposition (Composition composition){
+    public long insertComposition (String compName, int compositorID , String fileName, int type){
         ContentValues contentValues = new ContentValues();
-        contentValues.put(TableManager.COMPOSITION_NAME, composition.getCompositionName());
-        contentValues.put(TableManager.COMPOSITOR_ID, composition.getCompositionID());
-        contentValues.put(TableManager.FILENAME, composition.getJsonFileName());
-
+        contentValues.put(TableManager.COMPOSITION_NAME, compName);
+        contentValues.put(TableManager.COMPOSITOR_ID, compositorID);
+        contentValues.put(TableManager.FILENAME, fileName);
+        contentValues.put(TableManager.TYPE , type);
         return mDb.insert(TableManager.COMPOSITIONS_TABLE, null, contentValues);
     }
 

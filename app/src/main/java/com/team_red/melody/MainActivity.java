@@ -2,7 +2,6 @@ package com.team_red.melody;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.design.widget.NavigationView;
@@ -14,10 +13,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.team_red.melody.DBs.DbManager;
+import com.team_red.melody.filemanager.LoadedData;
 import com.team_red.melody.filemanager.MelodyFileManager;
 import com.team_red.melody.melodyboard.MelodyBoard;
 import com.team_red.melody.models.Composition;
@@ -43,7 +42,7 @@ public class MainActivity extends AppCompatActivity
     private Composition currentComposition;
     private DbManager mDbManager;
     private boolean isCompositionSelected;
-    FloatingActionButton fab;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +50,20 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         fab = (FloatingActionButton) findViewById(R.id.fab);
+        mDbManager = new DbManager(this);
+
+        initActivity();
+        getInitData();
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                String compName = "lala";
+                int curType = SHEET_TYPE_ONE_HANDED;
+                String fileName = currentUser.getUserName() + compName;
+                long id = mDbManager.insertComposition(compName , currentUser.getID() , fileName, curType);
+                setCurrentComposition((int) id);
             }
         });
 
@@ -70,23 +76,19 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        mDbManager = new DbManager(this);
-        getInitData();
-        initActivity();
+
     }
 
     private void getInitData(){
-        int userID = getIntent().getIntExtra(USER_ID_TAG , -1);
-        int compID = getIntent().getIntExtra(COMP_ID_TAG , -1);
+        int userID = (int) getIntent().getLongExtra(USER_ID_TAG , -1);
+        int compID = (int) getIntent().getLongExtra(COMP_ID_TAG , -1);
         if(userID != -1){
             currentUser = mDbManager.getUserByID(userID);
             ((TextView) findViewById(R.id.compositor_label)).setText(currentUser.getUserName());
         }
         if (compID != -1)
         {
-            currentComposition = mDbManager.getCompByID(compID);
-            isCompositionSelected = true;
-            fab.setVisibility(View.GONE);
+            setCurrentComposition(compID);
         }
     }
 
@@ -96,14 +98,6 @@ public class MainActivity extends AppCompatActivity
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
         melodyAdapter = new MelodyAdapter(mMelodyBoard);
-        if (isCompositionSelected) {
-            if(currentComposition.getType() == SHEET_TYPE_ONE_HANDED)
-                melodyAdapter.setMelodyStringList1(new ArrayList<String>());
-            else {
-                melodyAdapter.setMelodyStringList1(new ArrayList<String>());
-                melodyAdapter.setMelodyStringList2(new ArrayList<String>());
-            }
-        }
         rv.setAdapter(melodyAdapter);
         rv.setHasFixedSize(true);
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -114,6 +108,18 @@ public class MainActivity extends AppCompatActivity
                     ((MelodyAdapter)recyclerView.getAdapter()).addNewLinesToList();
             }
         });
+    }
+
+    private void setCurrentComposition(int id){
+        currentComposition = mDbManager.getCompByID(id);
+        MelodyFileManager.getManager().createEmptyJson(currentComposition, mDbManager);
+        isCompositionSelected = true;
+        fab.setVisibility(View.GONE);
+        if(melodyAdapter != null) {
+            melodyAdapter.notifyDataSetChanged();
+            LoadedData data = MelodyFileManager.getManager().loadComposition(currentComposition.getJsonFileName());
+            data.getType();
+        }
     }
 
     @Override
@@ -146,12 +152,14 @@ public class MainActivity extends AppCompatActivity
             case R.id.action_save:
                 if(melodyAdapter.getCompositionType() == SHEET_TYPE_ONE_HANDED) {
                     ArrayList<Note> a = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1());
-                    MelodyFileManager.getManager().saveOneHandedComposition(a, currentUser.getUserName() , currentComposition.getCompositionName(), 1);
+                    MelodyFileManager.getManager().saveOneHandedComposition(a, currentUser.getUserName() , currentComposition.getCompositionName(),
+                            currentComposition.getJsonFileName(), currentComposition.getCompositionID());
                 }
                 else {
                     ArrayList<Note> a = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1());
                     ArrayList<Note> b = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList2());
-                    MelodyFileManager.getManager().saveTwoHandedComposition(a, b, currentUser.getUserName() , currentComposition.getCompositionName() , 1);
+                    MelodyFileManager.getManager().saveTwoHandedComposition(a, b, currentUser.getUserName() , currentComposition.getCompositionName() ,
+                        currentComposition.getJsonFileName(), currentComposition.getCompositionID());
                 }
                 break;
             case R.id.action_settings:

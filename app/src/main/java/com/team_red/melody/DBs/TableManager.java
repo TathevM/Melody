@@ -18,7 +18,7 @@ public class TableManager {
     public static final String TYPE = "type";
 
     private static final String CREATE_COMPOSITIONS_TABLE = "CREATE TABLE " + COMPOSITIONS_TABLE + " ("
-            + COMPOSITION_ID + "integer primary key, "
+            + COMPOSITION_ID + " integer primary key, "
             + COMPOSITOR_ID + " integer, "
             + COMPOSITION_NAME + " text, "
             + FILENAME + " text, "

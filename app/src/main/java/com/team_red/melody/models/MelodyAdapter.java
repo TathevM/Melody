@@ -163,7 +163,7 @@ public class MelodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        return melodyStringList2 == null ? melodyStringList1.size() : Math.max(melodyStringList1.size() , melodyStringList2.size());
+        return melodyStringList2 == null ? (melodyStringList1 == null ? 0 : melodyStringList1.size()) : Math.max(melodyStringList1.size() , melodyStringList2.size());
     }
 
     public int getCompositionType(){

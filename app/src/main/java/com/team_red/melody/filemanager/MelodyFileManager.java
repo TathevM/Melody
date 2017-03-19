@@ -2,8 +2,10 @@ package com.team_red.melody.filemanager;
 
 
 
+import com.team_red.melody.DBs.DbManager;
 import com.team_red.melody.MelodyApplication;
 import com.team_red.melody.R;
+import com.team_red.melody.models.Composition;
 import com.team_red.melody.models.Note;
 
 import org.json.JSONArray;
@@ -26,6 +28,7 @@ public class MelodyFileManager {
     public static final String COMPOSITION_NAME_JSON_TAG = "composition_name";
     public static final String COMPOSITION_ARRAY1_JSON_TAG = "composition1";
     public static final String COMPOSITION_ARRAY2_JSON_TAG = "composition2";
+    public static final String COMPOSITION_ID_TAG = "_id";
     public static final String MAX_CHARACTERS_TAG = "max_chars_per_line";
     public static String COMPOSITION_JSON_DIR = MelodyApplication.getContext().getFilesDir()  + File.separator;
     public static String SOUND_FILE_PREFIX = "s";
@@ -81,6 +84,15 @@ public class MelodyFileManager {
         return retValue;
     }
 
+    public void createEmptyJson(Composition comp, DbManager manager){
+        if (comp.getType() == SHEET_TYPE_ONE_HANDED)
+            saveOneHandedComposition(new ArrayList<Note>(), manager.getUserByID(comp.getCompositorID()).getUserName(), comp.getCompositionName(), comp.getJsonFileName()
+            , comp.getCompositionID());
+        else
+            saveTwoHandedComposition(new ArrayList<Note>(), new ArrayList<Note>(), manager.getUserByID(comp.getCompositorID()).getUserName(),
+                    comp.getCompositionName(), comp.getJsonFileName(), comp.getCompositionID());
+    }
+
     public ArrayList<Integer> getResIDOfMusic(ArrayList<Note> input){
         ArrayList<Integer> result = new ArrayList<>();
         for(int i = 0; i < input.size(); i++)
@@ -100,7 +112,7 @@ public class MelodyFileManager {
         return result;
     }
 
-    public void saveOneHandedComposition(ArrayList<Note> composition, String composerName, String compositionName, int _ID){
+    public void saveOneHandedComposition(ArrayList<Note> composition, String composerName, String compositionName, String fileName, int _ID){
         JSONObject jsonComposition = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         OutputStream os;
@@ -109,6 +121,7 @@ public class MelodyFileManager {
             jsonComposition.put(COMPOSITION_NAME_JSON_TAG, compositionName);
             jsonComposition.put(COMPOSITION_TYPE_TAG , SHEET_TYPE_ONE_HANDED);
             jsonComposition.put(MAX_CHARACTERS_TAG , currentMaxCharacters);
+            jsonComposition.put(COMPOSITION_ID_TAG , _ID);
             for (int i = 0; i < composition.size() ; i++)
             {
                 jsonArray.put(i , composition.get(i).getJSONObject());
@@ -119,7 +132,7 @@ public class MelodyFileManager {
         }
 
         try{
-            File f = new File(COMPOSITION_JSON_DIR + composerName + " - " + compositionName);
+            File f = new File(COMPOSITION_JSON_DIR + fileName);
             f.createNewFile();
             os = new FileOutputStream(f);
             os.write(jsonComposition.toString().getBytes());
@@ -129,7 +142,7 @@ public class MelodyFileManager {
         }
     }
 
-    public void saveTwoHandedComposition(ArrayList<Note> comp1, ArrayList<Note> comp2, String composerName, String compositionName, int _ID){
+    public void saveTwoHandedComposition(ArrayList<Note> comp1, ArrayList<Note> comp2, String composerName, String compositionName, String fileName,  int _ID){
         JSONObject jsonComposition = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         OutputStream os;
@@ -138,6 +151,7 @@ public class MelodyFileManager {
             jsonComposition.put(COMPOSITION_NAME_JSON_TAG, compositionName);
             jsonComposition.put(COMPOSITION_TYPE_TAG , SHEET_TYPE_TWO_HANDED);
             jsonComposition.put(MAX_CHARACTERS_TAG , currentMaxCharacters);
+            jsonComposition.put(COMPOSITION_ID_TAG , _ID);
             for (int i = 0; i < comp1.size() ; i++)
             {
                 jsonArray.put(i , comp1.get(i).getJSONObject());
@@ -154,7 +168,7 @@ public class MelodyFileManager {
             ex.printStackTrace();
         }
         try{
-            File f = new File(COMPOSITION_JSON_DIR + composerName + " - " + compositionName);
+            File f = new File(COMPOSITION_JSON_DIR + fileName);
             f.createNewFile();
             os = new FileOutputStream(f);
             os.write(jsonComposition.toString().getBytes());

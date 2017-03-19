@@ -19,6 +19,14 @@ public class Composition {
         this.type = type;
     }
 
+    public Composition(String compositionName, int compositorID, String jsonFileName, String path, int type) {
+        this.compositionName = compositionName;
+        this.compositorID = compositorID;
+        this.jsonFileName = jsonFileName;
+        this.path = path;
+        this.type = type;
+    }
+
     public int getType() {
         return type;
     }

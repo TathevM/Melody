@@ -16,6 +16,7 @@ import com.team_red.melody.MainActivity;
 import com.team_red.melody.R;
 
 import static com.team_red.melody.StartActivityFragments.LoginFragment.COMP_ID_TAG;
+import static com.team_red.melody.StartActivityFragments.LoginFragment.USER_ID_TAG;
 
 
 public class UsersOrCompsListFragment extends Fragment {
@@ -23,6 +24,7 @@ public class UsersOrCompsListFragment extends Fragment {
     RVAdapter adapter;
     DbManager mdbManager;
     Intent myIntent;
+    private long selectedUserID;
 
     @Nullable
     @Override
@@ -53,11 +55,13 @@ public class UsersOrCompsListFragment extends Fragment {
                 if (!adapter.IS_USER_CHOSEN) {
                     adapter.setCompositionsList(mdbManager.getCompositions(ID));
                     adapter.IS_USER_CHOSEN = true;
+                    selectedUserID = ID;
                     adapter.notifyDataSetChanged();
                 }
                 else {
                     myIntent = new Intent(getActivity(), MainActivity.class);
-                    myIntent.putExtra(COMP_ID_TAG, ID);
+                    myIntent.putExtra(COMP_ID_TAG, (long) ID);
+                    myIntent.putExtra(USER_ID_TAG , selectedUserID);
                     startActivity(myIntent);
                     getActivity().finish();
                 }
