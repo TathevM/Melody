@@ -37,8 +37,14 @@ public class TableManager {
             + USERNAME + " text)";
 
 
+
     public static void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_USERS_TABLE);
         db.execSQL(CREATE_COMPOSITIONS_TABLE);
+
     }
+
+
+
+
 }

@@ -7,14 +7,18 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.team_red.melody.models.Composition;
+import com.team_red.melody.models.Quote;
 import com.team_red.melody.models.User;
 
 import java.util.ArrayList;
 
 public class DbManager {
 
+
     private SQLiteDatabase mDb;
     private DbHelper mDbHelper;
+
+    ArrayList<Quote> quotes= new ArrayList<>();
 
     public DbManager(Context context) {
         mDbHelper = new DbHelper(context);
