@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 
 import com.team_red.melody.StartActivityFragments.LoginFragment;
 import com.team_red.melody.StartActivityFragments.UsersOrCompsListFragment;
@@ -23,14 +22,10 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.application_start_activity);
-
         initFragments();
-
-
     }
 
     public  void  initFragments(){
-
         loginFragment = new LoginFragment();
         usersOrCompsListFragment = new UsersOrCompsListFragment();
         fragmentManager = getSupportFragmentManager();
@@ -38,8 +33,6 @@ public class StartActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.Login, loginFragment, "login");
         fragmentTransaction.add(R.id.AccountChooser, usersOrCompsListFragment, "usersCompsList");
         fragmentTransaction.commit();
-
-
     }
 
     @Override
@@ -48,21 +41,14 @@ public class StartActivity extends AppCompatActivity {
         MenuInflater mi = getMenuInflater();
         mi.inflate(R.menu.main, menu);
         return true;
-
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case   R.id.saveIcon:
-                break;
-            case   R.id.shareIcon:
-                break;
-            case   R.id.exportIcon:
-                break;
+    public void onBackPressed() {
+        if(usersOrCompsListFragment.currentUserID > -1){
+            usersOrCompsListFragment.handleBackPressed();
         }
-        return super.onOptionsItemSelected(item);
+        else
+            super.onBackPressed();
     }
-
-
 }

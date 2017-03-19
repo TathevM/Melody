@@ -6,8 +6,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.team_red.melody.Models.Composition;
-import com.team_red.melody.Models.User;
+import com.team_red.melody.models.Composition;
+import com.team_red.melody.models.User;
 
 import java.util.ArrayList;
 
@@ -19,8 +19,6 @@ public class DbManager {
     public DbManager(Context context) {
         mDbHelper = new DbHelper(context);
         mDb = mDbHelper.getWritableDatabase();
-
-
     }
 
     public long insertUser (String userName){
@@ -46,13 +44,43 @@ public class DbManager {
         return users;
     }
 
-    public  long insertComposition (Composition composition){
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(TableManager.COMPOSITION_NAME, composition.getCompositionName());
-        contentValues.put(TableManager.COMPOSITOR_ID, composition.getCompositionID());
-        contentValues.put(TableManager.FILENAME, composition.getJsonFileName());
-        contentValues.put(TableManager.PATH, composition.getPath());
+    public User getUserByID(int id){
+        Cursor cursor = mDb.query(TableManager.USERS_TABLE , null , TableManager.USER_ID + "=?", new String[]{String.valueOf(id)}, null, null, null);
+        if(cursor.getCount() != 0){
+            cursor.moveToFirst();
+            String userName = cursor.getString(cursor.getColumnIndex(TableManager.USERNAME));
+            cursor.close();
+            return new User(userName , id);
+        }
+        else{
+            cursor.close();
+            return null;
+        }
+    }
 
+    public Composition getCompByID(int id){
+        Cursor cursor = mDb.query(TableManager.COMPOSITIONS_TABLE , null , TableManager.COMPOSITION_ID + "=?", new String[]{String.valueOf(id)}, null, null, null);
+        if(cursor.getCount() != 0){
+            cursor.moveToFirst();
+            String compName = cursor.getString(cursor.getColumnIndex(TableManager.COMPOSITION_NAME));
+            String compFileName = cursor.getString(cursor.getColumnIndex(TableManager.FILENAME));
+            int compositorID = cursor.getInt(cursor.getColumnIndex(TableManager.COMPOSITOR_ID));
+            int type = cursor.getInt(cursor.getColumnIndex(TableManager.TYPE));
+            cursor.close();
+            return new Composition(id , compName , compositorID , compFileName, type);
+        }
+        else{
+            cursor.close();
+            return null;
+        }
+    }
+
+    public long insertComposition (String compName, int compositorID , String fileName, int type){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TableManager.COMPOSITION_NAME, compName);
+        contentValues.put(TableManager.COMPOSITOR_ID, compositorID);
+        contentValues.put(TableManager.FILENAME, fileName);
+        contentValues.put(TableManager.TYPE , type);
         return mDb.insert(TableManager.COMPOSITIONS_TABLE, null, contentValues);
     }
 
@@ -60,22 +88,17 @@ public class DbManager {
 
         ArrayList<Composition> compositions = new ArrayList<>();
 
-
-
         Cursor cursor = mDb.query(TableManager.COMPOSITIONS_TABLE ,null ,TableManager.COMPOSITOR_ID + "=?" , new String[] {Integer.toString(compositorID)},null ,null ,null);
         while (cursor.moveToNext()) {
 
             int compositionID = cursor.getInt(cursor.getColumnIndex(TableManager.COMPOSITION_ID));
             String compositionName = cursor.getString(cursor.getColumnIndex(TableManager.COMPOSITION_NAME));
-//            int compositorID = cursor.getInt(cursor.getColumnIndex(TableManager.COMPOSITOR_ID));
             String jsonFilename = cursor.getString(cursor.getColumnIndex(TableManager.FILENAME));
-            String path = cursor.getString(cursor.getColumnIndex(TableManager.PATH));
-
-            Composition composition = new Composition(compositionID, compositionName, compositorID, jsonFilename, path);
+            int type = cursor.getInt(cursor.getColumnIndex(TableManager.TYPE));
+            Composition composition = new Composition(compositionID, compositionName, compositorID, jsonFilename, type);
             compositions.add(composition);
         }
-
-
+        cursor.close();
         return compositions;
     }
 

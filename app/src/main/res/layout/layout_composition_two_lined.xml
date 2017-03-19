@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="2"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginBottom="10dp">
+    <LinearLayout
+        android:layout_width="10dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp">
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="#000000"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.team_red.melody.models.MelodyEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:maxLines="1"
+            android:id="@+id/composition_twoline_edit_text1"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_marginRight="@dimen/note_margin_paper"
+            android:layout_marginEnd="@dimen/note_margin_paper"/>
+
+        <com.team_red.melody.models.MelodyEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:maxLines="1"
+            android:id="@+id/composition_twoline_edit_text2"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_marginRight="@dimen/note_margin_paper"
+            android:layout_marginEnd="@dimen/note_margin_paper"/>
+    </LinearLayout>
+
+</LinearLayout>

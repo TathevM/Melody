@@ -4,15 +4,11 @@ import android.app.Application;
 import android.content.Context;
 
 import com.team_red.melody.melodyboard.MelodyBoard;
-import com.team_red.melody.sound.SoundPoolManager;
+import com.team_red.melody.sound.MelodyPoolManager;
 
 
 public class MelodyApplication extends Application {
     private static MelodyApplication instance;
-
-    public static MelodyApplication getInstance(){
-        return instance;
-    }
 
     public static Context getContext(){
         return instance;
@@ -23,6 +19,6 @@ public class MelodyApplication extends Application {
         super.onCreate();
         instance = this;
         MelodyBoard.setOnEditMode(false);
-        SoundPoolManager.CreateInstance();
+        MelodyPoolManager.CreateInstance();
     }
 }

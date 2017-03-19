@@ -15,22 +15,20 @@ public class TableManager {
     public static final String COMPOSITOR_ID = "compositor";
     public static final String COMPOSITION_NAME = "composition";
     public static final String FILENAME = "json_name";
-    public static final String PATH = "path";
+    public static final String TYPE = "type";
 
     private static final String CREATE_COMPOSITIONS_TABLE = "CREATE TABLE " + COMPOSITIONS_TABLE + " ("
-            + COMPOSITION_ID + "integer primary key, "
+            + COMPOSITION_ID + " integer primary key, "
             + COMPOSITOR_ID + " integer, "
             + COMPOSITION_NAME + " text, "
             + FILENAME + " text, "
-            + PATH + " text)";
+            + TYPE + " text)";
 
 
 
     //            USERS TABLE
 
     public static final String USERS_TABLE = "USERS";
-
-
     public static final String USER_ID = "_id";
     public static final String USERNAME = "username";
 

@@ -3,6 +3,7 @@ package com.team_red.melody.models;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.text.InputFilter;
@@ -15,12 +16,16 @@ import com.team_red.melody.melodyboard.MelodyStatics;
 public class MelodyEditText extends android.support.v7.widget.AppCompatEditText {
     public static final int TEXT_SIZE = 65;
 
-    private Rect bounds;
-    private TextPaint mTextPaint;
+    private Paint mPaint;
+
+    char testChar = (char) 161;
+    private InputFilter[] mInputFilter;
+    private InputSetter mInputSetter;
+
+    private float mTextHeight;
+    private int mTextWidth;
     private int width = 0;
     private int height = 0;
-    private char[] background = {(char) 161 , (char) 161 , (char) 161 ,(char) 161, (char) 161 , (char) 161 , (char) 161 ,(char) 161 , (char) 161 ,
-            (char) 161 , (char) 161 ,(char) 161};
 
     public MelodyEditText(Context context) {
         this(context , null);
@@ -36,33 +41,64 @@ public class MelodyEditText extends android.support.v7.widget.AppCompatEditText 
     }
 
     private void init(){
-        bounds = new Rect();
-        mTextPaint = new TextPaint();
-        mTextPaint.setColor(Color.BLACK);
+        Rect bounds = new Rect();
+        mPaint = new Paint();
+        mInputSetter = new InputSetter();
+        mPaint.setStrokeWidth(1.5f);
+        mPaint.setColor(Color.BLACK);
         Typeface typeface = Typeface.createFromAsset(MelodyApplication.getContext().getAssets(), MelodyStatics.FONT_NAME);
-        mTextPaint.setTypeface(typeface);
 
-        mTextPaint.setTextSize(TEXT_SIZE + (TEXT_SIZE /2));
         super.setTypeface(typeface);
         super.setTextSize(TEXT_SIZE);
         super.setMaxLines(1);
+        super.getPaint().getTextBounds(String.valueOf(testChar) , 0 , 1 , bounds);
+        mTextHeight = bounds.height();
+        mTextWidth = bounds.width();
+        mInputFilter = new InputFilter[1];
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if(width == 0){
-            width = getWidth();
-            height = getHeight();
+        canvas.drawLine(0 , getHeight()/2 , getWidth() , getHeight()/2 , mPaint);
+        canvas.drawLine(0 , getHeight()/2 + mTextHeight /4 , getWidth() , getHeight()/2 + mTextHeight /4 , mPaint);
+        canvas.drawLine(0 , getHeight()/2 - mTextHeight /4 , getWidth() , getHeight()/2 - mTextHeight /4 , mPaint);
+        canvas.drawLine(0 , getHeight()/2 + mTextHeight /2 , getWidth() , getHeight()/2 + mTextHeight /2 , mPaint);
+        canvas.drawLine(0 , getHeight()/2 - mTextHeight /2 , getWidth() , getHeight()/2 - mTextHeight /2 , mPaint);
+    }
 
-            //getting and setting maximum text length for edit text
-            // TODO move this to OnMeasure
-            char testChar = (char) 161;
-            mTextPaint.getTextBounds(String.valueOf(testChar) , 0 , 1 , bounds);
-            int maxLengthOfText = width / bounds.width();
-            setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLengthOfText)});
+//    @Override
+//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+//        boolean isMeasured;
+//        height = heightMeasureSpec;
+//        width = widthMeasureSpec;
+////        isMeasured = (height != 0);
+////        if (isMeasured)
+////        {
+////            //getting and setting maximum text length for edit text
+////            char testChar = (char) 161;
+////            mTextPaint.getTextBounds(String.valueOf(testChar) , 0 , 1 , bounds);
+////            int maxLengthOfText = width / bounds.width();
+////            mInputFilter = new InputFilter[]{new InputFilter.LengthFilter(maxLengthOfText)};
+////            setFilters(mInputFilter);
+////        }
+//        setMeasuredDimension(width , height);
+//    }
+
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        width = widthMeasureSpec;
+        height = heightMeasureSpec;
+        postDelayed(mInputSetter , 10);
+        super.onMeasure(width , height);
+    }
+
+    private class InputSetter implements Runnable{
+        @Override
+        public void run() {
+            mInputFilter[0] = new InputFilter.LengthFilter(getWidth() / mTextWidth);
+            setFilters(mInputFilter);
         }
-        //mTextPaint.getTextBounds(getText().toString(), 0, getText().length(), bounds);
-        canvas.drawText(String.copyValueOf(background) ,0 , height / 2 + height/ 6 , mTextPaint);
     }
 }

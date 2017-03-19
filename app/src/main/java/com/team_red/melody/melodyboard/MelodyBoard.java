@@ -5,6 +5,7 @@ import android.content.Context;
 import android.inputmethodservice.KeyboardView;
 import android.text.Editable;
 import android.text.InputType;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -75,6 +76,7 @@ public class MelodyBoard implements KeyboardView.OnKeyboardActionListener {
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
+                Log.d("myTag" , "onfocuschange");
                 if (hasFocus)
                     showMelodyBoard(v);
                 else
@@ -84,6 +86,7 @@ public class MelodyBoard implements KeyboardView.OnKeyboardActionListener {
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("myTag" , "onclick");
                 if(!isMelodyBoardVisible())
                     showMelodyBoard(v);
             }
@@ -91,17 +94,21 @@ public class MelodyBoard implements KeyboardView.OnKeyboardActionListener {
         editText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                //disabling and re-enabling input_type to prevent default keyboard popping up
-                EditText editText1 = (EditText) v;
-                int clickPosition = editText1.getOffsetForPosition(event.getX(), event.getY());
-                int inType = editText1.getInputType();
-                editText1.setInputType(InputType.TYPE_NULL);
-                editText1.onTouchEvent(event);
-                editText1.setInputType(inType);
-                if (clickPosition >= 0) {
-                    editText1.setSelection(clickPosition);
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+                    Log.d("myTag", "ontouch");
+                    //disabling and re-enabling input_type to prevent default keyboard popping up
+                    EditText editText1 = (EditText) v;
+                    int clickPosition = editText1.getOffsetForPosition(event.getX(), event.getY());
+                    int inType = editText1.getInputType();
+                    editText1.setInputType(InputType.TYPE_NULL);
+                    editText1.onTouchEvent(event);
+                    editText1.setInputType(inType);
+                    if (clickPosition >= 0) {
+                        editText1.setSelection(clickPosition);
+                    }
+                    return true;
                 }
-                return true;
+                return false;
             }
         });
         //disable spell checking
