@@ -1,5 +1,6 @@
 package com.team_red.melody;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.team_red.melody.DBs.DbManager;
@@ -30,6 +36,7 @@ import java.util.ArrayList;
 import static com.team_red.melody.StartActivityFragments.LoginFragment.COMP_ID_TAG;
 import static com.team_red.melody.StartActivityFragments.LoginFragment.USER_ID_TAG;
 import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_ONE_HANDED;
+import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_TWO_HANDED;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -41,7 +48,6 @@ public class MainActivity extends AppCompatActivity
     private User currentUser;
     private Composition currentComposition;
     private DbManager mDbManager;
-    private boolean isCompositionSelected;
     private FloatingActionButton fab;
 
     @Override
@@ -59,11 +65,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String compName = "lala";
-                int curType = SHEET_TYPE_ONE_HANDED;
-                String fileName = currentUser.getUserName() + compName;
-                long id = mDbManager.insertComposition(compName , currentUser.getID() , fileName, curType);
-                createCurrentComposition((int) id);
+                openPagePickerDialog();
             }
         });
 
@@ -77,6 +79,44 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
+    }
+
+    private void openPagePickerDialog(){
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.layout_new_comp_dialog);
+        dialog.setTitle("Pick page type");
+        Window window = dialog.getWindow();
+        window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT , LinearLayout.LayoutParams.WRAP_CONTENT);
+        Button dialogOK = (Button) dialog.findViewById(R.id.button_dialog_OK);
+        dialogOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int curType;
+                String compName;
+                RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.sheet_type_radio_group);
+                EditText editText = (EditText) dialog.findViewById(R.id.dialog_new_comp_name);
+                switch (radioGroup.getCheckedRadioButtonId()){
+                    case R.id.radio_type_two_hand:
+                        curType = SHEET_TYPE_TWO_HANDED;
+                        break;
+                    default:
+                        curType = SHEET_TYPE_ONE_HANDED;
+                        break;
+                }
+                compName = editText.getText().toString();
+                String fileName = currentUser.getUserName() + compName;
+                long id = mDbManager.insertComposition(compName , currentUser.getID() , fileName , curType);
+                createCurrentComposition((int) id);
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.button_dialog_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     private void getInitData(){
@@ -122,7 +162,6 @@ public class MainActivity extends AppCompatActivity
     private void createCurrentComposition(int id){
         currentComposition = mDbManager.getCompByID(id);
         MelodyFileManager.getManager().createEmptyJson(currentComposition, mDbManager);
-        isCompositionSelected = true;
         fab.setVisibility(View.GONE);
         if(melodyAdapter != null) {
             LoadedData data = MelodyFileManager.getManager().loadComposition(currentComposition.getJsonFileName());
