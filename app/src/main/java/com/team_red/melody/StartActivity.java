@@ -41,6 +41,14 @@ public class StartActivity extends AppCompatActivity {
         MenuInflater mi = getMenuInflater();
         mi.inflate(R.menu.main, menu);
         return true;
+    }
 
+    @Override
+    public void onBackPressed() {
+        if(usersOrCompsListFragment.currentUserID > -1){
+            usersOrCompsListFragment.handleBackPressed();
+        }
+        else
+            super.onBackPressed();
     }
 }

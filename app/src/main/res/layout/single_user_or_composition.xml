@@ -5,7 +5,8 @@
 
     <TextView
         android:id="@+id/userOrCompName"
-        android:textSize="45sp"
+        android:textSize="25sp"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
