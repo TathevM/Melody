@@ -10,10 +10,6 @@ import com.team_red.melody.sound.MelodyPoolManager;
 public class MelodyApplication extends Application {
     private static MelodyApplication instance;
 
-    public static MelodyApplication getInstance(){
-        return instance;
-    }
-
     public static Context getContext(){
         return instance;
     }

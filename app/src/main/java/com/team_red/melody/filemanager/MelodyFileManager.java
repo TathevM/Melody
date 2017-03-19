@@ -34,7 +34,7 @@ public class MelodyFileManager {
     private static MelodyFileManager melodyFileManager;
     private int currentMaxCharacters;
 
-    public static MelodyFileManager getMelodyFileManager(){
+    public static MelodyFileManager getManager(){
         if(melodyFileManager == null){
             melodyFileManager = new MelodyFileManager();
         }
@@ -44,8 +44,8 @@ public class MelodyFileManager {
     private MelodyFileManager() {
     }
 
-    public ArrayList<Note> loadComposition(String filename){
-        ArrayList<Note> retValue = new ArrayList<>();
+    public LoadedData loadComposition(String filename){
+        LoadedData retValue = new LoadedData();
         try {
             File f = new File(COMPOSITION_JSON_DIR +  filename);
             FileInputStream is = new FileInputStream(f);
@@ -55,10 +55,22 @@ public class MelodyFileManager {
             is.close();
             JSONObject jsonComposition = new JSONObject(new String(buffer, "UTF-8"));
             currentMaxCharacters = jsonComposition.getInt(MAX_CHARACTERS_TAG);
-            JSONArray jsonCompositionArray = jsonComposition.getJSONArray(COMPOSITION_ARRAY1_JSON_TAG);
-            for(int i=0; i<jsonCompositionArray.length() ; i++)
+            JSONArray jsonCompositionArray1= jsonComposition.getJSONArray(COMPOSITION_ARRAY1_JSON_TAG);
+            ArrayList<Note> array1 = new ArrayList<>();
+            for(int i=0; i<jsonCompositionArray1.length() ; i++)
             {
-                retValue.add(Note.getNoteFromJson(jsonCompositionArray.getJSONObject(i)));
+                array1.add(Note.getNoteFromJson(jsonCompositionArray1.getJSONObject(i)));
+            }
+            retValue.setComp1(array1);
+            if(jsonComposition.getInt(COMPOSITION_TYPE_TAG) == SHEET_TYPE_TWO_HANDED)
+            {
+                ArrayList<Note> array2 = new ArrayList<>();
+                JSONArray jsonCompositionArray2 = jsonComposition.getJSONArray(COMPOSITION_ARRAY2_JSON_TAG);
+                for(int i=0; i<jsonCompositionArray1.length() ; i++)
+                {
+                    array2.add(Note.getNoteFromJson(jsonCompositionArray2.getJSONObject(i)));
+                }
+                retValue.setComp2(array2);
             }
         } catch (IOException e) {
             e.printStackTrace();

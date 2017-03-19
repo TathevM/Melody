@@ -25,6 +25,9 @@ public class MelodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static final int VIEW_TYPE_ONE_LINE = 1;
     private static final int VIEW_TYPE_TWO_LINE = 2;
 
+    private static final String EDIT_TEXT_1_TAG = "1";
+    private static final String EDIT_TEXT_2_TAG = "2";
+
     public MelodyAdapter(MelodyBoard melodyBoard) {
         this.mMelodyBoard = melodyBoard;
     }
@@ -48,14 +51,19 @@ public class MelodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public void addNewLinesToList(){
-        melodyStringList1.add("");
-        melodyStringList1.add("");
-        melodyStringList1.add("");
-        melodyStringList1.add("");
-        if (melodyStringList2 != null){
-            melodyStringList2.add("");
-            melodyStringList2.add("");
-            melodyStringList2.add("");
+        if(melodyStringList1 != null) {
+            melodyStringList1.add("");
+            melodyStringList1.add("");
+            melodyStringList1.add("");
+            melodyStringList1.add("");
+            melodyStringList1.add("");
+            if (melodyStringList2 != null) {
+                melodyStringList2.add("");
+                melodyStringList2.add("");
+                melodyStringList2.add("");
+                melodyStringList2.add("");
+                melodyStringList2.add("");
+            }
         }
         notifyDataSetChanged();
     }
@@ -100,6 +108,7 @@ public class MelodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     private void setTextChange(MelodyEditText editText ,final RecyclerView.ViewHolder holder){
+        if (editText.getTag().equals(EDIT_TEXT_1_TAG))
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -125,6 +134,31 @@ public class MelodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 //TODO solve problem of string lists
             }
         });
+        else
+            editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (s.length() > 0)
+                        if (s.charAt(0) != (char) 181) {
+                            if (s.charAt(0) != (char) 180) {
+                                s.insert(0, String.valueOf((char) 180));
+                                mMelodyBoard.setClefType(180);
+                            }
+                        } else
+                            mMelodyBoard.setClefType(181);
+                    melodyStringList2.set(holder.getAdapterPosition(), s.toString());
+                }
+            });
     }
 
     @Override
@@ -144,6 +178,7 @@ public class MelodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         MelodyOneLineViewHolder(View itemView) {
             super(itemView);
             mEditText = (MelodyEditText) itemView.findViewById(R.id.composition_line_edit_text);
+            mEditText.setTag(EDIT_TEXT_1_TAG);
         }
     }
 
@@ -155,7 +190,9 @@ public class MelodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         MelodyTwoLineViewHolder(View itemView) {
             super(itemView);
             mEditText1 = (MelodyEditText) itemView.findViewById(R.id.composition_twoline_edit_text1);
+            mEditText1.setTag(EDIT_TEXT_1_TAG);
             mEditText2 = (MelodyEditText) itemView.findViewById(R.id.composition_twoline_edit_text2);
+            mEditText2.setTag(EDIT_TEXT_2_TAG);
         }
     }
 }

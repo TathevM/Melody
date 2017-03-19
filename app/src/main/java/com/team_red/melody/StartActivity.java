@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 
 import com.team_red.melody.StartActivityFragments.LoginFragment;
 import com.team_red.melody.StartActivityFragments.UsersOrCompsListFragment;
@@ -30,7 +29,6 @@ public class StartActivity extends AppCompatActivity {
     }
 
     public  void  initFragments(){
-
         loginFragment = new LoginFragment();
         usersOrCompsListFragment = new UsersOrCompsListFragment();
         fragmentManager = getSupportFragmentManager();
@@ -38,8 +36,6 @@ public class StartActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.Login, loginFragment, "login");
         fragmentTransaction.add(R.id.AccountChooser, usersOrCompsListFragment, "usersCompsList");
         fragmentTransaction.commit();
-
-
     }
 
     @Override
