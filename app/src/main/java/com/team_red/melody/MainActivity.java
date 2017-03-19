@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity
                 int curType = SHEET_TYPE_ONE_HANDED;
                 String fileName = currentUser.getUserName() + compName;
                 long id = mDbManager.insertComposition(compName , currentUser.getID() , fileName, curType);
-                setCurrentComposition((int) id);
+                createCurrentComposition((int) id);
             }
         });
 
@@ -88,7 +88,16 @@ public class MainActivity extends AppCompatActivity
         }
         if (compID != -1)
         {
-            setCurrentComposition(compID);
+            currentComposition = mDbManager.getCompByID(compID);
+            fab.setVisibility(View.GONE);
+            LoadedData data = MelodyFileManager.getManager().loadComposition(currentComposition.getJsonFileName());
+            if (data.getType() == SHEET_TYPE_ONE_HANDED)
+                melodyAdapter.setMelodyStringList1(MelodyFileManager.getManager().makeStringFromNotes(data.getComp1()));
+            else {
+                melodyAdapter.setMelodyStringList1(MelodyFileManager.getManager().makeStringFromNotes(data.getComp1()));
+                melodyAdapter.setMelodyStringList2(MelodyFileManager.getManager().makeStringFromNotes(data.getComp2()));
+            }
+            melodyAdapter.notifyDataSetChanged();
         }
     }
 
@@ -110,15 +119,20 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private void setCurrentComposition(int id){
+    private void createCurrentComposition(int id){
         currentComposition = mDbManager.getCompByID(id);
         MelodyFileManager.getManager().createEmptyJson(currentComposition, mDbManager);
         isCompositionSelected = true;
         fab.setVisibility(View.GONE);
         if(melodyAdapter != null) {
-            melodyAdapter.notifyDataSetChanged();
             LoadedData data = MelodyFileManager.getManager().loadComposition(currentComposition.getJsonFileName());
-            data.getType();
+            if (data.getType() == SHEET_TYPE_ONE_HANDED)
+                melodyAdapter.setMelodyStringList1(MelodyFileManager.getManager().makeStringFromNotes(data.getComp1()));
+            else {
+                melodyAdapter.setMelodyStringList1(MelodyFileManager.getManager().makeStringFromNotes(data.getComp1()));
+                melodyAdapter.setMelodyStringList2(MelodyFileManager.getManager().makeStringFromNotes(data.getComp2()));
+            }
+            melodyAdapter.notifyDataSetChanged();
         }
     }
 

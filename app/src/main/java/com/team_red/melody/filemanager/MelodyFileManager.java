@@ -211,25 +211,27 @@ public class MelodyFileManager {
 
     public ArrayList<String> makeStringFromNotes(ArrayList<Note> input){
         ArrayList<String> result = new ArrayList<>();
-        int offset = currentMaxCharacters;
-        for(int i = 0; i < input.size(); i += offset) {
-            List<Note> subList;
-            if (i + 12 <= input.size())
-                subList = input.subList(i , i + offset);
-            else
-                subList = input.subList( i , input.size());
-            String temp = "";
-            for (int j = 0; j < subList.size() ; j++) {
-                if (subList.get(i).getSign() == 0)
-                    temp = temp + ((char) subList.get(j).getValue());
-                else {
-                    if(subList.get(i).getSign() > 400)
-                        temp = temp +  ((char) subList.get(j).getValue()) + ((char) subList.get(j).getSign());
-                    else
-                        temp = temp + ((char) subList.get(j).getSign()) + ((char) subList.get(j).getValue());
+        if (input.size() != 0) {
+            int offset = currentMaxCharacters;
+            for (int i = 0; i < input.size(); i += offset) {
+                List<Note> subList;
+                if (i + 12 <= input.size())
+                    subList = input.subList(i, i + offset);
+                else
+                    subList = input.subList(i, input.size());
+                String temp = "";
+                for (int j = 0; j < subList.size(); j++) {
+                    if (subList.get(j).getSign() == 0)
+                        temp = temp + ((char) subList.get(j).getValue());
+                    else {
+                        if (subList.get(j).getSign() > 400)
+                            temp = temp + ((char) subList.get(j).getValue()) + ((char) subList.get(j).getSign());
+                        else
+                            temp = temp + ((char) subList.get(j).getSign()) + ((char) subList.get(j).getValue());
+                    }
                 }
+                result.add(temp);
             }
-            result.add(temp);
         }
         return result;
     }
