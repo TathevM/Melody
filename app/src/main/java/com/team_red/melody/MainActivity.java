@@ -218,9 +218,14 @@ public class MainActivity extends AppCompatActivity
             case R.id.action_settings:
                 return true;
             case R.id.action_play_sound:
-                togglePlayButton();
-                ArrayList<Integer> sounds = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1()));
-                MelodyPoolManager.getInstance().setSounds1(sounds);
+                togglePlayButton(false);
+                ArrayList<Integer> sounds1 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1()));
+                MelodyPoolManager.getInstance().setSounds1(sounds1);
+                if (melodyAdapter.getCompositionType() == SHEET_TYPE_TWO_HANDED)
+                {
+                    ArrayList<Integer> sounds2 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList2()));
+                    MelodyPoolManager.getInstance().setSounds2(sounds2);
+                }
                 try {
                     MelodyPoolManager.getInstance().InitializeMelodyPool(this, new MelodyPoolManager.IMelodyPoolLoaded() {
                         @Override
@@ -229,7 +234,7 @@ public class MainActivity extends AppCompatActivity
                             MelodyPoolManager.getInstance().playMelody(new MelodyPoolManager.IMelodyPoolPlaybackFinished() {
                                 @Override
                                 public void onFinishPlayBack() {
-                                    togglePlayButton();
+                                    togglePlayButton(true);
                                 }
                             });
                         }
@@ -269,7 +274,13 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void togglePlayButton(){
-        playButton.setEnabled(!playButton.isEnabled());
+    private void togglePlayButton(boolean toggle){
+        playButton.setEnabled(toggle);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MelodyPoolManager.getInstance().clear();
     }
 }

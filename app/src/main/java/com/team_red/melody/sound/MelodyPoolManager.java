@@ -5,6 +5,7 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -16,19 +17,25 @@ public class MelodyPoolManager {
     private SoundPool soundPool;
     private ArrayList<SoundSampleEntity> loadedSounds1;
     private ArrayList<SoundSampleEntity> loadedSounds2;
-    private boolean isPlaySound;
+    private boolean isPlaySound1;
+    private boolean isPlaySound2;
 
     private Handler h;
+    private Handler p;
     private int handlerCounter;
+    private int handlerCounter2;
     private int delay = 300;
-    private Runnable mRunnable;
+    private Runnable mRunnable1;
+    private Runnable mRunnable2;
 
     public boolean isPlaySound() {
-        return isPlaySound;
+        return isPlaySound1 | isPlaySound2;
     }
 
     public void setPlaySound(boolean playSound) {
-        isPlaySound = playSound;
+        isPlaySound1 = playSound;
+        if(sounds2 != null)
+            isPlaySound2 = playSound;
     }
 
     public synchronized static MelodyPoolManager getInstance() {
@@ -63,10 +70,10 @@ public class MelodyPoolManager {
         }
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             soundPool = new SoundPool.Builder()
-                    .setMaxStreams(10)
+                    .setMaxStreams(20)
                     .build();
         }else {
-            soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 100);
+            soundPool = new SoundPool(20, AudioManager.STREAM_MUSIC, 100);
         }
         soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
             @Override
@@ -93,6 +100,19 @@ public class MelodyPoolManager {
             entry.setSampleId(soundPool.load(activity , sounds1.get(index) , 1 ));
             index++;
         }
+
+
+        if(sounds2 != null){
+            length = sounds2.size();
+            loadedSounds2 = new ArrayList<>();
+            for (index = 0; index <length; index++)
+                loadedSounds2.add(index , new SoundSampleEntity(0, false));
+            index = 0;
+            for (SoundSampleEntity entry : loadedSounds2) {
+                entry.setSampleId(soundPool.load(activity , sounds2.get(index) , 1 ));
+                index++;
+            }
+        }
     }
 
     public interface IMelodyPoolLoaded {
@@ -117,11 +137,16 @@ public class MelodyPoolManager {
                 return entry;
             }
         }
+        if (loadedSounds2 != null){
+            for (SoundSampleEntity entry : loadedSounds2)
+                if (entry.getSampleId() == sampleId)
+                    return entry;
+        }
         return null;
     }
 
 //    public void playSound(int resourceId) {
-//        if (isPlaySound()) {
+//        if (isPlaySound1()) {
 //            SoundSampleEntity entity = hashMap.get(resourceId);
 //            if (entity.getSampleId() > 0 && entity.isLoaded()) {
 //                soundPool.play(entity.getSampleId(), .99f, .99f, 1, 0, 1f);
@@ -140,8 +165,8 @@ public class MelodyPoolManager {
                     if (entity.getSampleId() > 0 && entity.isLoaded()) {
                         soundPool.play(entity.getSampleId(), .99f, .99f, 1, 0, 1f);
                     }
-                    mRunnable = this;
-                    h.postDelayed(mRunnable , delay);
+                    mRunnable1 = this;
+                    h.postDelayed(mRunnable1, delay);
                     handlerCounter++;
                 }
                 else {
@@ -159,21 +184,61 @@ public class MelodyPoolManager {
             @Override
             public void run() {
                 if (isPlaySound() && handlerCounter < loadedSounds1.size()){
+                    Log.d("playing" , "sound1");
                     SoundSampleEntity entity = loadedSounds1.get(handlerCounter);
                     if (entity.getSampleId() > 0 && entity.isLoaded()) {
                         soundPool.play(entity.getSampleId(), .99f, .99f, 1, 0, 1f);
                     }
-                    mRunnable = this;
-                    h.postDelayed(mRunnable , delay);
+                    mRunnable1 = this;
+                    h.postDelayed(mRunnable1, delay);
                     handlerCounter++;
                 }
                 else {
-                    stop();
-                    release();
-                    callback.onFinishPlayBack();
+                    isPlaySound1 = false;
+                    if (!isPlaySound()) {
+                        stop();
+                        release();
+                        callback.onFinishPlayBack();
+                    }
                 }
             }
         });
+        if(loadedSounds2 != null){
+            p = new Handler();
+            handlerCounter2 = 0;
+            p.post(new Runnable() {
+                @Override
+                public void run() {
+                    if(isPlaySound() && handlerCounter2 < loadedSounds2.size())
+                    {
+
+                        SoundSampleEntity entity = loadedSounds2.get(handlerCounter2);
+                        if (entity.getSampleId() > 0 && entity.isLoaded()) {
+                            soundPool.play(entity.getSampleId(), .99f, .99f, 1, 0, 1f);
+                            Log.d("playing" , "sound2");
+                        }
+                        mRunnable2 = this;
+                        p.postDelayed(mRunnable2 , delay);
+                        handlerCounter2++;
+                    }
+                    else {
+                        isPlaySound2 = false;
+                        if (!isPlaySound()) {
+                            stop();
+                            release();
+                            callback.onFinishPlayBack();
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    public void clear(){
+        sounds1 = null;
+        sounds1 = null;
+        loadedSounds1 = null;
+        loadedSounds2 = null;
     }
 
     public void release() {
@@ -183,12 +248,18 @@ public class MelodyPoolManager {
     }
 
     public void stop() {
+        isPlaySound1 = false;
+        isPlaySound2 = false;
         if (soundPool != null) {
             for (SoundSampleEntity entry : loadedSounds1) {
                 soundPool.stop(entry.getSampleId());
             }
-            isPlaySound = false;
+            if (loadedSounds2 != null)
+                for (SoundSampleEntity entry : loadedSounds2)
+                    soundPool.stop(entry.getSampleId());
+
             handlerCounter = 0;
+            handlerCounter2 = 0;
         }
     }
 
