@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.team_red.melody.DBs.DbManager;
 import com.team_red.melody.filemanager.LoadedData;
+import com.team_red.melody.filemanager.MelodyExporter;
 import com.team_red.melody.filemanager.MelodyFileManager;
 import com.team_red.melody.melodyboard.MelodyBoard;
 import com.team_red.melody.models.Composition;
@@ -242,6 +243,12 @@ public class MainActivity extends AppCompatActivity
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                break;
+            case R.id.action_export:
+                MelodyExporter melodyExporter = new MelodyExporter();
+                ArrayList<Integer> sound1 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1()));
+                melodyExporter.setSound1(sound1);
+                melodyExporter.mergeSongs();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
