@@ -8,6 +8,9 @@
         android:layout_height="wrap_content"
         android:text="Start"
         android:id="@+id/button"
+        android:textColor="@color/colorMain"
+        android:background="@color/colorPrimary"
+
         android:layout_below="@+id/login_input"
         android:layout_alignRight="@+id/login_input"
         android:layout_alignEnd="@+id/login_input" />

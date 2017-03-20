@@ -1,12 +1,14 @@
 package com.team_red.melody;
 
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.WindowManager;
 
 import com.team_red.melody.StartActivityFragments.LoginFragment;
 import com.team_red.melody.StartActivityFragments.UsersOrCompsListFragment;
@@ -23,6 +25,11 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.application_start_activity);
         initFragments();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(getResources().getColor(R.color.actionbar));
+        }
     }
 
     public  void  initFragments(){

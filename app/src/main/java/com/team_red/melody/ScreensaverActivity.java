@@ -1,9 +1,11 @@
 package com.team_red.melody;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.team_red.melody.DBs.DbManager;
@@ -26,6 +28,12 @@ public class ScreensaverActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screensaver);
+//        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(getResources().getColor(R.color.actionbar));
+        }
         rand = new Random();
         int i=rand.nextInt(11);
         init(i);
