@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.team_red.melody.DBs.DbManager;
 import com.team_red.melody.filemanager.LoadedData;
+import com.team_red.melody.filemanager.MelodyExporter;
 import com.team_red.melody.filemanager.MelodyFileManager;
 import com.team_red.melody.melodyboard.MelodyBoard;
 import com.team_red.melody.models.Composition;
@@ -218,9 +219,14 @@ public class MainActivity extends AppCompatActivity
             case R.id.action_settings:
                 return true;
             case R.id.action_play_sound:
-                togglePlayButton();
-                ArrayList<Integer> sounds = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1()));
-                MelodyPoolManager.getInstance().setSounds1(sounds);
+                togglePlayButton(false);
+                ArrayList<Integer> sounds1 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1()));
+                MelodyPoolManager.getInstance().setSounds1(sounds1);
+                if (melodyAdapter.getCompositionType() == SHEET_TYPE_TWO_HANDED)
+                {
+                    ArrayList<Integer> sounds2 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList2()));
+                    MelodyPoolManager.getInstance().setSounds2(sounds2);
+                }
                 try {
                     MelodyPoolManager.getInstance().InitializeMelodyPool(this, new MelodyPoolManager.IMelodyPoolLoaded() {
                         @Override
@@ -229,7 +235,7 @@ public class MainActivity extends AppCompatActivity
                             MelodyPoolManager.getInstance().playMelody(new MelodyPoolManager.IMelodyPoolPlaybackFinished() {
                                 @Override
                                 public void onFinishPlayBack() {
-                                    togglePlayButton();
+                                    togglePlayButton(true);
                                 }
                             });
                         }
@@ -237,6 +243,12 @@ public class MainActivity extends AppCompatActivity
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                break;
+            case R.id.action_export:
+                MelodyExporter melodyExporter = new MelodyExporter();
+                ArrayList<Integer> sound1 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1()));
+                melodyExporter.setSound1(sound1);
+                melodyExporter.mergeSongs();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -269,7 +281,13 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void togglePlayButton(){
-        playButton.setEnabled(!playButton.isEnabled());
+    private void togglePlayButton(boolean toggle){
+        playButton.setEnabled(toggle);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MelodyPoolManager.getInstance().clear();
     }
 }
