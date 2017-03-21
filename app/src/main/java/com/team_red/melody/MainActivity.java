@@ -192,17 +192,7 @@ public class MainActivity extends AppCompatActivity
                         .setMessage("Save Composition before exit")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                if(melodyAdapter.getCompositionType() == SHEET_TYPE_ONE_HANDED) {
-                                    ArrayList<Note> a = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1());
-                                    MelodyFileManager.getManager().saveOneHandedComposition(a, currentUser.getUserName() , currentComposition.getCompositionName(),
-                                            currentComposition.getJsonFileName(), currentComposition.getCompositionID());
-                                }
-                                else {
-                                    ArrayList<Note> a = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1());
-                                    ArrayList<Note> b = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList2());
-                                    MelodyFileManager.getManager().saveTwoHandedComposition(a, b, currentUser.getUserName() , currentComposition.getCompositionName() ,
-                                            currentComposition.getJsonFileName(), currentComposition.getCompositionID());
-                                }
+                                save();
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -230,45 +220,12 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()){
             case R.id.action_save:
-                if(melodyAdapter.getCompositionType() == SHEET_TYPE_ONE_HANDED) {
-                    ArrayList<Note> a = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1());
-                    MelodyFileManager.getManager().saveOneHandedComposition(a, currentUser.getUserName() , currentComposition.getCompositionName(),
-                            currentComposition.getJsonFileName(), currentComposition.getCompositionID());
-                }
-                else {
-                    ArrayList<Note> a = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1());
-                    ArrayList<Note> b = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList2());
-                    MelodyFileManager.getManager().saveTwoHandedComposition(a, b, currentUser.getUserName() , currentComposition.getCompositionName() ,
-                        currentComposition.getJsonFileName(), currentComposition.getCompositionID());
-                }
+                save();
                 break;
             case R.id.action_settings:
                 return true;
             case R.id.action_play_sound:
-                togglePlayButton(false);
-                ArrayList<Integer> sounds1 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1()));
-                MelodyPoolManager.getInstance().setSounds1(sounds1);
-                if (melodyAdapter.getCompositionType() == SHEET_TYPE_TWO_HANDED)
-                {
-                    ArrayList<Integer> sounds2 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList2()));
-                    MelodyPoolManager.getInstance().setSounds2(sounds2);
-                }
-                try {
-                    MelodyPoolManager.getInstance().InitializeMelodyPool(this, new MelodyPoolManager.IMelodyPoolLoaded() {
-                        @Override
-                        public void onSuccess() {
-                            MelodyPoolManager.getInstance().setPlaySound(true);
-                            MelodyPoolManager.getInstance().playMelody(new MelodyPoolManager.IMelodyPoolPlaybackFinished() {
-                                @Override
-                                public void onFinishPlayBack() {
-                                    togglePlayButton(true);
-                                }
-                            });
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                play();
                 break;
             case R.id.action_export:
                 MelodyExporter melodyExporter = new MelodyExporter();
@@ -309,6 +266,47 @@ public class MainActivity extends AppCompatActivity
 
     private void togglePlayButton(boolean toggle){
         playButton.setEnabled(toggle);
+    }
+
+    private void save(){
+        if(melodyAdapter.getCompositionType() == SHEET_TYPE_ONE_HANDED) {
+            ArrayList<Note> a = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1());
+            MelodyFileManager.getManager().saveOneHandedComposition(a, currentUser.getUserName() , currentComposition.getCompositionName(),
+                    currentComposition.getJsonFileName(), currentComposition.getCompositionID());
+        }
+        else {
+            ArrayList<Note> a = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1());
+            ArrayList<Note> b = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList2());
+            MelodyFileManager.getManager().saveTwoHandedComposition(a, b, currentUser.getUserName() , currentComposition.getCompositionName() ,
+                    currentComposition.getJsonFileName(), currentComposition.getCompositionID());
+        }
+    }
+
+    private void play(){
+        togglePlayButton(false);
+        ArrayList<Integer> sounds1 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1()));
+        MelodyPoolManager.getInstance().setSounds1(sounds1);
+        if (melodyAdapter.getCompositionType() == SHEET_TYPE_TWO_HANDED)
+        {
+            ArrayList<Integer> sounds2 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList2()));
+            MelodyPoolManager.getInstance().setSounds2(sounds2);
+        }
+        try {
+            MelodyPoolManager.getInstance().InitializeMelodyPool(this, new MelodyPoolManager.IMelodyPoolLoaded() {
+                @Override
+                public void onSuccess() {
+                    MelodyPoolManager.getInstance().setPlaySound(true);
+                    MelodyPoolManager.getInstance().playMelody(new MelodyPoolManager.IMelodyPoolPlaybackFinished() {
+                        @Override
+                        public void onFinishPlayBack() {
+                            togglePlayButton(true);
+                        }
+                    });
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
