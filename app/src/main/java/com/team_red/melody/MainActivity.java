@@ -1,8 +1,10 @@
 package com.team_red.melody;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.design.widget.NavigationView;
@@ -185,7 +187,31 @@ public class MainActivity extends AppCompatActivity
             if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+                new AlertDialog.Builder(this)
+                        .setTitle("LEave Composition")
+                        .setMessage("Save Composition before exit")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(melodyAdapter.getCompositionType() == SHEET_TYPE_ONE_HANDED) {
+                                    ArrayList<Note> a = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1());
+                                    MelodyFileManager.getManager().saveOneHandedComposition(a, currentUser.getUserName() , currentComposition.getCompositionName(),
+                                            currentComposition.getJsonFileName(), currentComposition.getCompositionID());
+                                }
+                                else {
+                                    ArrayList<Note> a = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1());
+                                    ArrayList<Note> b = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList2());
+                                    MelodyFileManager.getManager().saveTwoHandedComposition(a, b, currentUser.getUserName() , currentComposition.getCompositionName() ,
+                                            currentComposition.getJsonFileName(), currentComposition.getCompositionID());
+                                }
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                MainActivity.super.onBackPressed();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
         }
     }
 
