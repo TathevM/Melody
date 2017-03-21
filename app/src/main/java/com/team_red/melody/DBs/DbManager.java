@@ -106,6 +106,10 @@ public class DbManager {
         return compositions;
     }
 
+    public void deleteCompByID( int compositionID ){
+            mDb.delete(TableManager.COMPOSITIONS_TABLE, TableManager.COMPOSITION_ID + "=" + compositionID, null);
+    }
+
 }
 
 

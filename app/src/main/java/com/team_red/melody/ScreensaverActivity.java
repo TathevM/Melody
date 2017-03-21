@@ -18,6 +18,8 @@ public class ScreensaverActivity extends AppCompatActivity {
     TextView mQuote;
     TextView mAuthor;
     Quote myQuote;
+    String QUOTE = "quote";
+    String AUTHOR = "author";
     Random rand;
 
     DbManager myDbManager;
@@ -41,56 +43,23 @@ public class ScreensaverActivity extends AppCompatActivity {
     }
 
     public void init(int i){
-        mQuote = (TextView) findViewById(R.id.quote);
-        mAuthor = (TextView) findViewById(R.id.author);
-   switch (i){
-       case 0:
-           mQuote.setText(R.string.quote0);
-           mAuthor.setText(R.string.author0);
-           break;
-       case 1:
-           mQuote.setText(R.string.quote1);
-           mAuthor.setText(R.string.author1);
-           break;
-       case 2:
-           mQuote.setText(R.string.quote2);
-           mAuthor.setText(R.string.author2);
-           break;
-       case 3:
-           mQuote.setText(R.string.quote3);
-           mAuthor.setText(R.string.author3);
-           break;
-       case 4:
-           mQuote.setText(R.string.quote4);
-           mAuthor.setText(R.string.author4);
-           break;
-       case 5:
-           mQuote.setText(R.string.quote5);
-           mAuthor.setText(R.string.author5);
-           break;
-       case 6:
-           mQuote.setText(R.string.quote6);
-           mAuthor.setText(R.string.author6);
-           break;
-       case 7:
-           mQuote.setText(R.string.quote7);
-           mAuthor.setText(R.string.author7);
-           break;
-       case 8:
-           mQuote.setText(R.string.quote8);
-           mAuthor.setText(R.string.author8);
-           break;
-       case 9:
-           mQuote.setText(R.string.quote9);
-           mAuthor.setText(R.string.author9);
-           break;
-       case 10:
-           mQuote.setText(R.string.quote10);
-           mAuthor.setText(R.string.author10);
-           break;
 
+        try {
+            mQuote = (TextView) findViewById(R.id.quote);
+            mAuthor = (TextView) findViewById(R.id.author);
 
-   }
+            int quoteID = R.string.class.getField(QUOTE + i).getInt(null);
+            int authorID = R.string.class.getField(AUTHOR + i).getInt(null);
+
+            mQuote.setText(quoteID);
+            mAuthor.setText(authorID);
+
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
 
         mHandler.postDelayed(new Runnable() {
             @Override
@@ -100,7 +69,7 @@ public class ScreensaverActivity extends AppCompatActivity {
                 finish();
 
             }
-        }, 3500);
+        }, 500);
     }
 
 

@@ -43,7 +43,7 @@ public class UsersOrCompsListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mdbManager = new DbManager(getContext());
-        adapter = new RVAdapter();
+        adapter = new RVAdapter(getActivity());
         adapter.setUsersList(mdbManager.getUsers());
     }
 
