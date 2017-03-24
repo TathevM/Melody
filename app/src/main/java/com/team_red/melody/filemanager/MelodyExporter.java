@@ -74,13 +74,16 @@ public class MelodyExporter {
                     byte[] t = new byte[70];
                     fos.write(t, 0, fisSong.read(t));
                 }
-                else {
-                    byte[] t = new byte[mFrameSize];
-                    fos.write(t, 70 , fisSong.read(t));
-                }
+//                else {
+//                    byte[] t = new byte[mFrameSize];
+//                    fos.write(t, 70 , fisSong.read(new byte[452]));
+//                }
                 byte[] buf = new byte[mFrameSize];
                 try {
-                    for (int readNum; (readNum = fisSong.read(buf)) != -1;) {
+                    int k=0;
+                    for (int readNum; (readNum = fisSong.read(buf)) != -1; k++) {
+                        if(k == 25)
+                            break;
                         fos.write(buf, 0, readNum);
                     }
                 } finally {
