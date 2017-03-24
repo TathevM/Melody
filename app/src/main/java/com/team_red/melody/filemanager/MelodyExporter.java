@@ -15,8 +15,15 @@ import static com.team_red.melody.filemanager.MelodyFileManager.COMPOSITION_JSON
 
 public class MelodyExporter {
 
+    private int mFrameSize;
+    private int mFramePosition;
     private ArrayList<Integer> sound1;
     public static final String TEMPORARY_MP3_FILE_NAME = "tempmp3";
+
+    public MelodyExporter(int frameSize, int framePosition) {
+        mFrameSize = frameSize;
+        mFramePosition = framePosition;
+    }
 
     public void setSound1(ArrayList<Integer> sound1) {
         this.sound1 = sound1;
@@ -51,22 +58,32 @@ public class MelodyExporter {
     public void mergeSongs(){
         File mergedFile = new File(COMPOSITION_JSON_DIR + "asd.mp3");
         ArrayList<File> mp3Files = prepareExport();
-
+        mFrameSize = (144 * 160000) / (44100);
         FileInputStream fisToFinal = null;
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(mergedFile);
             fisToFinal = new FileInputStream(mergedFile);
-            for(File mp3File:mp3Files){
+            for(int i = 0; i < mp3Files.size(); i++){
+                File mp3File = mp3Files.get(i);
                 if(!mp3File.exists())
                     continue;
                 FileInputStream fisSong = new FileInputStream(mp3File);
                 SequenceInputStream sis = new SequenceInputStream(fisToFinal, fisSong);
-                byte[] buf = new byte[1024];
+                if (i == 0) {
+                    byte[] t = new byte[70];
+                    fos.write(t, 0, fisSong.read(t));
+                }
+//                else {
+//                    byte[] t = new byte[mFrameSize];
+//                    fos.write(t, 70 , fisSong.read(new byte[452]));
+//                }
+                byte[] buf = new byte[mFrameSize];
                 try {
-                    for (int readNum; (readNum = fisSong.read(buf)) != -1;) {
-//                        if(buf[890] == 85)
-//                            break;
+                    int k=0;
+                    for (int readNum; (readNum = fisSong.read(buf)) != -1; k++) {
+                        if(k == 25)
+                            break;
                         fos.write(buf, 0, readNum);
                     }
                 } finally {

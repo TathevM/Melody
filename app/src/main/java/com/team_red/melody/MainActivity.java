@@ -271,7 +271,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 break;
             case R.id.action_export:
-                MelodyExporter melodyExporter = new MelodyExporter();
+                MelodyExporter melodyExporter = new MelodyExporter(0,0);
                 ArrayList<Integer> sound1 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1()));
                 melodyExporter.setSound1(sound1);
                 melodyExporter.mergeSongs();
