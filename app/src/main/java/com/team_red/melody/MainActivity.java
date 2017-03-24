@@ -2,6 +2,7 @@ package com.team_red.melody;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity
     private DbManager mDbManager;
     private FloatingActionButton fab;
 
+    TextView navigationUsername;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +64,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         mDbManager = new DbManager(this);
+
 
         initActivity();
         getInitData();
@@ -80,8 +84,14 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+        navigationUsername = (TextView) headerView.findViewById(R.id.compositor);
 
-
+        int userID = (int) getIntent().getLongExtra(USER_ID_TAG , -1);
+        if(userID != -1){
+            currentUser = mDbManager.getUserByID(userID);
+            navigationUsername.setText(currentUser.getUserName());
+        }
     }
 
     private void openPagePickerDialog(){
@@ -127,7 +137,10 @@ public class MainActivity extends AppCompatActivity
         int compID = (int) getIntent().getLongExtra(COMP_ID_TAG , -1);
         if(userID != -1){
             currentUser = mDbManager.getUserByID(userID);
-            ((TextView) findViewById(R.id.compositor_label)).setText(currentUser.getUserName());
+            Composition currentComp = mDbManager.getCompByID(compID);
+            if (currentComp!= null ) {
+                ((TextView) findViewById(R.id.compositor_label)).setText(currentComp.getCompositionName());
+            }
         }
         if (compID != -1)
         {
@@ -288,17 +301,25 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_change_theme) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_change_user) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_compositions) {
 
-        } else if (id == R.id.nav_manage) {
+            int userID = (int) getIntent().getLongExtra(USER_ID_TAG , -1);
+            currentUser = mDbManager.getUserByID(userID);
+
+            Intent myIntent = new Intent(MainActivity.this, CompositionsActivity.class);
+           // myIntent.putExtra("anun",currentUser.getID());
+            startActivity(myIntent);
+            this.finish();
+
+        } else if (id == R.id.nav_Help) {
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_export) {
 
         }
 

@@ -17,12 +17,10 @@ public class ScreensaverActivity extends AppCompatActivity {
 
     TextView mQuote;
     TextView mAuthor;
-    Quote myQuote;
+
     String QUOTE = "quote";
     String AUTHOR = "author";
     Random rand;
-
-    DbManager myDbManager;
 
     Handler mHandler = new Handler();
 
@@ -30,7 +28,6 @@ public class ScreensaverActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screensaver);
-//        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -69,7 +66,7 @@ public class ScreensaverActivity extends AppCompatActivity {
                 finish();
 
             }
-        }, 500);
+        }, 1000);
     }
 
 

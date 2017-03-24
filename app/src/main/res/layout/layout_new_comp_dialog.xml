@@ -17,12 +17,14 @@
             android:id="@+id/radio_type_one_hand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="Single"/>
         <RadioButton
             android:id="@+id/radio_type_two_hand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="Double"/>
     </RadioGroup>
     <LinearLayout
         android:layout_width="match_parent"
