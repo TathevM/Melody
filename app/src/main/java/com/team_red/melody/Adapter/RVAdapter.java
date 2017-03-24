@@ -51,7 +51,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
 
     public void setCompositionsList(ArrayList<Composition> compositionsList) {
         this.compositionsList = compositionsList;
-        notifyDataSetChanged();
+//        notifyDataSetChanged();
     }
 
     @Override

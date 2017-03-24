@@ -12,8 +12,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.team_red.melody.Adapter.RVAdapter;
+import com.team_red.melody.CompositionsActivity;
 import com.team_red.melody.DBs.DbManager;
 import com.team_red.melody.MainActivity;
+import com.team_red.melody.MelodyApplication;
 import com.team_red.melody.R;
 import com.team_red.melody.models.Composition;
 
@@ -69,33 +71,38 @@ public class UsersOrCompsListFragment extends Fragment {
             @Override
             public void onItemClick(int ID) {
                 if (!adapter.IS_USER_CHOSEN) {
-                    ArrayList<Composition> compList = mdbManager.getCompositions(ID);
-                    if (compList.isEmpty())
-                        startEmptyComposition(ID);
-                    currentUserID = ID;
-                    newCompButton.setEnabled(true);
-                    adapter.setCompositionsList(compList);
+//                    ArrayList<Composition> compList = mdbManager.getCompositions(ID);
+//                    if (compList.isEmpty())
+//                        startEmptyComposition(ID);
+//                    currentUserID = ID;
+//                    newCompButton.setEnabled(true);
+//                    adapter.setCompositionsList(compList);
                     adapter.IS_USER_CHOSEN = true;
                     selectedUserID = ID;
-                    adapter.notifyDataSetChanged();
-                }
-                else {
-                    myIntent = new Intent(getActivity(), MainActivity.class);
-                    myIntent.putExtra(COMP_ID_TAG, (long) ID);
-                    myIntent.putExtra(USER_ID_TAG , selectedUserID);
+
+                    myIntent = new Intent(getActivity(), CompositionsActivity.class);
+                    MelodyApplication.setLoggedInUser(mdbManager.getUserByID((int) selectedUserID));
                     startActivity(myIntent);
                     getActivity().finish();
+                    //adapter.notifyDataSetChanged();
                 }
+//                else {
+//                    myIntent = new Intent(getActivity(), MainActivity.class);
+//                    myIntent.putExtra(COMP_ID_TAG, (long) ID);
+//                    myIntent.putExtra(USER_ID_TAG , selectedUserID);
+//                    startActivity(myIntent);
+//                    getActivity().finish();
+//                }
             }
         });
     }
 
-    private void startEmptyComposition(int userID){
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        intent.putExtra(USER_ID_TAG , (long) userID);
-        startActivity(intent);
-        getActivity().finish();
-    }
+//    private void startEmptyComposition(int userID){
+//        Intent intent = new Intent(getActivity(), MainActivity.class);
+//        intent.putExtra(USER_ID_TAG , (long) userID);
+//        startActivity(intent);
+//        getActivity().finish();
+//    }
 
     public void handleBackPressed(){
         adapter.IS_USER_CHOSEN = false;
