@@ -15,14 +15,10 @@ import java.util.Random;
 
 public class ScreensaverActivity extends AppCompatActivity {
 
-    TextView mQuote;
-    TextView mAuthor;
+    private final String QUOTE = "quote";
+    private final String AUTHOR = "author";
 
-    String QUOTE = "quote";
-    String AUTHOR = "author";
-    Random rand;
-
-    Handler mHandler = new Handler();
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +29,9 @@ public class ScreensaverActivity extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.actionbar));
         }
-        rand = new Random();
-        int i=rand.nextInt(11);
+        Random rand = new Random();
+        int i= rand.nextInt(11);
+        mHandler = new Handler();
         init(i);
 
     }
@@ -42,14 +39,14 @@ public class ScreensaverActivity extends AppCompatActivity {
     public void init(int i){
 
         try {
-            mQuote = (TextView) findViewById(R.id.quote);
-            mAuthor = (TextView) findViewById(R.id.author);
+            TextView quote = (TextView) findViewById(R.id.quote);
+            TextView author = (TextView) findViewById(R.id.author);
 
             int quoteID = R.string.class.getField(QUOTE + i).getInt(null);
             int authorID = R.string.class.getField(AUTHOR + i).getInt(null);
 
-            mQuote.setText(quoteID);
-            mAuthor.setText(authorID);
+            quote.setText(quoteID);
+            author.setText(authorID);
 
         } catch (NoSuchFieldException e) {
             e.printStackTrace();

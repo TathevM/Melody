@@ -31,8 +31,6 @@ public class UsersOrCompsListFragment extends Fragment {
     private DbManager mdbManager;
     private Intent myIntent;
     private long selectedUserID;
-    private Button newCompButton;
-    public int currentUserID = -1;
 
     @Nullable
     @Override
@@ -53,16 +51,6 @@ public class UsersOrCompsListFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.usersOrCompositionsList);
-        newCompButton = (Button) view.findViewById(R.id.new_comp_button);
-        newCompButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                intent.putExtra(USER_ID_TAG , (long) currentUserID);
-                startActivity(intent);
-                getActivity().finish();
-            }
-        });
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         rv.setLayoutManager(llm);
         rv.setAdapter(adapter);
@@ -71,28 +59,12 @@ public class UsersOrCompsListFragment extends Fragment {
             @Override
             public void onItemClick(int ID) {
                 if (!adapter.IS_USER_CHOSEN) {
-//                    ArrayList<Composition> compList = mdbManager.getCompositions(ID);
-//                    if (compList.isEmpty())
-//                        startEmptyComposition(ID);
-//                    currentUserID = ID;
-//                    newCompButton.setEnabled(true);
-//                    adapter.setCompositionsList(compList);
                     adapter.IS_USER_CHOSEN = true;
                     selectedUserID = ID;
-
                     myIntent = new Intent(getActivity(), CompositionsActivity.class);
                     MelodyApplication.setLoggedInUser(mdbManager.getUserByID((int) selectedUserID));
                     startActivity(myIntent);
-                    getActivity().finish();
-                    //adapter.notifyDataSetChanged();
                 }
-//                else {
-//                    myIntent = new Intent(getActivity(), MainActivity.class);
-//                    myIntent.putExtra(COMP_ID_TAG, (long) ID);
-//                    myIntent.putExtra(USER_ID_TAG , selectedUserID);
-//                    startActivity(myIntent);
-//                    getActivity().finish();
-//                }
             }
         });
     }
@@ -103,11 +75,4 @@ public class UsersOrCompsListFragment extends Fragment {
 //        startActivity(intent);
 //        getActivity().finish();
 //    }
-
-    public void handleBackPressed(){
-        adapter.IS_USER_CHOSEN = false;
-        adapter.notifyDataSetChanged();
-        currentUserID = -1;
-        newCompButton.setEnabled(false);
-    }
 }

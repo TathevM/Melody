@@ -16,7 +16,9 @@ import android.widget.Toast;
 
 import com.team_red.melody.DBs.DbManager;
 import com.team_red.melody.MainActivity;
+import com.team_red.melody.MelodyApplication;
 import com.team_red.melody.R;
+import com.team_red.melody.models.User;
 
 
 public class LoginFragment extends Fragment {
@@ -24,7 +26,6 @@ public class LoginFragment extends Fragment {
     public static final String USER_ID_TAG = "user_id";
     public static final String COMP_ID_TAG = "comp_tag";
 
-    private Button startButton;
     private EditText loginInput;
     private DbManager dbManager;
 
@@ -40,7 +41,7 @@ public class LoginFragment extends Fragment {
 
     void initButtonClick(View view){
         loginInput = (EditText) view.findViewById(R.id.login_input);
-        startButton = (Button) view.findViewById(R.id.button);
+        Button startButton = (Button) view.findViewById(R.id.button);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,9 +49,8 @@ public class LoginFragment extends Fragment {
                 if (!userName.equalsIgnoreCase("")){
                     long id = dbManager.insertUser(userName);
                     Intent mIntent = new Intent(getActivity(), MainActivity.class);
-                    mIntent.putExtra(USER_ID_TAG, id);
+                    MelodyApplication.setLoggedInUser(new User(userName , (int) id));
                     startActivity(mIntent);
-                    getActivity().finish();
                 }
                 else
                     Toast.makeText(getContext(),"Write your name maestro", Toast.LENGTH_SHORT).show();

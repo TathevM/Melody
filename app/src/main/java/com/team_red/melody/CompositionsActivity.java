@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.team_red.melody.Adapter.RVAdapter;
 import com.team_red.melody.DBs.DbManager;
@@ -68,8 +69,6 @@ public class CompositionsActivity extends AppCompatActivity {
         adapter.IS_USER_CHOSEN = true;
         adapter.setCompositionsList(mdbManager.getCompositions(mUser.getID()));
 //        adapter.setCompositionsList(mdbManager.getCompositions(4));
-
-
         initData();
     }
 
@@ -103,27 +102,25 @@ public class CompositionsActivity extends AppCompatActivity {
         dialogOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int curType;
-                String compName;
-                RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.sheet_type_radio_group);
                 EditText editText = (EditText) dialog.findViewById(R.id.dialog_new_comp_name);
-                switch (radioGroup.getCheckedRadioButtonId()){
-                    case R.id.radio_type_two_hand:
-                        curType = SHEET_TYPE_TWO_HANDED;
-                        break;
-                    default:
-                        curType = SHEET_TYPE_ONE_HANDED;
-                        break;
+                if (editText.getText().toString().equals("")){
+                    Toast.makeText(CompositionsActivity.this,"Write your name maestro", Toast.LENGTH_SHORT).show();
+                }else {
+                    int curType;
+                    String compName;
+                    RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.sheet_type_radio_group);
+                    curType = (radioGroup.getCheckedRadioButtonId() == R.id.radio_type_one_hand ? SHEET_TYPE_ONE_HANDED : SHEET_TYPE_TWO_HANDED);
+
+                    compName = editText.getText().toString();
+                    String fileName = mUser.getUserName() + compName;
+                    long id = mdbManager.insertComposition(compName, mUser.getID(), fileName, curType);
+                    Composition newComp = new Composition((int) id, compName, mUser.getID(), fileName, curType);
+                    MelodyFileManager.getManager().createEmptyJson(newComp, mdbManager);
+                    dialog.dismiss();
+                    Intent myIntent = new Intent(CompositionsActivity.this, MainActivity.class);
+                    myIntent.putExtra(COMP_ID_TAG, id);
+                    startActivity(myIntent);
                 }
-                compName = editText.getText().toString();
-                String fileName = mUser.getUserName() + compName;
-                long id = mdbManager.insertComposition(compName , mUser.getID() , fileName , curType);
-                MelodyFileManager.getManager().createEmptyJson(new Composition((int) id, compName , mUser.getID(),fileName, curType), mdbManager);
-                dialog.dismiss();
-                Intent myIntent = new Intent(CompositionsActivity.this, MainActivity.class);
-                myIntent.putExtra(COMP_ID_TAG,  id);
-                myIntent.putExtra(USER_ID_TAG , mUser.getID());
-                startActivity(myIntent);
             }
         });
         dialog.findViewById(R.id.button_dialog_cancel).setOnClickListener(new View.OnClickListener() {

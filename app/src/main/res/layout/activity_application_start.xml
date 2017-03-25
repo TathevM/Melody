@@ -13,15 +13,15 @@
     tools:context="com.team_red.melody.MainActivity">
 
     <FrameLayout
-        android:id="@+id/Login"
-        android:layout_weight="1"
+        android:id="@+id/AccountChooser"
+        android:layout_weight="0.2"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/AccountChooser"
+        android:id="@+id/Login"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

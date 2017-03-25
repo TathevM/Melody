@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/login_input"
+        android:layout_weight="10"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:textAlignment="center"
+        android:hint="@string/new_user_hint"
+        android:maxLength="15" />
+
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:id="@+id/button"
-        android:textColor="@color/colorMain"
-        android:background="@color/colorPrimary"
+        android:background="@color/transparent"
+        android:foreground="@drawable/ic_arrow_forward"/>
 
-        android:layout_below="@+id/login_input"
-        android:layout_alignRight="@+id/login_input"
-        android:layout_alignEnd="@+id/login_input" />
-
-    <EditText
-        android:id="@+id/login_input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="  Type your name maestro      "
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
-</RelativeLayout>
+</LinearLayout>

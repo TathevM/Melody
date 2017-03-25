@@ -34,5 +34,6 @@
     <string name="author8">Pablo Casals</string>
     <string name="author9">Ben Folds</string>
     <string name="author10">Mike Stoller</string>
+    <string name="new_user_hint">Type your name maestro</string>
 
 </resources>

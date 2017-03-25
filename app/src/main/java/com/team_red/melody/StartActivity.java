@@ -18,12 +18,11 @@ public class StartActivity extends AppCompatActivity {
     private LoginFragment loginFragment;
     private UsersOrCompsListFragment usersOrCompsListFragment;
     private FragmentManager fragmentManager;
-    private FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.application_start_activity);
+        setContentView(R.layout.activity_application_start);
         initFragments();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -36,7 +35,7 @@ public class StartActivity extends AppCompatActivity {
         loginFragment = new LoginFragment();
         usersOrCompsListFragment = new UsersOrCompsListFragment();
         fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.Login, loginFragment, "login");
         fragmentTransaction.add(R.id.AccountChooser, usersOrCompsListFragment, "usersCompsList");
         fragmentTransaction.commit();
@@ -48,14 +47,5 @@ public class StartActivity extends AppCompatActivity {
         MenuInflater mi = getMenuInflater();
         mi.inflate(R.menu.main, menu);
         return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        if(usersOrCompsListFragment.currentUserID > -1){
-            usersOrCompsListFragment.handleBackPressed();
-        }
-        else
-            super.onBackPressed();
     }
 }
