@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,9 +28,11 @@ public class LoginFragment extends Fragment {
 
     public static final String USER_ID_TAG = "user_id";
     public static final String COMP_ID_TAG = "comp_tag";
+    private boolean newUSerState;
 
     private EditText loginInput;
     private DbManager dbManager;
+    private FloatingActionButton startButton;
 
     @Nullable
     @Override
@@ -41,19 +46,27 @@ public class LoginFragment extends Fragment {
 
     void initButtonClick(View view){
         loginInput = (EditText) view.findViewById(R.id.login_input);
-        Button startButton = (Button) view.findViewById(R.id.button);
+        startButton = (FloatingActionButton) view.findViewById(R.id.new_user_button);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String userName = loginInput.getText().toString();
-                if (!userName.equalsIgnoreCase("")){
-                    long id = dbManager.insertUser(userName);
-                    Intent mIntent = new Intent(getActivity(), MainActivity.class);
-                    MelodyApplication.setLoggedInUser(new User(userName , (int) id));
-                    startActivity(mIntent);
+                if (!newUSerState) {
+                    startButton.setImageResource(R.drawable.ic_arrow_forward);
+                    Animation moveInAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.move_right);
+                    loginInput.startAnimation(moveInAnimation);
+                    loginInput.setVisibility(View.VISIBLE);
+                    newUSerState = true;
+                } else {
+                    String userName = loginInput.getText().toString();
+                    if (!userName.equalsIgnoreCase("")) {
+                        long id = dbManager.insertUser(userName);
+                        Intent mIntent = new Intent(getActivity(), MainActivity.class);
+                        MelodyApplication.setLoggedInUser(new User(userName, (int) id));
+                        startActivity(mIntent);
+                        newUSerState = false;
+                    } else
+                        Toast.makeText(getContext(), "Write your name maestro", Toast.LENGTH_SHORT).show();
                 }
-                else
-                    Toast.makeText(getContext(),"Write your name maestro", Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -167,7 +167,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_change_user) {
 
         } else if (id == R.id.nav_compositions) {
-            alertSaveData();
+            //alertSaveData();
+            //TODO fix alert
             Intent myIntent = new Intent(MainActivity.this, CompositionsActivity.class);
             startActivity(myIntent);
             this.finish();
@@ -238,7 +239,7 @@ public class MainActivity extends AppCompatActivity
 
     private void alertSaveData(){
         new AlertDialog.Builder(this)
-                .setTitle("LEave Composition")
+                .setTitle("Leave Composition")
                 .setMessage("Save Composition before exit")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
