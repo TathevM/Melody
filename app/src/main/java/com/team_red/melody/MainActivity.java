@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity
                 play();
                 break;
             case R.id.action_export:
-                MelodyExporter melodyExporter = new MelodyExporter(0,0);
+                MelodyExporter melodyExporter = new MelodyExporter(0,0, this);
                 ArrayList<Integer> sound1 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1()));
                 melodyExporter.setSound1(sound1);
                 melodyExporter.mergeSongs();
@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity
             MelodyPoolManager.getInstance().setSounds2(sounds2);
         }
         try {
-            MelodyPoolManager.getInstance().InitializeMelodyPool(this, new MelodyPoolManager.IMelodyPoolLoaded() {
+            MelodyPoolManager.getInstance().InitializeMelodyPool( new MelodyPoolManager.IMelodyPoolLoaded() {
                 @Override
                 public void onSuccess() {
                     MelodyPoolManager.getInstance().setPlaySound(true);

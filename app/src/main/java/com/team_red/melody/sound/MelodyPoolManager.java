@@ -3,9 +3,12 @@ package com.team_red.melody.sound;
 import android.app.Activity;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
+
+import com.team_red.melody.MelodyApplication;
 
 import java.util.ArrayList;
 
@@ -64,55 +67,12 @@ public class MelodyPoolManager {
         this.sounds1 = sounds1;
     }
 
-    public void InitializeMelodyPool(Activity activity, final IMelodyPoolLoaded callback) throws Exception {
+    public void InitializeMelodyPool( final IMelodyPoolLoaded callback) throws Exception {
         if (sounds1 == null || sounds1.size() == 0) {
             throw new Exception("Sounds not set");
         }
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            soundPool = new SoundPool.Builder()
-                    .setMaxStreams(20)
-                    .build();
-        }else {
-            soundPool = new SoundPool(20, AudioManager.STREAM_MUSIC, 100);
-        }
-        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
-            @Override
-            public void onLoadComplete(SoundPool soundPool, int sampleId,
-                                       int status) {
-                SoundSampleEntity entity = getEntity(sampleId);
-                if (entity != null) {
-                    entity.setLoaded(status == 0);
-                }
-
-                if (sampleId == loadedSounds1.size()) {
-                    callback.onSuccess();
-                }
-            }
-        });
-        int length = sounds1.size();
-        loadedSounds1 = new ArrayList<>();
-        int index;
-        for (index = 0; index < length; index++) {
-            loadedSounds1.add(index , new SoundSampleEntity(0, false));
-        }
-        index = 0;
-        for (SoundSampleEntity entry : loadedSounds1) {
-            entry.setSampleId(soundPool.load(activity , sounds1.get(index) , 1 ));
-            index++;
-        }
-
-
-        if(sounds2 != null){
-            length = sounds2.size();
-            loadedSounds2 = new ArrayList<>();
-            for (index = 0; index <length; index++)
-                loadedSounds2.add(index , new SoundSampleEntity(0, false));
-            index = 0;
-            for (SoundSampleEntity entry : loadedSounds2) {
-                entry.setSampleId(soundPool.load(activity , sounds2.get(index) , 1 ));
-                index++;
-            }
-        }
+        PoolInitializer poolInitializer = new PoolInitializer();
+        poolInitializer.execute(callback);
     }
 
     public interface IMelodyPoolLoaded {
@@ -286,6 +246,60 @@ public class MelodyPoolManager {
 
         void setLoaded(boolean isLoaded) {
             this.isLoaded = isLoaded;
+        }
+    }
+
+    private class PoolInitializer extends AsyncTask<IMelodyPoolLoaded , Void, Void>{
+
+        @Override
+        protected Void doInBackground(IMelodyPoolLoaded... params) {
+            final IMelodyPoolLoaded callback = params[0];
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                soundPool = new SoundPool.Builder()
+                        .setMaxStreams(20)
+                        .build();
+            }else {
+                soundPool = new SoundPool(20, AudioManager.STREAM_MUSIC, 100);
+            }
+            soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+                @Override
+                public void onLoadComplete(SoundPool soundPool, int sampleId,
+                                           int status) {
+                    SoundSampleEntity entity = getEntity(sampleId);
+                    if (entity != null) {
+                        entity.setLoaded(status == 0);
+                    }
+
+                    if (sampleId == loadedSounds1.size()) {
+                        callback.onSuccess();
+                    }
+                }
+            });
+            int length = sounds1.size();
+            loadedSounds1 = new ArrayList<>();
+            int index;
+            for (index = 0; index < length; index++) {
+                loadedSounds1.add(index , new SoundSampleEntity(0, false));
+            }
+            index = 0;
+            for (SoundSampleEntity entry : loadedSounds1) {
+                entry.setSampleId(soundPool.load(MelodyApplication.getContext(), sounds1.get(index) , 1 ));
+                index++;
+            }
+
+
+            if(sounds2 != null){
+                length = sounds2.size();
+                loadedSounds2 = new ArrayList<>();
+                for (index = 0; index <length; index++)
+                    loadedSounds2.add(index , new SoundSampleEntity(0, false));
+                index = 0;
+                for (SoundSampleEntity entry : loadedSounds2) {
+                    entry.setSampleId(soundPool.load(MelodyApplication.getContext() , sounds2.get(index) , 1 ));
+                    index++;
+                }
+            }
+            return null;
         }
     }
 }
