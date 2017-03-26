@@ -10,26 +10,26 @@ import java.io.IOException;
 
 public class MPEG {
 
-    public long mLength;  // in seconds
-    public long mAudioBytes;
-    public long mDileSize;
+    private long mLength;  // in seconds
+    private long mAudioBytes;
+    private long mDileSize;
 
-    public String mFilename;
-    public String mVersion;
-    public String mLayer;
-    public boolean mProtection;
-    public String mBitrate;
-    public String mFrequency;
-    public boolean mPadding;
-    public boolean mPrivate;
-    public String mChannelMode;
-    public String mModeExtension;
-    public boolean mCopyRight;
-    public boolean mOriginal;
-    public String mEmphasis;
-    public int mFrameSize;
+    private String mFilename;
+    private String mVersion;
+    private String mLayer;
+    private boolean mProtection;
+    private String mBitrate;
+    private String mFrequency;
+    private boolean mPadding;
+    private boolean mPrivate;
+    private String mChannelMode;
+    private String mModeExtension;
+    private boolean mCopyRight;
+    private boolean mOriginal;
+    private String mEmphasis;
+    private int mFrameSize;
 
-    public long mHeaderPosition;
+    private long mHeaderPosition;
 
     private byte[] br;
 

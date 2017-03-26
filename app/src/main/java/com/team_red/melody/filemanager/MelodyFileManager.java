@@ -33,6 +33,7 @@ public class MelodyFileManager {
     public static String COMPOSITION_JSON_DIR = MelodyApplication.getContext().getFilesDir()  + File.separator;
     public static String SOUND_FILE_PREFIX = "s";
     public static String COMPOSITION_TYPE_TAG = "hand_type";
+    public static String EXPORTED_FILE_DIRECTORY = "/Melody";
 
     private static MelodyFileManager melodyFileManager;
     private int currentMaxCharacters;
@@ -102,9 +103,10 @@ public class MelodyFileManager {
                 try {
                     int id = R.raw.class.getField(tempName).getInt(null);
                     result.add(id);
-                } catch (NoSuchFieldException e) {
+                }
+                catch (IllegalAccessException e) {
                     e.printStackTrace();
-                } catch (IllegalAccessException e) {
+                }catch (NoSuchFieldException e) {
                     e.printStackTrace();
                 }
             }

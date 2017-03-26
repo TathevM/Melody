@@ -9,7 +9,7 @@
     tools:context="com.team_red.melody.MainActivity"
     tools:showIn="@layout/app_bar_main">
     <TextView
-        android:id="@+id/compositor_label"
+        android:id="@+id/composition_label"
         android:layout_width="match_parent"
         android:textAlignment="center"
         android:textSize="35sp"
@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/keyboard_view"
-        android:layout_below="@id/compositor_label"
+        android:layout_below="@id/composition_label"
         android:id="@+id/composition">
 
     </android.support.v7.widget.RecyclerView>

@@ -9,20 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.team_red.melody.Adapter.RVAdapter;
 import com.team_red.melody.CompositionsActivity;
 import com.team_red.melody.DBs.DbManager;
-import com.team_red.melody.MainActivity;
 import com.team_red.melody.MelodyApplication;
 import com.team_red.melody.R;
-import com.team_red.melody.models.Composition;
-
-import java.util.ArrayList;
-
-import static com.team_red.melody.StartActivityFragments.LoginFragment.COMP_ID_TAG;
-import static com.team_red.melody.StartActivityFragments.LoginFragment.USER_ID_TAG;
 
 
 public class UsersOrCompsListFragment extends Fragment {
@@ -68,11 +60,4 @@ public class UsersOrCompsListFragment extends Fragment {
             }
         });
     }
-
-//    private void startEmptyComposition(int userID){
-//        Intent intent = new Intent(getActivity(), MainActivity.class);
-//        intent.putExtra(USER_ID_TAG , (long) userID);
-//        startActivity(intent);
-//        getActivity().finish();
-//    }
 }

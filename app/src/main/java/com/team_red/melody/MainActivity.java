@@ -1,8 +1,13 @@
 package com.team_red.melody;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.team_red.melody.DBs.DbManager;
 import com.team_red.melody.filemanager.LoadedData;
@@ -37,6 +43,8 @@ import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_TWO_HANDE
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static final int REQUEST_WRITE_STORAGE = 112;
+
 
     private MelodyBoard mMelodyBoard;
     private MelodyAdapter melodyAdapter;
@@ -44,6 +52,7 @@ public class MainActivity extends AppCompatActivity
     private User currentUser;
     private Composition currentComposition;
     private DbManager mDbManager;
+    private boolean hasPermission;
 
     private TextView navigationUsername;
 
@@ -72,14 +81,14 @@ public class MainActivity extends AppCompatActivity
 
         currentUser = MelodyApplication.getLoggedInUser();
         navigationUsername.setText(currentUser.getUserName());
+
+        hasPermission = (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
     }
 
-    private void getInitData(){
-        int compID = (int) getIntent().getLongExtra(COMP_ID_TAG , -1);
-        if (compID != -1)
-        {
+    private void getInitData() {
+        int compID = (int) getIntent().getLongExtra(COMP_ID_TAG, -1);
+        if (compID != -1) {
             currentComposition = mDbManager.getCompByID(compID);
-            ((TextView) findViewById(R.id.compositor_label)).setText(currentComposition.getCompositionName());
             LoadedData data = MelodyFileManager.getManager().loadComposition(currentComposition.getJsonFileName());
             if (data.getType() == SHEET_TYPE_ONE_HANDED)
                 melodyAdapter.setMelodyStringList1(MelodyFileManager.getManager().makeStringFromNotes(data.getComp1()));
@@ -88,10 +97,12 @@ public class MainActivity extends AppCompatActivity
                 melodyAdapter.setMelodyStringList2(MelodyFileManager.getManager().makeStringFromNotes(data.getComp2()));
             }
             melodyAdapter.notifyDataSetChanged();
+
+            ((TextView) findViewById(R.id.composition_label)).setText(currentComposition.getCompositionName());
         }
     }
 
-    private void initActivity(){
+    private void initActivity() {
         mMelodyBoard = new MelodyBoard(MainActivity.this);
         RecyclerView rv = (RecyclerView) findViewById(R.id.composition);
         LinearLayoutManager llm = new LinearLayoutManager(this);
@@ -103,8 +114,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if(!recyclerView.canScrollVertically(1))
-                    ((MelodyAdapter)recyclerView.getAdapter()).addNewLinesToList();
+                if (!recyclerView.canScrollVertically(1))
+                    ((MelodyAdapter) recyclerView.getAdapter()).addNewLinesToList();
             }
         });
     }
@@ -112,13 +123,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if(mMelodyBoard.isMelodyBoardVisible())
+        if (mMelodyBoard.isMelodyBoardVisible())
             mMelodyBoard.hideMelodyBoard();
-        else
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
+        else if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-                alertSaveData();
+            alertSaveData();
         }
     }
 
@@ -135,7 +145,7 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_save:
                 save();
                 break;
@@ -145,10 +155,7 @@ public class MainActivity extends AppCompatActivity
                 play();
                 break;
             case R.id.action_export:
-                MelodyExporter melodyExporter = new MelodyExporter(0,0, this);
-                ArrayList<Integer> sound1 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1()));
-                melodyExporter.setSound1(sound1);
-                melodyExporter.mergeSongs();
+                export();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -186,7 +193,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void togglePlayButton(boolean toggle){
+    private void togglePlayButton(boolean toggle) {
         playButton.setEnabled(toggle);
     }
 
@@ -196,31 +203,29 @@ public class MainActivity extends AppCompatActivity
         MelodyPoolManager.getInstance().clear();
     }
 
-    private void save(){
-        if(melodyAdapter.getCompositionType() == SHEET_TYPE_ONE_HANDED) {
+    private void save() {
+        if (melodyAdapter.getCompositionType() == SHEET_TYPE_ONE_HANDED) {
             ArrayList<Note> a = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1());
-            MelodyFileManager.getManager().saveOneHandedComposition(a, currentUser.getUserName() , currentComposition.getCompositionName(),
+            MelodyFileManager.getManager().saveOneHandedComposition(a, currentUser.getUserName(), currentComposition.getCompositionName(),
                     currentComposition.getJsonFileName(), currentComposition.getCompositionID());
-        }
-        else {
+        } else {
             ArrayList<Note> a = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1());
             ArrayList<Note> b = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList2());
-            MelodyFileManager.getManager().saveTwoHandedComposition(a, b, currentUser.getUserName() , currentComposition.getCompositionName() ,
+            MelodyFileManager.getManager().saveTwoHandedComposition(a, b, currentUser.getUserName(), currentComposition.getCompositionName(),
                     currentComposition.getJsonFileName(), currentComposition.getCompositionID());
         }
     }
 
-    private void play(){
+    private void play() {
         togglePlayButton(false);
         ArrayList<Integer> sounds1 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1()));
         MelodyPoolManager.getInstance().setSounds1(sounds1);
-        if (melodyAdapter.getCompositionType() == SHEET_TYPE_TWO_HANDED)
-        {
+        if (melodyAdapter.getCompositionType() == SHEET_TYPE_TWO_HANDED) {
             ArrayList<Integer> sounds2 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList2()));
             MelodyPoolManager.getInstance().setSounds2(sounds2);
         }
         try {
-            MelodyPoolManager.getInstance().InitializeMelodyPool( new MelodyPoolManager.IMelodyPoolLoaded() {
+            MelodyPoolManager.getInstance().InitializeMelodyPool(new MelodyPoolManager.IMelodyPoolLoaded() {
                 @Override
                 public void onSuccess() {
                     MelodyPoolManager.getInstance().setPlaySound(true);
@@ -237,7 +242,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void alertSaveData(){
+    private void alertSaveData() {
         new AlertDialog.Builder(this)
                 .setTitle("Leave Composition")
                 .setMessage("Save Composition before exit")
@@ -253,5 +258,49 @@ public class MainActivity extends AppCompatActivity
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+    }
+
+    private void export(){
+        if(hasPermission) {
+                MelodyExporter melodyExporter = new MelodyExporter(this);
+                ArrayList<Integer> sound1 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1()));
+                melodyExporter.setSound1(sound1);
+                melodyExporter.mergeSongs(currentComposition);
+        }
+        else {
+            requestPermission();
+        }
+    }
+
+    private void requestPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Should we show an explanation?
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+                    Toast.makeText(this, "Please provide permissions for saving file", Toast.LENGTH_LONG).show();
+
+                    // Show an explanation to the user *asynchronously* -- don't block
+                    // this thread waiting for the user's response! After the user
+                    // sees the explanation, try again to request the permission.
+
+                } else {
+
+                    // No explanation needed, we can request the permission.
+
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            REQUEST_WRITE_STORAGE);
+
+                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                    // app-defined int constant. The callback method gets the
+                    // result of the request.
+                }
+            }
+        }
     }
 }

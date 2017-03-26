@@ -4,9 +4,9 @@ package com.team_red.melody.filemanager;
  * Created by Havayi on 23-Mar-17.
  */
 
-public class BitReader {
+class BitReader {
 
-    public static boolean[] toBitBool(byte newByte){
+    static boolean[] toBitBool(byte newByte){
 
         // get the value of hte byte
 

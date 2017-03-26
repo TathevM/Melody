@@ -13,7 +13,7 @@ public class LoadedData {
     private ArrayList<Note> comp1;
     private ArrayList<Note> comp2;
 
-    public LoadedData() {
+    LoadedData() {
     }
 
     public int getType(){
@@ -24,7 +24,7 @@ public class LoadedData {
         return comp1;
     }
 
-    public void setComp1(ArrayList<Note> comp1) {
+    void setComp1(ArrayList<Note> comp1) {
         this.comp1 = comp1;
     }
 
@@ -32,7 +32,7 @@ public class LoadedData {
         return comp2;
     }
 
-    public void setComp2(ArrayList<Note> comp2) {
+    void setComp2(ArrayList<Note> comp2) {
         this.comp2 = comp2;
     }
 }
