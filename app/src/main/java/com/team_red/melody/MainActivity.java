@@ -279,9 +279,9 @@ public class MainActivity extends AppCompatActivity
                     != PackageManager.PERMISSION_GRANTED) {
 
                 // Should we show an explanation?
+
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                         Manifest.permission.READ_EXTERNAL_STORAGE)) {
-
                     Toast.makeText(this, "Please provide permissions for saving file", Toast.LENGTH_LONG).show();
 
                     // Show an explanation to the user *asynchronously* -- don't block
@@ -299,6 +299,7 @@ public class MainActivity extends AppCompatActivity
                     // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                     // app-defined int constant. The callback method gets the
                     // result of the request.
+
                 }
             }
         }

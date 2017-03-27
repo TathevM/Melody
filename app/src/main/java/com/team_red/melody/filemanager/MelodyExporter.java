@@ -22,9 +22,11 @@ import static com.team_red.melody.filemanager.MelodyFileManager.EXPORTED_FILE_DI
 public class MelodyExporter {
 
     private int mFrameSize;
+    private int mHeaderPosition;
     private ArrayList<Integer> sound1;
     private Context mContext;
     private Composition mComposition;
+    private MPEG mpeg;
 
     public MelodyExporter( Context context) {
         this.mContext = context;
@@ -63,6 +65,7 @@ public class MelodyExporter {
     //public void mergeSongs(File mergedFile,File...mp3Files){
     public void mergeSongs(Composition composition){
         this.mComposition = composition;
+        mpeg = new MPEG();
         SongExporterTask task = new SongExporterTask();
         task.execute();
     }
@@ -76,51 +79,52 @@ public class MelodyExporter {
                 String username = MelodyApplication.getLoggedInUser().getUserName();
                 String compName = mComposition.getCompositionName();
                 File dir = new File(root.getAbsolutePath() + EXPORTED_FILE_DIRECTORY);
-                if(dir.mkdirs()) {
-                    File mergedFile = new File(dir, username + " " + compName + ".mp3");
-                    ArrayList<File> mp3Files = prepareExport();
-                    FileInputStream fisToFinal = null;
-                    FileOutputStream fos = null;
-                    try {
-                        fos = new FileOutputStream(mergedFile);
-                        fisToFinal = new FileInputStream(mergedFile);
-                        for (int i = 0; i < mp3Files.size(); i++) {
-                            File mp3File = mp3Files.get(i);
-                            if (!mp3File.exists())
-                                continue;
-                            FileInputStream fisSong = new FileInputStream(mp3File);
-                            SequenceInputStream sis = new SequenceInputStream(fisToFinal, fisSong);
-                            byte[] t = new byte[70];
-                            fos.write(t, 0, fisSong.read(t));
-                            byte[] buf = new byte[mFrameSize];
-                            try {
-                                int k = 0;
-                                for (int readNum; (readNum = fisSong.read(buf)) != -1; k++) {
-                                    if (k == 15)
-                                        break;
-                                    fos.write(buf, 0, readNum);
-                                }
-                            } finally {
-                                fisSong.close();
-                                sis.close();
+                dir.mkdirs();
+                File mergedFile = new File(dir, username + " " + compName + ".mp3");
+                ArrayList<File> mp3Files = prepareExport();
+                FileInputStream fisToFinal = null;
+                FileOutputStream fos = null;
+                try {
+                    fos = new FileOutputStream(mergedFile);
+                    fisToFinal = new FileInputStream(mergedFile);
+                    for (int i = 0; i < mp3Files.size(); i++) {
+                        File mp3File = mp3Files.get(i);
+                        mpeg.read(mp3File);
+                        mHeaderPosition = mpeg.getHeaderPosition();
+                        if (!mp3File.exists())
+                            continue;
+                        FileInputStream fisSong = new FileInputStream(mp3File);
+                        SequenceInputStream sis = new SequenceInputStream(fisToFinal, fisSong);
+                        byte[] t = new byte[mHeaderPosition];
+                        fos.write(t, 0, fisSong.read(t));
+                        byte[] buf = new byte[mFrameSize];
+                        try {
+                            int k = 0;
+                            for (int readNum; (readNum = fisSong.read(buf)) != -1; k++) {
+                                if (k == 12)
+                                    break;
+                                fos.write(buf, 0, readNum);
                             }
+                        } finally {
+                            fisSong.close();
+                            sis.close();
                         }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (fos != null) {
+                            fos.flush();
+                            fos.close();
+                        }
+                        if (fisToFinal != null) {
+                            fisToFinal.close();
+                        }
+                        for (File mp3file : mp3Files)
+                            mp3file.delete();
                     } catch (IOException e) {
                         e.printStackTrace();
-                    } finally {
-                        try {
-                            if (fos != null) {
-                                fos.flush();
-                                fos.close();
-                            }
-                            if (fisToFinal != null) {
-                                fisToFinal.close();
-                            }
-                            for (File mp3file : mp3Files)
-                                mp3file.delete();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
                     }
                 }
             }

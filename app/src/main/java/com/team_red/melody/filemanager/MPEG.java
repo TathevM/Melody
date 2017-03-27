@@ -29,7 +29,7 @@ public class MPEG {
     private String mEmphasis;
     private int mFrameSize;
 
-    private long mHeaderPosition;
+    private int mHeaderPosition;
 
     private byte[] br;
 
@@ -65,6 +65,10 @@ public class MPEG {
         if(mFrameSize == 0)
             this.mFrameSize = (144 * 160000) / (44100);
         return mFrameSize;
+    }
+
+    public int getHeaderPosition() {
+        return mHeaderPosition;
     }
 
     public void read(File f){
