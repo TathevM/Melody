@@ -44,12 +44,4 @@ public class StartActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.AccountChooser, usersOrCompsListFragment, "usersCompsList");
         fragmentTransaction.commit();
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        MenuInflater mi = getMenuInflater();
-        mi.inflate(R.menu.main, menu);
-        return true;
-    }
 }
