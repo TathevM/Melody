@@ -3,7 +3,7 @@ package com.team_red.melody.filemanager;
 
 
 import com.team_red.melody.DBs.DbManager;
-import com.team_red.melody.MelodyApplication;
+import com.team_red.melody.app.MelodyApplication;
 import com.team_red.melody.R;
 import com.team_red.melody.models.Composition;
 import com.team_red.melody.models.Note;

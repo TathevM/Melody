@@ -1,6 +1,5 @@
 package com.team_red.melody.sound;
 
-import android.app.Activity;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.AsyncTask;
@@ -8,7 +7,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
-import com.team_red.melody.MelodyApplication;
+import com.team_red.melody.app.MelodyApplication;
 
 import java.util.ArrayList;
 

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.team_red.melody.R;
 import com.team_red.melody.melodyboard.MelodyBoard;
+import com.team_red.melody.widget.MelodyEditText;
 
 import java.util.ArrayList;
 
@@ -107,7 +108,7 @@ public class MelodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    private void setTextChange(MelodyEditText editText ,final RecyclerView.ViewHolder holder){
+    private void setTextChange(MelodyEditText editText , final RecyclerView.ViewHolder holder){
         if (editText.getTag().equals(EDIT_TEXT_1_TAG))
         editText.addTextChangedListener(new TextWatcher() {
             @Override

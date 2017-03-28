@@ -3,6 +3,7 @@ package com.team_red.melody.StartActivityFragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,13 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.team_red.melody.Adapter.RVAdapter;
-import com.team_red.melody.CompositionsActivity;
+import com.team_red.melody.activities.CompositionsActivity;
 import com.team_red.melody.DBs.DbManager;
-import com.team_red.melody.MelodyApplication;
+import com.team_red.melody.app.MelodyApplication;
 import com.team_red.melody.R;
+import com.team_red.melody.models.User;
 
 
 public class UsersOrCompsListFragment extends Fragment {
+
+    public static final String TRANSITION_USERNAME = "transition_username";
 
     private RVAdapter adapter;
     private DbManager mdbManager;
@@ -49,12 +53,17 @@ public class UsersOrCompsListFragment extends Fragment {
         rv.setHasFixedSize(true);
         adapter.setOnListItemClickListener(new RVAdapter.OnListItemClickListener() {
             @Override
-            public void onItemClick(int ID) {
+            public void onItemClick(int ID, View view1) {
                 if (!adapter.IS_USER_CHOSEN) {
                     adapter.IS_USER_CHOSEN = true;
                     selectedUserID = ID;
                     myIntent = new Intent(getActivity(), CompositionsActivity.class);
-                    MelodyApplication.setLoggedInUser(mdbManager.getUserByID((int) selectedUserID));
+                    User selectedUser = mdbManager.getUserByID((int) selectedUserID);
+                    MelodyApplication.setLoggedInUser(selectedUser);
+//                    myIntent.putExtra(TRANSITION_USERNAME , selectedUser.getUserName());
+//                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.
+//                            makeSceneTransitionAnimation(getActivity(), view1, getResources().getString(R.string.transition_profile));
+//                    startActivity(myIntent, optionsCompat.toBundle());
                     startActivity(myIntent);
                 }
             }

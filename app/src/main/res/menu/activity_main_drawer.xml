@@ -5,31 +5,31 @@
         <item
             android:id="@+id/nav_change_user"
             android:icon="@drawable/icon_user_change"
-            android:title="Change User" />
+            android:title="@string/nav_change_user" />
         <item
             android:id="@+id/nav_change_theme"
             android:icon="@drawable/icon_theme"
-            android:title="Change Theme" />
+            android:title="@string/nav_change_theme" />
         <item
             android:id="@+id/nav_compositions"
             android:icon="@drawable/icon_compositions"
-            android:title="Compositions" />
+            android:title="@string/nav_compositions" />
         <item
             android:id="@+id/nav_Help"
             android:icon="@drawable/icon_help"
-            android:title="Help" />
+            android:title="@string/nav_help" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/nav_communicate">
         <menu>
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="@string/nav_share" />
             <item
                 android:id="@+id/nav_export"
                 android:icon="@drawable/icon_export"
-                android:title="Export" />
+                android:title="@string/nav_export" />
         </menu>
     </item>
 

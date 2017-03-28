@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.widget.Toast;
 
-import com.team_red.melody.MelodyApplication;
+import com.team_red.melody.app.MelodyApplication;
 import com.team_red.melody.models.Composition;
 
 import java.io.File;

@@ -12,7 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.team_red.melody.R;
-import com.team_red.melody.models.MelodyEditText;
+import com.team_red.melody.widget.MelodyEditText;
 
 
 public class MelodyBoard implements KeyboardView.OnKeyboardActionListener {

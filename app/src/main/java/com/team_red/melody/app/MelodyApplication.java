@@ -1,4 +1,4 @@
-package com.team_red.melody;
+package com.team_red.melody.app;
 
 import android.app.Application;
 import android.content.Context;

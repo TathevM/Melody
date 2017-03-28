@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <com.team_red.melody.models.MelodyEditText
+    <com.team_red.melody.widget.MelodyEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"

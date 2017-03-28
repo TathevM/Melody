@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.team_red.melody.models.MelodyEditText
+        <com.team_red.melody.widget.MelodyEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -33,7 +33,7 @@
             android:layout_marginRight="@dimen/note_margin_paper"
             android:layout_marginEnd="@dimen/note_margin_paper"/>
 
-        <com.team_red.melody.models.MelodyEditText
+        <com.team_red.melody.widget.MelodyEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"

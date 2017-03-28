@@ -3,20 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_play_sound"
-        android:title="Play"
+        android:title="@string/toolbar_play"
         app:showAsAction="always"
         android:orderInCategory="80"/>
     <item android:id="@+id/action_save"
         app:showAsAction="ifRoom"
-        android:title="Save"
+        android:title="@string/toolbar_save"
         android:orderInCategory="90"/>
     <item android:id="@+id/action_export"
         android:orderInCategory="110"
-        android:title="Export"
+        android:title="@string/toolbar_export"
         app:showAsAction="never"/>
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
 </menu>

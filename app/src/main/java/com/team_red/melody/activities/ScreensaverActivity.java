@@ -1,4 +1,4 @@
-package com.team_red.melody;
+package com.team_red.melody.activities;
 
 import android.content.Intent;
 import android.os.Build;
@@ -8,8 +8,7 @@ import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.team_red.melody.DBs.DbManager;
-import com.team_red.melody.models.Quote;
+import com.team_red.melody.R;
 
 import java.util.Random;
 

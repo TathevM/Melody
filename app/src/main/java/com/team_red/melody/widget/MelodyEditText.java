@@ -1,4 +1,4 @@
-package com.team_red.melody.models;
+package com.team_red.melody.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -7,10 +7,9 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.text.InputFilter;
-import android.text.TextPaint;
 import android.util.AttributeSet;
 
-import com.team_red.melody.MelodyApplication;
+import com.team_red.melody.app.MelodyApplication;
 import com.team_red.melody.melodyboard.MelodyStatics;
 
 public class MelodyEditText extends android.support.v7.widget.AppCompatEditText {

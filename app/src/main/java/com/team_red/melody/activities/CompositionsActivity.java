@@ -1,4 +1,4 @@
-package com.team_red.melody;
+package com.team_red.melody.activities;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -22,6 +22,8 @@ import android.widget.Toast;
 import com.team_red.melody.Adapter.RVAdapter;
 import com.team_red.melody.DBs.DbManager;
 
+import com.team_red.melody.app.MelodyApplication;
+import com.team_red.melody.R;
 import com.team_red.melody.filemanager.MelodyFileManager;
 import com.team_red.melody.models.Composition;
 import com.team_red.melody.models.User;
@@ -83,7 +85,7 @@ public class CompositionsActivity extends AppCompatActivity {
         rv.setHasFixedSize(true);
         adapter.setOnListItemClickListener(new RVAdapter.OnListItemClickListener() {
             @Override
-            public void onItemClick(int ID) {
+            public void onItemClick(int ID, View view) {
                      Intent myIntent = new Intent(CompositionsActivity.this, MainActivity.class);
                 myIntent.putExtra(COMP_ID_TAG, (long) ID);
                 myIntent.putExtra(USER_ID_TAG , mUser.getID());

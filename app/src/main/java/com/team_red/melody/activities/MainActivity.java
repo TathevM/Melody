@@ -1,4 +1,4 @@
-package com.team_red.melody;
+package com.team_red.melody.activities;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -24,6 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.team_red.melody.DBs.DbManager;
+import com.team_red.melody.app.MelodyApplication;
+import com.team_red.melody.R;
 import com.team_red.melody.filemanager.LoadedData;
 import com.team_red.melody.filemanager.MelodyExporter;
 import com.team_red.melody.filemanager.MelodyFileManager;
@@ -149,8 +151,6 @@ public class MainActivity extends AppCompatActivity
             case R.id.action_save:
                 save();
                 break;
-            case R.id.action_settings:
-                return true;
             case R.id.action_play_sound:
                 play();
                 break;

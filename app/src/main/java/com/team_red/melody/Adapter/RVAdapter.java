@@ -9,22 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.team_red.melody.DBs.DbManager;
-import com.team_red.melody.MainActivity;
-import com.team_red.melody.MelodyApplication;
+import com.team_red.melody.app.MelodyApplication;
 import com.team_red.melody.R;
-import com.team_red.melody.StartActivity;
-import com.team_red.melody.filemanager.MelodyFileManager;
 import com.team_red.melody.models.Composition;
-import com.team_red.melody.models.Note;
 import com.team_red.melody.models.User;
 
 import java.util.ArrayList;
-
-import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_ONE_HANDED;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
 
@@ -101,16 +94,16 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
         public void onClick(View view) {
             if(onListItemClickListener != null) {
                 if (!IS_USER_CHOSEN) {
-                    onListItemClickListener.onItemClick(usersList.get(getAdapterPosition()).getID());
+                    onListItemClickListener.onItemClick(usersList.get(getAdapterPosition()).getID(), view);
                 }
                 else
-                    onListItemClickListener.onItemClick(compositionsList.get(getAdapterPosition()).getCompositionID());
+                    onListItemClickListener.onItemClick(compositionsList.get(getAdapterPosition()).getCompositionID(), view);
             }
         }
     }
 
     public interface OnListItemClickListener{
-        void onItemClick(int ID);
+        void onItemClick(int ID, View view);
     }
 
     public void onDeleteClick(final int position){
