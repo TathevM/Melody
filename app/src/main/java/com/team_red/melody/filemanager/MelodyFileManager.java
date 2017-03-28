@@ -97,8 +97,8 @@ public class MelodyFileManager {
         ArrayList<Integer> result = new ArrayList<>();
         for(int i = 0; i < input.size(); i++)
         {
-            if(220 <= input.get(i).getValue() && input.get(i).getValue() < 290 ) {
-                String tempName = SOUND_FILE_PREFIX + String.valueOf(input.get(i).getValue());
+            if(220 <= input.get(i).getValue() && input.get(i).getValue() <= 280 ) {
+                String tempName = input.get(i).toString() ;
                 try {
                     int id = R.raw.class.getField(tempName).getInt(null);
                     result.add(id);

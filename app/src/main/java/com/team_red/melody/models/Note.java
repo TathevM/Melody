@@ -75,6 +75,11 @@ public class Note implements Parcelable {
         return new Note(value , sign , octave);
     }
 
+    @Override
+    public String toString() {
+        return sign+octave+"_"+value;
+    }
+
     public int getValue() {
         return value;
     }
