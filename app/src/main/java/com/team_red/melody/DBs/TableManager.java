@@ -9,7 +9,7 @@ public class TableManager {
     //         COMPOSITIONS TABLE
 
 
-    public static final String COMPOSITIONS_TABLE = "COMPOSITIONS";
+    public static final String COMPOSITIONS_TABLE = "compositions";
 
     public static final String COMPOSITION_ID = "_id";
     public static final String COMPOSITOR_ID = "compositor";
@@ -28,7 +28,7 @@ public class TableManager {
 
     //            USERS TABLE
 
-    public static final String USERS_TABLE = "USERS";
+    public static final String USERS_TABLE = "users";
     public static final String USER_ID = "_id";
     public static final String USERNAME = "username";
 

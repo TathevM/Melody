@@ -109,8 +109,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
     public void onDeleteClick(final int position){
 
         new AlertDialog.Builder(context)
-                .setTitle("Delete")
-                .setMessage("Do you really want to delete it?")
+                .setTitle(R.string.alert_delete_title)
+                .setMessage(R.string.alert_delete_text)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dbManager.deleteCompByID(compositionsList.get(position).getCompositionID());

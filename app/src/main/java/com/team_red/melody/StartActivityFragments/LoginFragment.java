@@ -63,7 +63,7 @@ public class LoginFragment extends Fragment {
                         startActivity(mIntent);
                         newUSerState = false;
                     } else
-                        Toast.makeText(getContext(), "Write your name maestro", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), R.string.toast_no_name, Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -244,14 +244,14 @@ public class MainActivity extends AppCompatActivity
 
     private void alertSaveData() {
         new AlertDialog.Builder(this)
-                .setTitle("Leave Composition")
-                .setMessage("Save Composition before exit")
+                .setTitle(R.string.alert_leave_comp)
+                .setMessage(R.string.alert_save_comp)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         save();
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         MainActivity.super.onBackPressed();
                     }
@@ -282,7 +282,7 @@ public class MainActivity extends AppCompatActivity
 
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                         Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    Toast.makeText(this, "Please provide permissions for saving file", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.permission_text, Toast.LENGTH_LONG).show();
 
                     // Show an explanation to the user *asynchronously* -- don't block
                     // this thread waiting for the user's response! After the user

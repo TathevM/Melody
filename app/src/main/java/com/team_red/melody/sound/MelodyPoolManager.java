@@ -7,7 +7,9 @@ import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
+import com.team_red.melody.R;
 import com.team_red.melody.app.MelodyApplication;
+import com.team_red.melody.melodyboard.MelodyStatics;
 
 import java.util.ArrayList;
 
@@ -68,7 +70,7 @@ public class MelodyPoolManager {
 
     public void InitializeMelodyPool( final IMelodyPoolLoaded callback) throws Exception {
         if (sounds1 == null || sounds1.size() == 0) {
-            throw new Exception("Sounds not set");
+            throw new Exception(MelodyApplication.getContext().getString(R.string.sound_pool_exception));
         }
         PoolInitializer poolInitializer = new PoolInitializer();
         poolInitializer.execute(callback);

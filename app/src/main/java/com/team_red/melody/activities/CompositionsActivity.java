@@ -97,7 +97,7 @@ public class CompositionsActivity extends AppCompatActivity {
     private void openPagePickerDialog(){
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.layout_new_comp_dialog);
-        dialog.setTitle("Pick page type");
+        dialog.setTitle(R.string.dialog_new_page_picker);
         Window window = dialog.getWindow();
         window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT , LinearLayout.LayoutParams.WRAP_CONTENT);
         Button dialogOK = (Button) dialog.findViewById(R.id.button_dialog_OK);
@@ -106,7 +106,7 @@ public class CompositionsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EditText editText = (EditText) dialog.findViewById(R.id.dialog_new_comp_name);
                 if (editText.getText().toString().equals("")){
-                    Toast.makeText(CompositionsActivity.this,"Write your name maestro", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CompositionsActivity.this, R.string.toast_no_name, Toast.LENGTH_SHORT).show();
                 }else {
                     int curType;
                     String compName;

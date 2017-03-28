@@ -34,6 +34,9 @@
     <string name="author8">Pablo Casals</string>
     <string name="author9">Ben Folds</string>
     <string name="author10">Mike Stoller</string>
+
+
+    
     <string name="new_user_hint">Type your name maestro</string>
     <string name="nav_help">Help</string>
     <string name="nav_compositions">Compositions</string>
@@ -46,5 +49,15 @@
     <string name="toolbar_save">Save</string>
     <string name="toolbar_export">Export</string>
     <string name="transition_profile">profile</string>
+    <string name="alert_leave_comp">Leave Composition</string>
+    <string name="alert_save_comp">Save Composition before exit</string>
+    <string name="no">No</string>
+    <string name="permission_text">Please provide permissions for saving file</string>
+    <string name="dialog_new_page_picker">Pick page type</string>
+    <string name="toast_no_name">Write your name maestro</string>
+    <string name="alert_delete_title">Delete</string>
+    <string name="alert_delete_text">Do you really want to delete it?</string>
+    <string name="export_dir_help">File saved in folder</string>
+    <string name="sound_pool_exception">Sounds not set</string>
 
 </resources>

@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.widget.Toast;
 
+import com.team_red.melody.R;
 import com.team_red.melody.app.MelodyApplication;
 import com.team_red.melody.models.Composition;
 
@@ -133,7 +134,7 @@ public class MelodyExporter {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Toast.makeText(mContext , "File saved in folder " + EXPORTED_FILE_DIRECTORY, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext , mContext.getString(R.string.export_dir_help) + EXPORTED_FILE_DIRECTORY, Toast.LENGTH_SHORT).show();
         }
     }
 
