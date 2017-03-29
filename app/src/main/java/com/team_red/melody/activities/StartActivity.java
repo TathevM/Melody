@@ -1,21 +1,19 @@
 package com.team_red.melody.activities;
 
-
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.WindowManager;
-import android.widget.TextView;
+import android.support.v7.widget.Toolbar;
 
 import com.team_red.melody.R;
 import com.team_red.melody.StartActivityFragments.LoginFragment;
 import com.team_red.melody.StartActivityFragments.UsersOrCompsListFragment;
 
-public class StartActivity extends AppCompatActivity {
+public class StartActivity extends AppCompatActivity
+        //implements NavigationView.OnNavigationItemSelectedListener
+{
 
     private LoginFragment loginFragment;
     private UsersOrCompsListFragment usersOrCompsListFragment;
@@ -24,15 +22,12 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_application_start);
+        setContentView(R.layout.activity_start);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         initFragments();
-//        TextView appName = (TextView) findViewById(R.id.compositor_name);
-//        appName.setText(getResources().getString(R.string.app_name));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().setStatusBarColor(getResources().getColor(R.color.actionbar));
-        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     }
 
     public  void  initFragments(){

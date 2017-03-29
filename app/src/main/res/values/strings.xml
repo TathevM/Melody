@@ -44,7 +44,6 @@
     </string-array>
 
 
-
     <string name="new_user_hint">Type your name maestro</string>
     <string name="nav_help">Help</string>
     <string name="nav_compositions">Compositions</string>
@@ -67,5 +66,7 @@
     <string name="alert_delete_text">Do you really want to delete it?</string>
     <string name="export_dir_help">File saved in folder</string>
     <string name="sound_pool_exception">Sounds not set</string>
+    <string name="title_activity_start">StartActivity</string>
+    <string name="title_activity_compositions">CompositionsActivity</string>
 
 </resources>

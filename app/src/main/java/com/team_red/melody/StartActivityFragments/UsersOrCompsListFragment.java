@@ -3,7 +3,6 @@ package com.team_red.melody.StartActivityFragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,10 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.team_red.melody.Adapter.RVAdapter;
-import com.team_red.melody.activities.CompositionsActivity;
 import com.team_red.melody.DBs.DbManager;
-import com.team_red.melody.app.MelodyApplication;
 import com.team_red.melody.R;
+import com.team_red.melody.activities.CompositionsActivity;
+import com.team_red.melody.app.MelodyApplication;
 import com.team_red.melody.models.User;
 
 
