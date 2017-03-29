@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -80,6 +81,8 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
         navigationUsername = (TextView) headerView.findViewById(R.id.compositor);
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/navigation_font.ttf");
+        navigationUsername.setTypeface(typeface);
 
         currentUser = MelodyApplication.getLoggedInUser();
         navigationUsername.setText(currentUser.getUserName());
