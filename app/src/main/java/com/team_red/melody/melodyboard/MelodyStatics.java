@@ -2,6 +2,7 @@ package com.team_red.melody.melodyboard;
 
 public class MelodyStatics {
     public static final String FONT_NAME = "fonts/Melody.ttf";
+    public static final String MAIN_FONT_NAME = "fonts/main_font.ttf";
 
     public static final int CODE_BACKSPACE = -5;
     public static final int CODE_CANCEL = -3;

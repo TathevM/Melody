@@ -98,8 +98,8 @@ public class MelodyFileManager {
         ArrayList<Integer> result = new ArrayList<>();
         for(int i = 0; i < input.size(); i++)
         {
-            if(220 <= input.get(i).getValue() && input.get(i).getValue() < 290 ) {
-                String tempName = SOUND_FILE_PREFIX + String.valueOf(input.get(i).getValue());
+            if(220 <= input.get(i).getValue() && input.get(i).getValue() <= 280 ) {
+                String tempName = input.get(i).toString() ;
                 try {
                     int id = R.raw.class.getField(tempName).getInt(null);
                     result.add(id);
@@ -193,10 +193,10 @@ public class MelodyFileManager {
             for(int j = 0; j < temp.length; j++){
                 int code = (int) temp[j];
 
-                if(code >= 200 && code < 360)
+                if(code >= 220 && code < 290)
                 {
                     if(code%10 < 5) {
-                        result.add(new Note(code, prevSign, 0));
+                        result.add(new Note(code, prevSign, 4));
                         prevSign = 0;
                     }
                     else{

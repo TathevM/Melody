@@ -10,31 +10,38 @@
     <string name="new_comp_text">New</string>
 
 
-    <string name="quote0">I really believe in melody.</string>
-    <string name="quote1">With a good melody… music gets me through everything.</string>
-    <string name="quote2">Music has a poetry of its own, and that poetry is called melody.</string>
-    <string name="quote3">Every soul is a melody which needs renewing.</string>
-    <string name="quote4">Great melody over great riffs is, to me, the secret of it all.</string>
-    <string name="quote5">I find sadness and strife to be so much more interesting with an upbeat melody.</string>
-    <string name="quote6">Never be ashamed to write a melody that people remember.</string>
-    <string name="quote7">Because if you\'ve got the wit, you can make anything into a melody, ultimately.</string>
-    <string name="quote8">The heart of the melody can never be put down on paper.</string>
-    <string name="quote9">The way I see it, there\'s only one melody for any song.</string>
-    <string name="quote10">I write a melody and then change it and change it until I get it the way I like it.</string>
+    <string-array name="quotes">
+
+        <item>I really believe in melody.</item>
+        <item>With a good melody music gets me through everything.</item>
+        <item>Music has a poetry of its own, and that poetry is called melody.</item>
+        <item>Every soul is a melody which needs renewing.</item>
+        <item>Great melody over great riffs is, to me, the secret of it all.</item>
+        <item>I find sadness and strife to be so much more interesting with an upbeat melody.</item>
+        <item>Never be ashamed to write a melody that people remember.</item>
+        <item>Because if you\'ve got the wit, you can make anything into a melody, ultimately.</item>
+        <item>The heart of the melody can never be put down on paper.</item>
+        <item>The way I see it, there\'s only one melody for any song.</item>
+        <item>I write a melody and then change it and change it until I get it the way I like it.</item>
+
+    </string-array>
 
 
-    <string name="author0">Aulis Sallinen</string>
-    <string name="author1">Drake Bell</string>
-    <string name="author2">Joshua Logan</string>
-    <string name="author3">Stephane Mallarme</string>
-    <string name="author4">Steven Tyler</string>
-    <string name="author5">Zooey Deschanel</string>
-    <string name="author6">Burt Bacharach</string>
-    <string name="author7">Gerry Mulligan</string>
-    <string name="author8">Pablo Casals</string>
-    <string name="author9">Ben Folds</string>
-    <string name="author10">Mike Stoller</string>
+    <string-array name="authors">
 
+        <item>Aulis Sallinen</item>
+        <item>Drake Bell</item>
+        <item>Joshua Logan</item>
+        <item>Stephane Mallarme</item>
+        <item>Steven Tyler</item>
+        <item>Zooey Deschanel</item>
+        <item>Burt Bacharach</item>
+        <item>Gerry Mulligan</item>
+        <item>Pablo Casals</item>
+        <item>Ben Folds</item>
+        <item>Mike Stoller</item>
+
+    </string-array>
 
 
     <string name="new_user_hint">Type your name maestro</string>
@@ -59,5 +66,7 @@
     <string name="alert_delete_text">Do you really want to delete it?</string>
     <string name="export_dir_help">File saved in folder</string>
     <string name="sound_pool_exception">Sounds not set</string>
+    <string name="title_activity_start">StartActivity</string>
+    <string name="title_activity_compositions">CompositionsActivity</string>
 
 </resources>

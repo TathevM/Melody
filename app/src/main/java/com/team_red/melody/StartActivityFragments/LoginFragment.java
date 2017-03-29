@@ -16,9 +16,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.team_red.melody.DBs.DbManager;
-import com.team_red.melody.activities.MainActivity;
-import com.team_red.melody.app.MelodyApplication;
 import com.team_red.melody.R;
+import com.team_red.melody.activities.CompositionsActivity;
+import com.team_red.melody.app.MelodyApplication;
 import com.team_red.melody.models.User;
 
 
@@ -58,7 +58,7 @@ public class LoginFragment extends Fragment {
                     String userName = loginInput.getText().toString();
                     if (!userName.equalsIgnoreCase("")) {
                         long id = dbManager.insertUser(userName);
-                        Intent mIntent = new Intent(getActivity(), MainActivity.class);
+                        Intent mIntent = new Intent(getActivity(), CompositionsActivity.class);
                         MelodyApplication.setLoggedInUser(new User(userName, (int) id));
                         startActivity(mIntent);
                         newUSerState = false;

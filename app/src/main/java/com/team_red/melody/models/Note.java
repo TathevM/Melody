@@ -7,6 +7,12 @@ import android.os.Parcelable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static com.team_red.melody.melodyboard.MelodyStatics.DOUBLE_FLAT_DIVISOR;
+import static com.team_red.melody.melodyboard.MelodyStatics.DOUBLE_SHARP_DIVISOR;
+import static com.team_red.melody.melodyboard.MelodyStatics.FLAT_DIVISOR;
+import static com.team_red.melody.melodyboard.MelodyStatics.NATURAL_DIVISOR;
+import static com.team_red.melody.melodyboard.MelodyStatics.SHARP_DIVISOR;
+
 public class Note implements Parcelable {
     public static final String NOTE_VALUE_JSON_TAG = "value";
     public static final String NOTE_SIGN_JSON_TAG = "sign";
@@ -73,6 +79,51 @@ public class Note implements Parcelable {
             ex.printStackTrace();
         }
         return new Note(value , sign , octave);
+    }
+
+    @Override
+    public String toString() {
+        String temp="";
+        if(sign%10==SHARP_DIVISOR){
+            temp = "s";
+        }
+        else
+            if(sign%10==DOUBLE_SHARP_DIVISOR){
+                temp = "p";
+            }
+            else
+                if(sign%10 == FLAT_DIVISOR){
+                    temp = "f";
+                }
+                else
+                    if(sign%10 == DOUBLE_FLAT_DIVISOR){
+                        temp = "t";
+                    }
+                    else
+                        if(sign%10 == NATURAL_DIVISOR || sign == 0){
+                            temp = "n";
+                        }
+        return temp+octave+"_"+value;
+    }
+
+    public int getDuration(){
+        int result=0;
+        if(value%10==0){
+            result = 1000;
+        }
+        else
+            if(value%10==1){
+                result = 500;
+            }
+            else
+                if(value%10==2){
+                    result = 250;
+                }
+                else
+                    if(value%10==3){
+                        result = 125;
+                    }
+        return result;
     }
 
     public int getValue() {
