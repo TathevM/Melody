@@ -80,6 +80,26 @@ public class Note implements Parcelable {
         return sign+octave+"_"+value;
     }
 
+    public int getDuration(){
+        int result=0;
+        if(value%10==0){
+            result = 1000;
+        }
+        else
+            if(value%10==1){
+                result = 500;
+            }
+            else
+                if(value%10==2){
+                    result = 250;
+                }
+                else
+                    if(value%10==3){
+                        result = 125;
+                    }
+        return result;
+    }
+
     public int getValue() {
         return value;
     }
