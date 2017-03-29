@@ -193,10 +193,10 @@ public class MelodyFileManager {
             for(int j = 0; j < temp.length; j++){
                 int code = (int) temp[j];
 
-                if(code >= 200 && code < 360)
+                if(code >= 220 && code < 290)
                 {
                     if(code%10 < 5) {
-                        result.add(new Note(code, prevSign, 0));
+                        result.add(new Note(code, prevSign, 4));
                         prevSign = 0;
                     }
                     else{

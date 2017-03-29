@@ -2,9 +2,9 @@ package com.team_red.melody.activities;
 
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.TextView;
 
@@ -16,6 +16,8 @@ public class ScreensaverActivity extends AppCompatActivity {
 
     private final String QUOTE = "quote";
     private final String AUTHOR = "author";
+    private String[] mQuotes;
+    private String[] mAuthors;
 
     private Handler mHandler;
 
@@ -35,24 +37,15 @@ public class ScreensaverActivity extends AppCompatActivity {
 
     }
 
-    public void init(int i){
+    public void init(int i) {
+        mQuotes = getResources().getStringArray(R.array.quotes);
+        mAuthors = getResources().getStringArray(R.array.authors);
 
-        try {
-            TextView quote = (TextView) findViewById(R.id.quote);
-            TextView author = (TextView) findViewById(R.id.author);
+        TextView quote = (TextView) findViewById(R.id.quote);
+        TextView author = (TextView) findViewById(R.id.author);
 
-            int quoteID = R.string.class.getField(QUOTE + i).getInt(null);
-            int authorID = R.string.class.getField(AUTHOR + i).getInt(null);
-
-            quote.setText(quoteID);
-            author.setText(authorID);
-
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
+        quote.setText(mQuotes[i]);
+        author.setText(mAuthors[i]);
 
         mHandler.postDelayed(new Runnable() {
             @Override
@@ -62,8 +55,7 @@ public class ScreensaverActivity extends AppCompatActivity {
                 finish();
 
             }
-        }, 1000);
+        }, 2000);
+
     }
-
-
 }
