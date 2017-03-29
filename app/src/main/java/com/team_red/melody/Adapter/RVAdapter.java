@@ -2,6 +2,7 @@ package com.team_red.melody.Adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.team_red.melody.DBs.DbManager;
 import com.team_red.melody.app.MelodyApplication;
 import com.team_red.melody.R;
+import com.team_red.melody.melodyboard.MelodyStatics;
 import com.team_red.melody.models.Composition;
 import com.team_red.melody.models.User;
 
@@ -85,8 +87,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
         ViewHolder(View itemView) {
             super(itemView);
             mUserOrCompName = (TextView) itemView.findViewById(R.id.userOrCompName);
+            Typeface typeface = Typeface.createFromAsset(MelodyApplication.getContext().getAssets(), MelodyStatics.MAIN_FONT_NAME);
+            mUserOrCompName.setTypeface(typeface);
             mDeleteButton = (ImageButton) itemView.findViewById(R.id.delete_button);
-//            mDeleteButton.setVisibility(View.GONE);
             itemView.setOnClickListener(this);
         }
 
