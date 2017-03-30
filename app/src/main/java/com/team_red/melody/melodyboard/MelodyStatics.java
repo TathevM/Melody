@@ -34,4 +34,8 @@ public class MelodyStatics {
 
     public static final int SHEET_TYPE_ONE_HANDED = 1;
     public static final int SHEET_TYPE_TWO_HANDED = 2;
+
+    public static final int FLAG_PLAY = 10;
+    public static final int FLAG_EXPORT = 10;
+    public static final int FLAG_SAVE = 20;
 }

@@ -51,19 +51,13 @@ public class MelodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.melodyStringList2.add("");
     }
 
-    public void addNewLinesToList(){
-        if(melodyStringList1 != null) {
-            melodyStringList1.add("");
-            melodyStringList1.add("");
-            melodyStringList1.add("");
-            melodyStringList1.add("");
-            melodyStringList1.add("");
+    public void addNewLinesToList() {
+        if (melodyStringList1 != null) {
+            for (int i = 0; i < 10; i++)
+                melodyStringList1.add("");
             if (melodyStringList2 != null) {
-                melodyStringList2.add("");
-                melodyStringList2.add("");
-                melodyStringList2.add("");
-                melodyStringList2.add("");
-                melodyStringList2.add("");
+                for (int i = 0; i < 10; i++)
+                    melodyStringList2.add("");
             }
         }
         notifyDataSetChanged();

@@ -5,6 +5,7 @@ package com.team_red.melody.filemanager;
 import com.team_red.melody.DBs.DbManager;
 import com.team_red.melody.app.MelodyApplication;
 import com.team_red.melody.R;
+import com.team_red.melody.melodyboard.MelodyStatics;
 import com.team_red.melody.models.Composition;
 import com.team_red.melody.models.Note;
 
@@ -20,6 +21,11 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.team_red.melody.melodyboard.MelodyStatics.CODE_BASS_CLEF;
+import static com.team_red.melody.melodyboard.MelodyStatics.CODE_SOL_CLEF;
+import static com.team_red.melody.melodyboard.MelodyStatics.FLAG_EXPORT;
+import static com.team_red.melody.melodyboard.MelodyStatics.FLAG_PLAY;
+import static com.team_red.melody.melodyboard.MelodyStatics.FLAG_SAVE;
 import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_ONE_HANDED;
 import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_TWO_HANDED;
 
@@ -31,7 +37,6 @@ public class MelodyFileManager {
     public static final String COMPOSITION_ID_TAG = "_id";
     public static final String MAX_CHARACTERS_TAG = "max_chars_per_line";
     public static String COMPOSITION_JSON_DIR = MelodyApplication.getContext().getFilesDir()  + File.separator;
-    public static String SOUND_FILE_PREFIX = "s";
     public static String COMPOSITION_TYPE_TAG = "hand_type";
     public static String EXPORTED_FILE_DIRECTORY = "/Melody";
 
@@ -98,7 +103,7 @@ public class MelodyFileManager {
         ArrayList<Integer> result = new ArrayList<>();
         for(int i = 0; i < input.size(); i++)
         {
-            if(220 <= input.get(i).getValue() && input.get(i).getValue() <= 280 ) {
+            if(220 <= input.get(i).getValue() && input.get(i).getValue() < 290 ) {
                 String tempName = input.get(i).toString() ;
                 try {
                     int id = R.raw.class.getField(tempName).getInt(null);
@@ -181,30 +186,98 @@ public class MelodyFileManager {
 
     }
 
-    public ArrayList<Note> MakeNotesFromString(ArrayList<String> input){
+    public ArrayList<Note> MakeNotesFromString(ArrayList<String> input, int flag){
+        if(flag == FLAG_PLAY)
+            return MakeNotesFromStringPlay(input);
+        else if(flag == FLAG_SAVE)
+            return MakeNotesFromStringSave(input);
+        return null;
+    }
+
+    private ArrayList<Note> MakeNotesFromStringSave(ArrayList<String> input){
         ArrayList<Note> result = new ArrayList<>();
         int maxCharactersPerLine = 0;
         for(int i = 0; i < input.size(); i++){
             if(input.get(i).length() > maxCharactersPerLine)
                 maxCharactersPerLine = input.get(i).length();
+            if(input.get(i).isEmpty())
+                continue;
             char[] temp = input.get(i).toCharArray();
             int prevSign = 0;
-
-            for(int j = 0; j < temp.length; j++){
+            int clefType = (int) temp[0];
+            result.add(new Note(clefType, 0, 0));
+            for(int j = 1; j < temp.length; j++){
                 int code = (int) temp[j];
-
-                if(code >= 220 && code < 290)
-                {
+                int octave = 4;
+                if(clefType == CODE_SOL_CLEF){
+                    if (code >= 290)
+                        octave = 5;
+                }
+                else {
+                    octave = 2;
+                    if (code >= 280)
+                        octave = 3;
+                }
+                if(code >= 200 && code < 360){
                     if(code%10 < 5) {
-                        result.add(new Note(code, prevSign, 4));
+                        result.add(new Note(code, prevSign, octave));
                         prevSign = 0;
                     }
                     else{
                         prevSign = code;
                     }
                 }
-                else if (code > 400)
+                else if(code > 400)
                     prevSign = code;
+            }
+        }
+        currentMaxCharacters = maxCharactersPerLine;
+        return result;
+    }
+
+    private ArrayList<Note> MakeNotesFromStringPlay(ArrayList<String> input){
+        ArrayList<Note> result = new ArrayList<>();
+        int maxCharactersPerLine = 0;
+        for(int i = 0; i < input.size(); i++){
+            if(input.get(i).length() > maxCharactersPerLine)
+                maxCharactersPerLine = input.get(i).length();
+            if(input.get(i).isEmpty())
+                continue;
+            char[] temp = input.get(i).toCharArray();
+            int prevSign = 0;
+            int clefType = (int) temp[0];
+            result.add(new Note(clefType, 0, 0));
+            for(int j = 1; j < temp.length; j++){
+                int code = (int) temp[j];
+                int octave = 4;
+                if(clefType == CODE_SOL_CLEF) {
+                    if (code >= 290 && code < 360) {
+                        code = code - 70;
+                        octave = 5;
+                    }
+                    if (code > 400 || code % 10 >= 5) {
+                        prevSign = code;
+                        continue;
+                    }
+                    result.add(new Note(code, prevSign, octave));
+                    prevSign = 0;
+                }
+                else {
+                    if(code < 280 && code >= 200){
+                        code = code + 20;
+                        octave = 2;
+                    }
+                    else if(code >= 280 && code < 350){
+                        code = code - 60;
+                        octave = 3;
+                    }
+                    if (code > 400 || code % 10 >= 5) {
+                        prevSign = code;
+                        continue;
+                    }
+                    result.add(new Note(code, prevSign, octave));
+                    prevSign = 0;
+                }
             }
         }
         currentMaxCharacters = maxCharactersPerLine;
@@ -214,26 +287,23 @@ public class MelodyFileManager {
     public ArrayList<String> makeStringFromNotes(ArrayList<Note> input){
         ArrayList<String> result = new ArrayList<>();
         if (input.size() != 0) {
-            int offset = currentMaxCharacters;
-            for (int i = 0; i < input.size(); i += offset) {
-                List<Note> subList;
-                if (i + 12 <= input.size())
-                    subList = input.subList(i, i + offset);
-                else
-                    subList = input.subList(i, input.size());
-                String temp = "";
-                for (int j = 0; j < subList.size(); j++) {
-                    if (subList.get(j).getSign() == 0)
-                        temp = temp + ((char) subList.get(j).getValue());
-                    else {
-                        if (subList.get(j).getSign() > 400)
-                            temp = temp + ((char) subList.get(j).getValue()) + ((char) subList.get(j).getSign());
-                        else
-                            temp = temp + ((char) subList.get(j).getSign()) + ((char) subList.get(j).getValue());
-                    }
+            StringBuilder temp = new StringBuilder();
+            temp.append((char) input.get(0).getValue());
+            for (int i = 1; i < input.size(); i ++) {
+                if (input.get(i).getValue() == CODE_BASS_CLEF || input.get(i).getValue() == CODE_SOL_CLEF){
+                    result.add(temp.toString());
+                    temp.delete(0, temp.length());
                 }
-                result.add(temp);
+                if (input.get(i).getSign() == 0)
+                    temp.append((char) input.get(i).getValue());
+                else {
+                    if (input.get(i).getSign() > 400)
+                        temp.append((char) input.get(i).getValue()).append(((char) input.get(i).getSign()));
+                    else
+                        temp.append((char) input.get(i).getSign()).append(((char) input.get(i).getValue()));
+                }
             }
+            result.add(temp.toString());
         }
         return result;
     }

@@ -40,6 +40,9 @@ import com.team_red.melody.sound.MelodyPoolManager;
 import java.util.ArrayList;
 
 import static com.team_red.melody.StartActivityFragments.LoginFragment.COMP_ID_TAG;
+import static com.team_red.melody.melodyboard.MelodyStatics.FLAG_EXPORT;
+import static com.team_red.melody.melodyboard.MelodyStatics.FLAG_PLAY;
+import static com.team_red.melody.melodyboard.MelodyStatics.FLAG_SAVE;
 import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_ONE_HANDED;
 import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_TWO_HANDED;
 
@@ -208,12 +211,12 @@ public class MainActivity extends AppCompatActivity
 
     private void save() {
         if (melodyAdapter.getCompositionType() == SHEET_TYPE_ONE_HANDED) {
-            ArrayList<Note> a = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1());
+            ArrayList<Note> a = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1(), FLAG_SAVE);
             MelodyFileManager.getManager().saveOneHandedComposition(a, currentUser.getUserName(), currentComposition.getCompositionName(),
                     currentComposition.getJsonFileName(), currentComposition.getCompositionID());
         } else {
-            ArrayList<Note> a = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1());
-            ArrayList<Note> b = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList2());
+            ArrayList<Note> a = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1(), FLAG_SAVE);
+            ArrayList<Note> b = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList2(), FLAG_SAVE);
             MelodyFileManager.getManager().saveTwoHandedComposition(a, b, currentUser.getUserName(), currentComposition.getCompositionName(),
                     currentComposition.getJsonFileName(), currentComposition.getCompositionID());
         }
@@ -221,10 +224,10 @@ public class MainActivity extends AppCompatActivity
 
     private void play() {
         togglePlayButton(false);
-        ArrayList<Integer> sounds1 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1()));
+        ArrayList<Integer> sounds1 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1(), FLAG_PLAY));
         MelodyPoolManager.getInstance().setSounds1(sounds1);
         if (melodyAdapter.getCompositionType() == SHEET_TYPE_TWO_HANDED) {
-            ArrayList<Integer> sounds2 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList2()));
+            ArrayList<Integer> sounds2 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList2(), FLAG_PLAY));
             MelodyPoolManager.getInstance().setSounds2(sounds2);
         }
         try {
@@ -266,7 +269,7 @@ public class MainActivity extends AppCompatActivity
     private void export(){
         if(hasPermission) {
                 MelodyExporter melodyExporter = new MelodyExporter(this);
-                ArrayList<Integer> sound1 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1()));
+                ArrayList<Integer> sound1 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1(), FLAG_EXPORT));
                 melodyExporter.setSound1(sound1);
                 melodyExporter.mergeSongs(currentComposition);
         }
