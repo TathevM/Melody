@@ -5,16 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.team_red.melody.activities.ScreensaverActivity"
-    android:background="@drawable/background_image">
+    android:background="#F4E7D3">
 
     <ImageView
         android:id="@+id/app_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/app_logo"
-        android:layout_marginTop="141dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
     <TextView
         android:id="@+id/quote"
         android:layout_margin="20dp"

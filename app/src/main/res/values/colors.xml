@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#987F33</color>
-    <color name="colorPrimaryDark">#966F33</color>
-    <color name="colorAccent">#F8F810</color>
+    <color name="colorPrimary">#0881A3</color>
+    <color name="colorPrimaryDark">#0881A3</color>
+    <color name="colorAccent">#F4E7D3</color>
     <color name="transparent">#00000000</color>
-    <color name="colorMain">#F8F810</color>
-    <color name="actionbar">#966F33</color>
-    <!--<color name="colorAccent">#FF4081</color>-->
-    <!--<color name="colorPrimary">#3F51B5</color>-->
-    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <color name="colorMain">#1F4E5F</color>
+    <color name="actionbar">#0881A3</color>
+    <color name="backgroundColor">#F9F8ED</color>
+
+
 
     <color name="keyboard_key">#98ff98</color>
     <color name="keyboard_key_pressed">#1d531d</color>
