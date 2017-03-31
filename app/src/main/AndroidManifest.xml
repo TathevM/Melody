@@ -28,11 +28,10 @@
         </activity>
         <activity
             android:name=".activities.StartActivity"
-            android:label="@string/title_activity_start"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.CompositionsActivity"
-            android:label="@string/title_activity_compositions"
+            android:label="Your Compositions"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

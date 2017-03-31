@@ -5,8 +5,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="dialog_OK">OK</string>
-    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_OK">Yes</string>
+    <string name="dialog_cancel">No</string>
     <string name="new_comp_text">New</string>
 
 
@@ -57,16 +57,17 @@
     <string name="toolbar_export">Export</string>
     <string name="transition_profile">profile</string>
     <string name="alert_leave_comp">Leave Composition</string>
-    <string name="alert_save_comp">Save Composition before exit</string>
+    <string name="alert_save_comp">Save Composition before exit?</string>
     <string name="no">No</string>
     <string name="permission_text">Please provide permissions for saving file</string>
     <string name="dialog_new_page_picker">Pick page type</string>
-    <string name="toast_no_name">Write your name maestro</string>
+    <string name="toast_no_name">Write Your Name Maestro</string>
     <string name="alert_delete_title">Delete</string>
     <string name="alert_delete_text">Do you really want to delete it?</string>
     <string name="export_dir_help">File saved in folder</string>
     <string name="sound_pool_exception">Sounds not set</string>
     <string name="title_activity_start">StartActivity</string>
     <string name="title_activity_compositions">CompositionsActivity</string>
+    <string name="no_title">Give a Title to your Composition</string>
 
 </resources>

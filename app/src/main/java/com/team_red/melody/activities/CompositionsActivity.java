@@ -2,8 +2,8 @@ package com.team_red.melody.activities;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,11 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -72,9 +74,12 @@ public class CompositionsActivity extends AppCompatActivity
         mdbManager = new DbManager(this);
         mUser = MelodyApplication.getLoggedInUser();
         TextView anun = (TextView) findViewById(R.id.compositor_name);
-        anun.setText(mUser.getUserName());
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fa_button);
-        fab.setOnClickListener(new View.OnClickListener() {
+        anun.setText("  " + mUser.getUserName());
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/main_font.ttf");
+        anun.setTypeface(typeface);
+        anun.setTextSize(TypedValue.COMPLEX_UNIT_SP, 35);
+       ImageView ab = (ImageView) findViewById(R.id.addButton);
+        ab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openPagePickerDialog();
@@ -129,7 +134,7 @@ public class CompositionsActivity extends AppCompatActivity
             public void onClick(View v) {
                 EditText editText = (EditText) dialog.findViewById(R.id.dialog_new_comp_name);
                 if (editText.getText().toString().equals("")){
-                    Toast.makeText(CompositionsActivity.this, R.string.toast_no_name, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CompositionsActivity.this, R.string.no_title, Toast.LENGTH_SHORT).show();
                 }else {
                     int curType;
                     String compName;

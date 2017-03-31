@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +12,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.team_red.melody.DBs.DbManager;
@@ -30,7 +30,7 @@ public class LoginFragment extends Fragment {
 
     private EditText loginInput;
     private DbManager dbManager;
-    private FloatingActionButton startButton;
+    private ImageView startButton;
 
     @Nullable
     @Override
@@ -44,7 +44,7 @@ public class LoginFragment extends Fragment {
 
     void initButtonClick(View view){
         loginInput = (EditText) view.findViewById(R.id.login_input);
-        startButton = (FloatingActionButton) view.findViewById(R.id.new_user_button);
+        startButton = (ImageView) view.findViewById(R.id.addButton);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

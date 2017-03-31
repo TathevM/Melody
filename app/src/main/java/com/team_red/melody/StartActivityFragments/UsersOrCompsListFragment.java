@@ -17,7 +17,6 @@ import com.team_red.melody.activities.CompositionsActivity;
 import com.team_red.melody.app.MelodyApplication;
 import com.team_red.melody.models.User;
 
-
 public class UsersOrCompsListFragment extends Fragment {
 
     public static final String TRANSITION_USERNAME = "transition_username";

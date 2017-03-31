@@ -9,11 +9,25 @@
     tools:context="com.team_red.melody.activities.CompositionsActivity"
     tools:showIn="@layout/app_bar_compositions">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.team_red.melody.widget.MelodyEditText
+        android:layout_width="match_parent"
+        android:enabled="false"
         android:layout_height="wrap_content"
         android:id="@+id/compositor_name"
-        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"/>
+        android:textColor="@color/colorMain"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="7dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@color/colorMain"/>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/compositionsList"
@@ -22,12 +36,14 @@
         android:layout_weight="1">
 
     </android.support.v7.widget.RecyclerView>
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fa_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint = "@color/colorMain"
-        app:srcCompat="@android:drawable/ic_menu_add" />
+    <ImageView
+        android:id="@+id/addButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:src="@drawable/add_button"
+        android:layout_gravity="right"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"/>
+
+
 </LinearLayout>
