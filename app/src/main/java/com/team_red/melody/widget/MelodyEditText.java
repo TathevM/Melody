@@ -43,7 +43,7 @@ public class MelodyEditText extends android.support.v7.widget.AppCompatEditText 
         Rect bounds = new Rect();
         mPaint = new Paint();
         mInputSetter = new InputSetter();
-        mPaint.setStrokeWidth(1.5f);
+        mPaint.setStrokeWidth(2f);
         mPaint.setColor(Color.BLACK);
         Typeface typeface = Typeface.createFromAsset(MelodyApplication.getContext().getAssets(), MelodyStatics.FONT_NAME);
 
@@ -65,24 +65,6 @@ public class MelodyEditText extends android.support.v7.widget.AppCompatEditText 
         canvas.drawLine(0 , getHeight()/2 + mTextHeight /2 , getWidth() , getHeight()/2 + mTextHeight /2 , mPaint);
         canvas.drawLine(0 , getHeight()/2 - mTextHeight /2 , getWidth() , getHeight()/2 - mTextHeight /2 , mPaint);
     }
-
-//    @Override
-//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//        boolean isMeasured;
-//        height = heightMeasureSpec;
-//        width = widthMeasureSpec;
-////        isMeasured = (height != 0);
-////        if (isMeasured)
-////        {
-////            //getting and setting maximum text length for edit text
-////            char testChar = (char) 161;
-////            mTextPaint.getTextBounds(String.valueOf(testChar) , 0 , 1 , bounds);
-////            int maxLengthOfText = width / bounds.width();
-////            mInputFilter = new InputFilter[]{new InputFilter.LengthFilter(maxLengthOfText)};
-////            setFilters(mInputFilter);
-////        }
-//        setMeasuredDimension(width , height);
-//    }
 
 
     @Override

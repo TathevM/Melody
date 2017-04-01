@@ -13,6 +13,8 @@ import com.team_red.melody.widget.MelodyEditText;
 
 import java.util.ArrayList;
 
+import static com.team_red.melody.melodyboard.MelodyStatics.CODE_BASS_CLEF;
+import static com.team_red.melody.melodyboard.MelodyStatics.CODE_SOL_CLEF;
 import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_ONE_HANDED;
 import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_TWO_HANDED;
 
@@ -117,16 +119,16 @@ public class MelodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() > 0)
-                        if (s.charAt(0) != (char) 181) {
-                            if (s.charAt(0) != (char) 180) {
-                                s.insert(0, String.valueOf((char) 180));
-                                mMelodyBoard.setClefType(180);
-                            }
-                        } else
-                            mMelodyBoard.setClefType(181);
+                if (s.length() > 0) {
+                    if (s.charAt(0) != (char) CODE_BASS_CLEF) {
+                        if (s.charAt(0) != (char) CODE_SOL_CLEF) {
+                            s.insert(0, String.valueOf((char) CODE_SOL_CLEF));
+                            mMelodyBoard.setClefType(CODE_SOL_CLEF);
+                        }
+                    } else
+                        mMelodyBoard.setClefType(CODE_BASS_CLEF);
                     melodyStringList1.set(holder.getAdapterPosition(), s.toString());
-                //TODO solve problem of string lists
+                }
             }
         });
         else
@@ -143,15 +145,16 @@ public class MelodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    if (s.length() > 0)
-                        if (s.charAt(0) != (char) 181) {
-                            if (s.charAt(0) != (char) 180) {
-                                s.insert(0, String.valueOf((char) 180));
-                                mMelodyBoard.setClefType(180);
+                    if (s.length() > 0) {
+                        if (s.charAt(0) != (char) CODE_BASS_CLEF) {
+                            if (s.charAt(0) != (char) CODE_SOL_CLEF) {
+                                s.insert(0, String.valueOf((char) CODE_SOL_CLEF));
+                                mMelodyBoard.setClefType(CODE_SOL_CLEF);
                             }
                         } else
-                            mMelodyBoard.setClefType(181);
-                    melodyStringList2.set(holder.getAdapterPosition(), s.toString());
+                            mMelodyBoard.setClefType(CODE_BASS_CLEF);
+                        melodyStringList2.set(holder.getAdapterPosition(), s.toString());
+                    }
                 }
             });
     }
