@@ -38,28 +38,26 @@
             android:maxLength="15"
             android:layout_height="wrap_content"/>
     </LinearLayout>
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end">
+        <Button
+            android:id="@+id/button_dialog_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_dialog_background"
+            android:text="@string/dialog_cancel"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"/>
         <Button
             android:id="@+id/button_dialog_OK"
             android:text="@string/dialog_OK"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/transparent"
+            android:background="@drawable/button_dialog_background"
             android:layout_marginRight="@dimen/margin_big"
             android:layout_marginEnd="@dimen/margin_big"/>
-        <Button
-            android:id="@+id/button_dialog_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:text="@string/dialog_cancel"
-            android:layout_marginRight="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_toLeftOf="@id/button_dialog_OK"
-            android:layout_toStartOf="@id/button_dialog_OK"/>
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

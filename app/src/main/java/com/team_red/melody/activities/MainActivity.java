@@ -254,7 +254,7 @@ public class MainActivity extends AppCompatActivity
         new AlertDialog.Builder(this)
                 .setTitle(R.string.alert_leave_comp)
                 .setMessage(R.string.alert_save_comp)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.toolbar_save, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         save();
                         MainActivity.super.onBackPressed();
