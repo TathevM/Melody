@@ -10,4 +10,13 @@
     <dimen name="key_height_symbols">60dip</dimen>
     <dimen name="custom_text_size">48sp</dimen>
     <dimen name="note_margin_paper">10dp</dimen>
+    <dimen name="margin_separator">5dp</dimen>
+    <dimen name="welcome_text_size">19sp</dimen>
+    <dimen name="margin_medium">10dp</dimen>
+    <dimen name="fab_size">56dp</dimen>
+    <dimen name="user_title_text_size">35sp</dimen>
+    <dimen name="margin_small">5dp</dimen>
+    <dimen name="margin_big">20dp</dimen>
+    <dimen name="nav_header_username_text_size">25sp</dimen>
+    <dimen name="keyboard_popup_text_size">22sp</dimen>
 </resources>

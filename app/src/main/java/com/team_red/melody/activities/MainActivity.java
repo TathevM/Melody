@@ -131,11 +131,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (mMelodyBoard.isMelodyBoardVisible())
-            mMelodyBoard.hideMelodyBoard();
-        else if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        } else  if (mMelodyBoard.isMelodyBoardVisible()) {
+            mMelodyBoard.hideMelodyBoard();
+        }else {
             alertSaveData();
         }
     }
@@ -178,13 +178,15 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_change_theme) {
             // Handle the camera action
         } else if (id == R.id.nav_change_user) {
-
-        } else if (id == R.id.nav_compositions) {
-            //alertSaveData();
-            //TODO fix alert
-            Intent myIntent = new Intent(MainActivity.this, CompositionsActivity.class);
-            startActivity(myIntent);
+            Intent intent = new Intent(MainActivity.this, StartActivity.class);
+            startActivity(intent);
             this.finish();
+        } else if (id == R.id.nav_compositions) {
+            alertSaveData();
+            //TODO fix alert
+//            Intent myIntent = new Intent(MainActivity.this, CompositionsActivity.class);
+//            startActivity(myIntent);
+//            this.finish();
 
         } else if (id == R.id.nav_Help) {
 
@@ -255,6 +257,7 @@ public class MainActivity extends AppCompatActivity
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         save();
+                        MainActivity.super.onBackPressed();
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

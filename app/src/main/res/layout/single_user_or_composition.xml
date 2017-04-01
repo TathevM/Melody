@@ -5,7 +5,7 @@
 
     <TextView
         android:id="@+id/userOrCompName"
-        android:textSize="35sp"
+        android:textSize="@dimen/user_title_text_size"
         android:gravity="center"
         android:layout_weight="0.9"
         android:layout_width="match_parent"

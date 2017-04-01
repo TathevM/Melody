@@ -12,7 +12,7 @@
         android:id="@+id/composition_label"
         android:layout_width="match_parent"
         android:textAlignment="center"
-        android:textSize="35sp"
+        android:textSize="@dimen/user_title_text_size"
         android:layout_height="wrap_content"/>
 
     <include

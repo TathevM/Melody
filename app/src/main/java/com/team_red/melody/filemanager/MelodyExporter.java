@@ -22,6 +22,8 @@ import static com.team_red.melody.filemanager.MelodyFileManager.EXPORTED_FILE_DI
 
 public class MelodyExporter {
 
+    private static final int FRAME_SIZE = (144 * 160000) / (44100);
+
     private int mFrameSize;
     private int mHeaderPosition;
     private ArrayList<Integer> sound1;
@@ -31,7 +33,7 @@ public class MelodyExporter {
 
     public MelodyExporter( Context context) {
         this.mContext = context;
-        mFrameSize = (144 * 160000) / (44100);
+        mFrameSize = FRAME_SIZE;
     }
 
     public void setSound1(ArrayList<Integer> sound1) {

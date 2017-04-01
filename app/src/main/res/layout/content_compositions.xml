@@ -15,17 +15,17 @@
         android:layout_height="wrap_content"
         android:id="@+id/compositor_name"
         android:textColor="@color/colorMain"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginStart="@dimen/margin_medium"
         android:layout_marginTop="7dp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginLeft="@dimen/margin_separator"
+        android:layout_marginRight="@dimen/margin_separator"
+        android:layout_marginStart="@dimen/margin_separator"
+        android:layout_marginEnd="@dimen/margin_separator"
         android:background="@color/colorMain"/>
 
 
@@ -38,12 +38,14 @@
     </android.support.v7.widget.RecyclerView>
     <ImageView
         android:id="@+id/addButton"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="@dimen/fab_size"
+        android:layout_height="@dimen/fab_size"
         android:src="@drawable/add_button"
-        android:layout_gravity="right"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="15dp"/>
+        android:layout_gravity="end"
+        android:contentDescription="@string/new_content_description"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/fab_margin"/>
 
 
 </LinearLayout>

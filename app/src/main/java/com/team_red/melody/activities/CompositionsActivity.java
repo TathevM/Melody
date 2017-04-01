@@ -78,7 +78,7 @@ public class CompositionsActivity extends AppCompatActivity
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/main_font.ttf");
         anun.setTypeface(typeface);
         anun.setTextSize(TypedValue.COMPLEX_UNIT_SP, 35);
-       ImageView ab = (ImageView) findViewById(R.id.addButton);
+        ImageView ab = (ImageView) findViewById(R.id.addButton);
         ab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

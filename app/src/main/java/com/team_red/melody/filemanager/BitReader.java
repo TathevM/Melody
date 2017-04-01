@@ -8,11 +8,11 @@ class BitReader {
 
     static boolean[] toBitBool(byte newByte){
 
-        // get the value of hte byte
+        // get the value of the byte
 
 
         // make a bool array for the bits.
-        // 0 == falseu
+        // 0 == false
         // 1 == true; duh
         boolean[] myByte = new boolean[8];
         for (int i = 0; i < 8; i++)

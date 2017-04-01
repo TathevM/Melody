@@ -14,5 +14,5 @@
         android:popupLayout="@layout/popup_layout"
         android:keyBackground="@drawable/key_background"
         android:keyTextColor="#fff"
-        android:keyTextSize="22sp"/>
+        android:keyTextSize="@dimen/keyboard_popup_text_size"/>
 </LinearLayout>
