@@ -11,13 +11,13 @@ import com.team_red.melody.R;
 import com.team_red.melody.StartActivityFragments.LoginFragment;
 import com.team_red.melody.StartActivityFragments.UsersOrCompsListFragment;
 
-public class StartActivity extends AppCompatActivity
-        //implements NavigationView.OnNavigationItemSelectedListener
-{
+public class StartActivity extends AppCompatActivity {
+
+    public static final String LOGIN_FRAGMENT_TAG = "login";
+    public static final String LIST_FRAGMENT_TAG = "usersCompsList";
+
 
     private LoginFragment loginFragment;
-    private UsersOrCompsListFragment usersOrCompsListFragment;
-    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +27,26 @@ public class StartActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         initFragments();
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+       // DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     }
 
     public  void  initFragments(){
         loginFragment = new LoginFragment();
-        usersOrCompsListFragment = new UsersOrCompsListFragment();
-        fragmentManager = getSupportFragmentManager();
+        UsersOrCompsListFragment usersOrCompsListFragment = new UsersOrCompsListFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.Login, loginFragment, "login");
-        fragmentTransaction.add(R.id.AccountChooser, usersOrCompsListFragment, "usersCompsList");
+        fragmentTransaction.add(R.id.Login, loginFragment, LOGIN_FRAGMENT_TAG);
+        fragmentTransaction.add(R.id.AccountChooser, usersOrCompsListFragment, LIST_FRAGMENT_TAG);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(loginFragment.isNewUserState()) {
+            loginFragment.handleBackPressed();
+        }
+        else {
+            super.onBackPressed();
+        }
     }
 }

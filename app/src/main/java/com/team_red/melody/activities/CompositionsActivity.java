@@ -33,9 +33,9 @@ import com.team_red.melody.models.Composition;
 import com.team_red.melody.models.User;
 
 import static com.team_red.melody.StartActivityFragments.LoginFragment.COMP_ID_TAG;
-import static com.team_red.melody.StartActivityFragments.LoginFragment.USER_ID_TAG;
-import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_ONE_HANDED;
-import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_TWO_HANDED;
+import static com.team_red.melody.models.MelodyStatics.MAIN_FONT_NAME;
+import static com.team_red.melody.models.MelodyStatics.SHEET_TYPE_ONE_HANDED;
+import static com.team_red.melody.models.MelodyStatics.SHEET_TYPE_TWO_HANDED;
 
 public class CompositionsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -74,8 +74,9 @@ public class CompositionsActivity extends AppCompatActivity
         mdbManager = new DbManager(this);
         mUser = MelodyApplication.getLoggedInUser();
         TextView anun = (TextView) findViewById(R.id.compositor_name);
-        anun.setText("  " + mUser.getUserName());
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/main_font.ttf");
+        String displayName = "   " + mUser.getUserName();
+        anun.setText(displayName);
+        Typeface typeface = Typeface.createFromAsset(getAssets(), MAIN_FONT_NAME);
         anun.setTypeface(typeface);
         anun.setTextSize(TypedValue.COMPLEX_UNIT_SP, 35);
         ImageView ab = (ImageView) findViewById(R.id.addButton);
@@ -91,7 +92,6 @@ public class CompositionsActivity extends AppCompatActivity
         adapter = new RVAdapter(this);
         adapter.IS_USER_CHOSEN = true;
         adapter.setCompositionsList(mdbManager.getCompositions(mUser.getID()));
-//        adapter.setCompositionsList(mdbManager.getCompositions(4));
         initData();
     }
 
@@ -101,7 +101,8 @@ public class CompositionsActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            Intent i = new Intent(CompositionsActivity.this, StartActivity.class);
+            startActivity(i);
         }
     }
 
@@ -116,7 +117,6 @@ public class CompositionsActivity extends AppCompatActivity
             public void onItemClick(int ID, View view) {
                 Intent myIntent = new Intent(CompositionsActivity.this, MainActivity.class);
                 myIntent.putExtra(COMP_ID_TAG, (long) ID);
-                myIntent.putExtra(USER_ID_TAG , mUser.getID());
                 startActivity(myIntent);
             }
         });

@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.team_red.melody.R;
+import com.team_red.melody.models.MelodyStatics;
 import com.team_red.melody.widget.MelodyEditText;
 
 

@@ -63,6 +63,7 @@ public class UsersOrCompsListFragment extends Fragment {
 //                            makeSceneTransitionAnimation(getActivity(), view1, getResources().getString(R.string.transition_profile));
 //                    startActivity(myIntent, optionsCompat.toBundle());
                     startActivity(myIntent);
+                    getActivity().finish();
                 }
             }
         });

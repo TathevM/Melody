@@ -9,7 +9,6 @@ import android.util.Log;
 
 import com.team_red.melody.R;
 import com.team_red.melody.app.MelodyApplication;
-import com.team_red.melody.melodyboard.MelodyStatics;
 
 import java.util.ArrayList;
 

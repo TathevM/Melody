@@ -13,10 +13,10 @@ import com.team_red.melody.widget.MelodyEditText;
 
 import java.util.ArrayList;
 
-import static com.team_red.melody.melodyboard.MelodyStatics.CODE_BASS_CLEF;
-import static com.team_red.melody.melodyboard.MelodyStatics.CODE_SOL_CLEF;
-import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_ONE_HANDED;
-import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_TWO_HANDED;
+import static com.team_red.melody.models.MelodyStatics.CODE_BASS_CLEF;
+import static com.team_red.melody.models.MelodyStatics.CODE_SOL_CLEF;
+import static com.team_red.melody.models.MelodyStatics.SHEET_TYPE_ONE_HANDED;
+import static com.team_red.melody.models.MelodyStatics.SHEET_TYPE_TWO_HANDED;
 
 
 public class MelodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

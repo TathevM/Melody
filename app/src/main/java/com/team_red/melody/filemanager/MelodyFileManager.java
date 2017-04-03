@@ -5,7 +5,6 @@ package com.team_red.melody.filemanager;
 import com.team_red.melody.DBs.DbManager;
 import com.team_red.melody.app.MelodyApplication;
 import com.team_red.melody.R;
-import com.team_red.melody.melodyboard.MelodyStatics;
 import com.team_red.melody.models.Composition;
 import com.team_red.melody.models.Note;
 
@@ -19,15 +18,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.List;
 
-import static com.team_red.melody.melodyboard.MelodyStatics.CODE_BASS_CLEF;
-import static com.team_red.melody.melodyboard.MelodyStatics.CODE_SOL_CLEF;
-import static com.team_red.melody.melodyboard.MelodyStatics.FLAG_EXPORT;
-import static com.team_red.melody.melodyboard.MelodyStatics.FLAG_PLAY;
-import static com.team_red.melody.melodyboard.MelodyStatics.FLAG_SAVE;
-import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_ONE_HANDED;
-import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_TWO_HANDED;
+import static com.team_red.melody.models.MelodyStatics.CODE_BASS_CLEF;
+import static com.team_red.melody.models.MelodyStatics.CODE_SOL_CLEF;
+import static com.team_red.melody.models.MelodyStatics.FLAG_PLAY;
+import static com.team_red.melody.models.MelodyStatics.FLAG_SAVE;
+import static com.team_red.melody.models.MelodyStatics.SHEET_TYPE_ONE_HANDED;
+import static com.team_red.melody.models.MelodyStatics.SHEET_TYPE_TWO_HANDED;
 
 public class MelodyFileManager {
     public static final String COMPOSER_JSON_TAG = "composer_name";

@@ -10,7 +10,7 @@ import android.text.InputFilter;
 import android.util.AttributeSet;
 
 import com.team_red.melody.app.MelodyApplication;
-import com.team_red.melody.melodyboard.MelodyStatics;
+import com.team_red.melody.models.MelodyStatics;
 
 public class MelodyEditText extends android.support.v7.widget.AppCompatEditText {
     public static final int TEXT_SIZE = 65;

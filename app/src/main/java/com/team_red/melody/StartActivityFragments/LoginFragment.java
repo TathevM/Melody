@@ -24,13 +24,16 @@ import com.team_red.melody.models.User;
 
 public class LoginFragment extends Fragment {
 
-    public static final String USER_ID_TAG = "user_id";
     public static final String COMP_ID_TAG = "comp_tag";
-    private boolean newUSerState;
+    private boolean newUserState;
 
     private EditText loginInput;
     private DbManager dbManager;
     private ImageView startButton;
+
+    public boolean isNewUserState() {
+        return newUserState;
+    }
 
     @Nullable
     @Override
@@ -45,15 +48,18 @@ public class LoginFragment extends Fragment {
     void initButtonClick(View view){
         loginInput = (EditText) view.findViewById(R.id.login_input);
         startButton = (ImageView) view.findViewById(R.id.addButton);
+
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!newUSerState) {
+                if (!newUserState) {
+                    Animation addButtonAnimation = AnimationUtils.loadAnimation(getContext() , R.anim.add_button_click);
+                    startButton.setAnimation(addButtonAnimation);
                     startButton.setImageResource(R.drawable.ic_arrow_forward);
                     Animation moveInAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.move_right);
                     loginInput.startAnimation(moveInAnimation);
                     loginInput.setVisibility(View.VISIBLE);
-                    newUSerState = true;
+                    newUserState = true;
                 } else {
                     String userName = loginInput.getText().toString();
                     if (!userName.equalsIgnoreCase("")) {
@@ -61,7 +67,8 @@ public class LoginFragment extends Fragment {
                         Intent mIntent = new Intent(getActivity(), CompositionsActivity.class);
                         MelodyApplication.setLoggedInUser(new User(userName, (int) id));
                         startActivity(mIntent);
-                        newUSerState = false;
+                        newUserState = false;
+                        getActivity().finish();
                     } else
                         Toast.makeText(getContext(), R.string.toast_no_name, Toast.LENGTH_SHORT).show();
                 }
@@ -76,6 +83,17 @@ public class LoginFragment extends Fragment {
             }
         });
 
+    }
+
+    public void handleBackPressed(){
+        Animation moveAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.move_left);
+        loginInput.setAnimation(moveAnimation);
+        loginInput.setText("");
+        loginInput.setVisibility(View.INVISIBLE);
+        newUserState = false;
+        Animation addButtonAnimation = AnimationUtils.loadAnimation(getContext() , R.anim.add_button_back);
+        startButton.setAnimation(addButtonAnimation);
+        startButton.setImageResource(R.drawable.add_button);
     }
 
     @Override

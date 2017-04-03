@@ -4,14 +4,13 @@
     <color name="colorPrimaryDark">#0881A3</color>
     <color name="colorAccent">#F4E7D3</color>
     <color name="transparent">#00000000</color>
-    <color name="transparent_pressed">#6e000000</color>
+    <color name="transparent_pressed">#1b000000</color>
 
     <color name="colorMain">#1F4E5F</color>
     <color name="actionbar">#0881A3</color>
     <color name="backgroundColor">#F9F8ED</color>
 
 
-
-    <color name="keyboard_key">#98ff98</color>
-    <color name="keyboard_key_pressed">#1d531d</color>
+    <color name="keyboard_key">#0881A3</color>
+    <color name="keyboard_key_pressed">#1F4E5F</color>
 </resources>

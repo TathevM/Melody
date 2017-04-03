@@ -4,8 +4,8 @@ import com.team_red.melody.models.Note;
 
 import java.util.ArrayList;
 
-import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_ONE_HANDED;
-import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_TWO_HANDED;
+import static com.team_red.melody.models.MelodyStatics.SHEET_TYPE_ONE_HANDED;
+import static com.team_red.melody.models.MelodyStatics.SHEET_TYPE_TWO_HANDED;
 
 
 public class LoadedData {

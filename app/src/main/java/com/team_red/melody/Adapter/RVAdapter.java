@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.team_red.melody.DBs.DbManager;
 import com.team_red.melody.app.MelodyApplication;
 import com.team_red.melody.R;
-import com.team_red.melody.melodyboard.MelodyStatics;
+import com.team_red.melody.models.MelodyStatics;
 import com.team_red.melody.models.Composition;
 import com.team_red.melody.models.User;
 

@@ -1,8 +1,9 @@
-package com.team_red.melody.melodyboard;
+package com.team_red.melody.models;
 
 public class MelodyStatics {
     public static final String FONT_NAME = "fonts/Melody.ttf";
     public static final String MAIN_FONT_NAME = "fonts/main_font.ttf";
+    public static final String NAVIGATION_FONT_NAME = "fonts/navigation_font.ttf";
 
     public static final int CODE_BACKSPACE = -5;
     public static final int CODE_CANCEL = -3;

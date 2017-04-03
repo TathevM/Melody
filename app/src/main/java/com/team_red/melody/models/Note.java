@@ -7,11 +7,11 @@ import android.os.Parcelable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.team_red.melody.melodyboard.MelodyStatics.DOUBLE_FLAT_DIVISOR;
-import static com.team_red.melody.melodyboard.MelodyStatics.DOUBLE_SHARP_DIVISOR;
-import static com.team_red.melody.melodyboard.MelodyStatics.FLAT_DIVISOR;
-import static com.team_red.melody.melodyboard.MelodyStatics.NATURAL_DIVISOR;
-import static com.team_red.melody.melodyboard.MelodyStatics.SHARP_DIVISOR;
+import static com.team_red.melody.models.MelodyStatics.DOUBLE_FLAT_DIVISOR;
+import static com.team_red.melody.models.MelodyStatics.DOUBLE_SHARP_DIVISOR;
+import static com.team_red.melody.models.MelodyStatics.FLAT_DIVISOR;
+import static com.team_red.melody.models.MelodyStatics.NATURAL_DIVISOR;
+import static com.team_red.melody.models.MelodyStatics.SHARP_DIVISOR;
 
 public class Note implements Parcelable {
     public static final String NOTE_VALUE_JSON_TAG = "value";

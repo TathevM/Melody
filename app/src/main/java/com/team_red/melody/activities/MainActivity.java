@@ -40,11 +40,12 @@ import com.team_red.melody.sound.MelodyPoolManager;
 import java.util.ArrayList;
 
 import static com.team_red.melody.StartActivityFragments.LoginFragment.COMP_ID_TAG;
-import static com.team_red.melody.melodyboard.MelodyStatics.FLAG_EXPORT;
-import static com.team_red.melody.melodyboard.MelodyStatics.FLAG_PLAY;
-import static com.team_red.melody.melodyboard.MelodyStatics.FLAG_SAVE;
-import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_ONE_HANDED;
-import static com.team_red.melody.melodyboard.MelodyStatics.SHEET_TYPE_TWO_HANDED;
+import static com.team_red.melody.models.MelodyStatics.FLAG_EXPORT;
+import static com.team_red.melody.models.MelodyStatics.FLAG_PLAY;
+import static com.team_red.melody.models.MelodyStatics.FLAG_SAVE;
+import static com.team_red.melody.models.MelodyStatics.NAVIGATION_FONT_NAME;
+import static com.team_red.melody.models.MelodyStatics.SHEET_TYPE_ONE_HANDED;
+import static com.team_red.melody.models.MelodyStatics.SHEET_TYPE_TWO_HANDED;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -59,8 +60,6 @@ public class MainActivity extends AppCompatActivity
     private Composition currentComposition;
     private DbManager mDbManager;
     private boolean hasPermission;
-
-    private TextView navigationUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +82,8 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
-        navigationUsername = (TextView) headerView.findViewById(R.id.compositor);
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/navigation_font.ttf");
+        TextView navigationUsername = (TextView) headerView.findViewById(R.id.compositor);
+        Typeface typeface = Typeface.createFromAsset(getAssets(), NAVIGATION_FONT_NAME);
         navigationUsername.setTypeface(typeface);
 
         currentUser = MelodyApplication.getLoggedInUser();

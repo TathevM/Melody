@@ -5,6 +5,8 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.inputmethodservice.Keyboard;
 
+import com.team_red.melody.models.MelodyStatics;
+
 import java.util.ArrayList;
 
 
