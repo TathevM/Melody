@@ -17,7 +17,7 @@ public class MelodyEditText extends android.support.v7.widget.AppCompatEditText 
 
     private Paint mPaint;
 
-    char testChar = (char) 161;
+    char testChar = (char) 160;
     private InputFilter[] mInputFilter;
     private InputSetter mInputSetter;
 
@@ -59,11 +59,11 @@ public class MelodyEditText extends android.support.v7.widget.AppCompatEditText 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawLine(0 , getHeight()/2 , getWidth() , getHeight()/2 , mPaint);
-        canvas.drawLine(0 , getHeight()/2 + mTextHeight /4 , getWidth() , getHeight()/2 + mTextHeight /4 , mPaint);
-        canvas.drawLine(0 , getHeight()/2 - mTextHeight /4 , getWidth() , getHeight()/2 - mTextHeight /4 , mPaint);
-        canvas.drawLine(0 , getHeight()/2 + mTextHeight /2 , getWidth() , getHeight()/2 + mTextHeight /2 , mPaint);
-        canvas.drawLine(0 , getHeight()/2 - mTextHeight /2 , getWidth() , getHeight()/2 - mTextHeight /2 , mPaint);
+        canvas.drawLine(0 , getHeight()/2 - 1f , getWidth() , getHeight()/2 - 1f , mPaint);
+        canvas.drawLine(0 , getHeight()/2 + mTextHeight /4 - 1f , getWidth() , getHeight()/2 + mTextHeight /4 - 1f, mPaint);
+        canvas.drawLine(0 , getHeight()/2 - mTextHeight /4 - 1f , getWidth() , getHeight()/2 - mTextHeight /4 - 1f , mPaint);
+        canvas.drawLine(0 , getHeight()/2 + mTextHeight /2 - 1f , getWidth() , getHeight()/2 + mTextHeight /2 - 1f , mPaint);
+        canvas.drawLine(0 , getHeight()/2 - mTextHeight /2 - 1f , getWidth() , getHeight()/2 - mTextHeight /2 - 1f , mPaint);
     }
 
 

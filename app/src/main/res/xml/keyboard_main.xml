@@ -6,15 +6,15 @@
           android:keyHeight="@dimen/key_height">
 
     <Row>
-        <Key android:codes="-15" android:keyLabel="" android:keyEdgeFlags="left"/>
-        <Key android:codes="-16" android:keyLabel=""/>
-        <Key android:codes="-17" android:keyLabel=""/>
-        <Key android:codes="-18" android:keyLabel=""/>
-        <Key android:codes="-19" android:keyLabel=""/>
-        <Key android:codes="164" android:keyLabel=""/>
-        <Key android:codes="165" android:keyLabel=""/>
-        <Key android:codes="166" android:keyLabel=""/>
-        <Key android:codes="167" android:keyLabel="" android:keyEdgeFlags="right"/>
+        <Key android:codes="-15" android:keyIcon="@drawable/ic_flat" android:keyEdgeFlags="left"/>
+        <Key android:codes="-16" android:keyIcon="@drawable/ic_double_flat"/>
+        <Key android:codes="-17" android:keyIcon="@drawable/ic_sharp"/>
+        <Key android:codes="-18" android:keyIcon="@drawable/ic_double_sharp"/>
+        <Key android:codes="-19" android:keyIcon="@drawable/ic_natural"/>
+        <Key android:codes="164" android:keyIcon="@drawable/ic_half_rest"/>
+        <Key android:codes="165" android:keyIcon="@drawable/ic_whole_rest"/>
+        <Key android:codes="166" android:keyIcon="@drawable/ic_quarter_rest"/>
+        <Key android:codes="167" android:keyIcon="@drawable/ic_eighth_rest" android:keyEdgeFlags="right"/>
     </Row>
 
     <Row>
@@ -32,9 +32,9 @@
     <Row>
         <Key android:codes="-20" android:keyLabel="+" android:keyWidth="15%p" android:keyEdgeFlags="left"/>
         <Key android:codes="-21" android:keyLabel="-" android:keyWidth="15%p"/>
-        <Key android:codes="161" android:keyLabel="" android:keyWidth="40%p" android:popupKeyboard="@xml/popup_space"/>
-        <Key android:codes="180,181" android:keyLabel="" android:keyWidth="15%p"/>
-        <Key android:codes="184,185" android:keyLabel="" android:keyEdgeFlags="right" android:keyWidth="15%p"/>
+        <Key android:codes="161" android:keyLabel="" android:keyWidth="40%p"/>
+        <Key android:codes="180,181" android:keyIcon="@drawable/ic_sol_clef" android:keyWidth="15%p"/>
+        <Key android:codes="184,185" android:keyIcon="@drawable/ic_end_bar" android:keyEdgeFlags="right" android:keyWidth="15%p"/>
     </Row>
 
 </Keyboard>
