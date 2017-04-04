@@ -1,9 +1,5 @@
 package com.team_red.melody.filemanager;
 
-/**
- * Created by Havayi on 23-Mar-17.
- */
-
 class BitReader {
 
     static boolean[] toBitBool(byte newByte){

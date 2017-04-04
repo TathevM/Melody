@@ -25,10 +25,6 @@ class MelodyKeyboard extends Keyboard {
 
     private ArrayList<Key> mNoteModifierKeys;
 
-    public ArrayList<Key> getNoteModifierKeys() {
-        return mNoteModifierKeys;
-    }
-
     private void setNoteModifierKeys() {
         mNoteModifierKeys.add(mSharpKey);
         mNoteModifierKeys.add(mDoubleSharpKey);

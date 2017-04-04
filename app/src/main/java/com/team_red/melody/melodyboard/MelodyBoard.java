@@ -42,7 +42,6 @@ public class MelodyBoard implements KeyboardView.OnKeyboardActionListener {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN && mMelodyKeyboardView.isLongPressed()) {
                     mMelodyKeyboardView.closing(); // Close popup keyboard if it's showing
-                    //TODO check islongpressed and popup
                 }
                 return false;
             }
@@ -54,7 +53,7 @@ public class MelodyBoard implements KeyboardView.OnKeyboardActionListener {
         MelodyKeyboardView.inEditMode = mode;
     }
 
-    public void showMelodyBoard(View v){
+    private void showMelodyBoard(View v){
         mMelodyKeyboardView.setVisibility(View.VISIBLE);
         mMelodyKeyboardView.setEnabled(true);
         if( v != null )

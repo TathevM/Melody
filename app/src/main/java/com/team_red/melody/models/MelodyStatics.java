@@ -7,8 +7,6 @@ public class MelodyStatics {
 
     public static final int CODE_BACKSPACE = -5;
     public static final int CODE_CANCEL = -3;
-    public static final int CODE_SYMBOLS = -10;
-    public static final int CODE_MAIN = -11;
     public static final int CODE_OCTAVE_PLUS = -20;
     public static final int CODE_OCTAVE_MINUS = -21;
 

@@ -14,11 +14,6 @@ import java.util.Random;
 
 public class ScreensaverActivity extends AppCompatActivity {
 
-    private final String QUOTE = "quote";
-    private final String AUTHOR = "author";
-    private String[] mQuotes;
-    private String[] mAuthors;
-
     private Handler mHandler;
 
     @Override
@@ -26,7 +21,7 @@ public class ScreensaverActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screensaver);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.actionbar));
         }
@@ -38,14 +33,14 @@ public class ScreensaverActivity extends AppCompatActivity {
     }
 
     public void init(int i) {
-        mQuotes = getResources().getStringArray(R.array.quotes);
-        mAuthors = getResources().getStringArray(R.array.authors);
+        String[] quotes = getResources().getStringArray(R.array.quotes);
+        String[] authors = getResources().getStringArray(R.array.authors);
 
         TextView quote = (TextView) findViewById(R.id.quote);
         TextView author = (TextView) findViewById(R.id.author);
 
-        quote.setText(mQuotes[i]);
-        author.setText(mAuthors[i]);
+        quote.setText(quotes[i]);
+        author.setText(authors[i]);
 
         mHandler.postDelayed(new Runnable() {
             @Override

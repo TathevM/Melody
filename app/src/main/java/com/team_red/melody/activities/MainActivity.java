@@ -187,11 +187,7 @@ public class MainActivity extends AppCompatActivity
 //            startActivity(myIntent);
 //            this.finish();
 
-        } else if (id == R.id.nav_Help) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_export) {
+        }  else if (id == R.id.nav_share) {
 
         }
 

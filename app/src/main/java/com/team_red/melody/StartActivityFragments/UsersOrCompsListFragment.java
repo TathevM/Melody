@@ -19,8 +19,6 @@ import com.team_red.melody.models.User;
 
 public class UsersOrCompsListFragment extends Fragment {
 
-    public static final String TRANSITION_USERNAME = "transition_username";
-
     private RVAdapter adapter;
     private DbManager mdbManager;
     private Intent myIntent;
@@ -58,10 +56,6 @@ public class UsersOrCompsListFragment extends Fragment {
                     myIntent = new Intent(getActivity(), CompositionsActivity.class);
                     User selectedUser = mdbManager.getUserByID((int) selectedUserID);
                     MelodyApplication.setLoggedInUser(selectedUser);
-//                    myIntent.putExtra(TRANSITION_USERNAME , selectedUser.getUserName());
-//                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.
-//                            makeSceneTransitionAnimation(getActivity(), view1, getResources().getString(R.string.transition_profile));
-//                    startActivity(myIntent, optionsCompat.toBundle());
                     startActivity(myIntent);
                     getActivity().finish();
                 }

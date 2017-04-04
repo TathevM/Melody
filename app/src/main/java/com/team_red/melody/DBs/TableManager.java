@@ -5,10 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class TableManager {
 
-
     //         COMPOSITIONS TABLE
-
-
     public static final String COMPOSITIONS_TABLE = "compositions";
 
     public static final String COMPOSITION_ID = "_id";
@@ -24,10 +21,7 @@ public class TableManager {
             + FILENAME + " text, "
             + TYPE + " text)";
 
-
-
     //            USERS TABLE
-
     public static final String USERS_TABLE = "users";
     public static final String USER_ID = "_id";
     public static final String USERNAME = "username";
@@ -36,15 +30,9 @@ public class TableManager {
             + USER_ID + " integer primary key, "
             + USERNAME + " text)";
 
-
-
     public static void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_USERS_TABLE);
         db.execSQL(CREATE_COMPOSITIONS_TABLE);
 
     }
-
-
-
-
 }

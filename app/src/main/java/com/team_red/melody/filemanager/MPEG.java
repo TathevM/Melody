@@ -85,7 +85,7 @@ public class MPEG {
             e.printStackTrace();
         }
 
-        byte[] headerBytes = findHeader();
+        findHeader();
     }
 
     private byte[] findHeader(){

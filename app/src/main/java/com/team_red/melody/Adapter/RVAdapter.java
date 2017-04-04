@@ -26,8 +26,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
     public boolean  IS_USER_CHOSEN = false;
     private ArrayList<User> usersList = new ArrayList<>();
     private ArrayList<Composition> compositionsList;
-    DbManager dbManager = new DbManager(MelodyApplication.getContext());
-    Context context;
+    private DbManager dbManager = new DbManager(MelodyApplication.getContext());
+    private Context context;
 
     public RVAdapter(Context context) {
         this.context = context;
@@ -50,7 +50,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder,int position) {
         if (!IS_USER_CHOSEN) {
             holder.mUserOrCompName.setText(usersList.get(position).getUserName());
             holder.mDeleteButton.setVisibility(View.GONE);
@@ -61,7 +61,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
             holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onDeleteClick(position);
+                    onDeleteClick(holder.getAdapterPosition());
                 }
             });
         }
@@ -109,7 +109,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
         void onItemClick(int ID, View view);
     }
 
-    public void onDeleteClick(final int position){
+    private void onDeleteClick(final int position){
 
         new AlertDialog.Builder(context)
                 .setTitle(R.string.alert_delete_title)
