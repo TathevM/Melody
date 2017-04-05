@@ -103,6 +103,7 @@ public class CompositionsActivity extends AppCompatActivity
         } else {
             Intent i = new Intent(CompositionsActivity.this, StartActivity.class);
             startActivity(i);
+            this.finish();
         }
     }
 
@@ -118,6 +119,7 @@ public class CompositionsActivity extends AppCompatActivity
                 Intent myIntent = new Intent(CompositionsActivity.this, MainActivity.class);
                 myIntent.putExtra(COMP_ID_TAG, (long) ID);
                 startActivity(myIntent);
+                finish();
             }
         });
     }

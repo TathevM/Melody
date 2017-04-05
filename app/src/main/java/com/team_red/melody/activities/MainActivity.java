@@ -43,6 +43,7 @@ import static com.team_red.melody.StartActivityFragments.LoginFragment.COMP_ID_T
 import static com.team_red.melody.models.MelodyStatics.FLAG_EXPORT;
 import static com.team_red.melody.models.MelodyStatics.FLAG_PLAY;
 import static com.team_red.melody.models.MelodyStatics.FLAG_SAVE;
+import static com.team_red.melody.models.MelodyStatics.MAIN_FONT_NAME;
 import static com.team_red.melody.models.MelodyStatics.NAVIGATION_FONT_NAME;
 import static com.team_red.melody.models.MelodyStatics.SHEET_TYPE_ONE_HANDED;
 import static com.team_red.melody.models.MelodyStatics.SHEET_TYPE_TWO_HANDED;
@@ -105,7 +106,10 @@ public class MainActivity extends AppCompatActivity
             }
             melodyAdapter.notifyDataSetChanged();
 
-            ((TextView) findViewById(R.id.composition_label)).setText(currentComposition.getCompositionName());
+            TextView compView = (TextView) findViewById(R.id.composition_label);
+            compView.setText(currentComposition.getCompositionName());
+            Typeface typeface = Typeface.createFromAsset(getAssets(), MAIN_FONT_NAME);
+            compView.setTypeface(typeface);
         }
     }
 
@@ -135,7 +139,7 @@ public class MainActivity extends AppCompatActivity
         } else  if (mMelodyBoard.isMelodyBoardVisible()) {
             mMelodyBoard.hideMelodyBoard();
         }else {
-            alertSaveData();
+            alertSaveData(R.id.nav_compositions);
         }
     }
 
@@ -177,16 +181,9 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_change_theme) {
             // Handle the camera action
         } else if (id == R.id.nav_change_user) {
-            Intent intent = new Intent(MainActivity.this, StartActivity.class);
-            startActivity(intent);
-            this.finish();
+            alertSaveData(id);
         } else if (id == R.id.nav_compositions) {
-            alertSaveData();
-            //TODO fix alert
-//            Intent myIntent = new Intent(MainActivity.this, CompositionsActivity.class);
-//            startActivity(myIntent);
-//            this.finish();
-
+            alertSaveData(id);
         }  else if (id == R.id.nav_share) {
 
         }
@@ -245,19 +242,25 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void alertSaveData() {
+    private void alertSaveData(final int id) {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.alert_leave_comp)
                 .setMessage(R.string.alert_save_comp)
                 .setPositiveButton(R.string.toolbar_save, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         save();
-                        MainActivity.super.onBackPressed();
+                        if(id == R.id.nav_compositions)
+                            exitToCompositions();
+                        else
+                            exitToStart();
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        MainActivity.super.onBackPressed();
+                        if(id == R.id.nav_compositions)
+                            exitToCompositions();
+                        else
+                            exitToStart();
                     }
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
@@ -274,6 +277,18 @@ public class MainActivity extends AppCompatActivity
         else {
             requestPermission();
         }
+    }
+
+    private void exitToCompositions(){
+        Intent intent = new Intent(MainActivity.this, CompositionsActivity.class);
+        startActivity(intent);
+        this.finish();
+    }
+
+    private void exitToStart(){
+        Intent intent = new Intent(MainActivity.this, StartActivity.class);
+        startActivity(intent);
+        this.finish();
     }
 
     private void requestPermission() {
