@@ -18,15 +18,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
+
         app:srcCompat="@drawable/app_logo"
-        android:layout_weight="0.5" />
+        android:layout_weight="0.3"
+        />
 
     <TextView
         android:id="@+id/compositor"
+        android:textAlignment="viewEnd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end"
-        android:layout_weight="0.5"
+        android:layout_weight="0.3"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="#000000"
