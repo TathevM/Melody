@@ -25,8 +25,6 @@ public class StartActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initFragments();
-
-       // DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     }
 
     public  void  initFragments(){

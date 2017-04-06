@@ -2,6 +2,7 @@ package com.team_red.melody.StartActivityFragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,8 @@ import com.team_red.melody.R;
 import com.team_red.melody.activities.CompositionsActivity;
 import com.team_red.melody.app.MelodyApplication;
 import com.team_red.melody.models.User;
+
+import static com.team_red.melody.models.MelodyStatics.MAIN_FONT_NAME;
 
 
 public class LoginFragment extends Fragment {
@@ -47,6 +50,8 @@ public class LoginFragment extends Fragment {
 
     void initButtonClick(View view){
         loginInput = (EditText) view.findViewById(R.id.login_input);
+        Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), MAIN_FONT_NAME);
+        loginInput.setTypeface(typeface);
         startButton = (ImageView) view.findViewById(R.id.addButton);
 
         startButton.setOnClickListener(new View.OnClickListener() {

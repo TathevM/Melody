@@ -34,6 +34,7 @@ import com.team_red.melody.models.User;
 
 import static com.team_red.melody.StartActivityFragments.LoginFragment.COMP_ID_TAG;
 import static com.team_red.melody.models.MelodyStatics.MAIN_FONT_NAME;
+import static com.team_red.melody.models.MelodyStatics.NAVIGATION_FONT_NAME;
 import static com.team_red.melody.models.MelodyStatics.SHEET_TYPE_ONE_HANDED;
 import static com.team_red.melody.models.MelodyStatics.SHEET_TYPE_TWO_HANDED;
 
@@ -141,7 +142,7 @@ public class CompositionsActivity extends AppCompatActivity
                     int curType;
                     String compName;
                     RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.sheet_type_radio_group);
-                    curType = (radioGroup.getCheckedRadioButtonId() == R.id.radio_type_one_hand ? SHEET_TYPE_ONE_HANDED : SHEET_TYPE_TWO_HANDED);
+                    curType = (radioGroup.getCheckedRadioButtonId() == R.id.radio_type_two_hand ? SHEET_TYPE_TWO_HANDED : SHEET_TYPE_ONE_HANDED);
 
                     compName = editText.getText().toString();
                     String fileName = mUser.getUserName() + compName;
