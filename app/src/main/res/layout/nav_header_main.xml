@@ -21,7 +21,8 @@
         app:srcCompat="@drawable/app_logo"
         />
 
-    <TextView
+    <com.team_red.melody.widget.MelodyEditText
+        android:enabled="false"
         android:id="@+id/compositor"
         android:textAlignment="viewEnd"
         android:layout_width="match_parent"
@@ -29,8 +30,7 @@
         android:gravity="end"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:layout_alignBottom="@id/imageView"
-        android:textColor="#000000"
-        android:textSize="@dimen/nav_header_username_text_size"
+        android:textColor="@color/colorMain"
         android:textStyle="bold" />
 
 </RelativeLayout>

@@ -9,6 +9,26 @@
     tools:context="com.team_red.melody.activities.StartActivity"
     tools:showIn="@layout/app_bar_start">
 
+    <com.team_red.melody.widget.MelodyEditText
+        android:layout_width="match_parent"
+        android:enabled="false"
+        android:layout_height="wrap_content"
+        android:id="@+id/page_label"
+        android:text="@string/label_composers"
+        android:textColor="@color/colorMain"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginTop="7dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginLeft="@dimen/margin_separator"
+        android:layout_marginRight="@dimen/margin_separator"
+        android:layout_marginStart="@dimen/margin_separator"
+        android:layout_marginEnd="@dimen/margin_separator"
+        android:background="@color/colorMain"/>
+
     <FrameLayout
         android:id="@+id/AccountChooser"
         android:layout_weight="0.4"

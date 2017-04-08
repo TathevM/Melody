@@ -73,5 +73,6 @@
     <string name="single_line_radio_button">Single</string>
     <string name="double_line_radio_button">Double</string>
     <string name="give_a_name_to_your_masterpiece">Give a Name to Your Masterpiece</string>
+    <string name="label_composers">Composers</string>
 
 </resources>

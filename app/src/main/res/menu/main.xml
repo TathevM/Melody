@@ -4,9 +4,11 @@
     <item
         android:id="@+id/action_play_sound"
         android:title="@string/toolbar_play"
+        android:icon="@drawable/icon_play"
         app:showAsAction="always"
         android:orderInCategory="80"/>
     <item android:id="@+id/action_save"
+        android:icon="@drawable/icon_save"
         app:showAsAction="ifRoom"
         android:title="@string/toolbar_save"
         android:orderInCategory="90"/>
