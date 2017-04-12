@@ -145,7 +145,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
         dialog.setContentView(R.layout.layout_rename_dialog);
         dialog.setTitle(R.string.dialog_rename);
         final EditText renameText = (EditText) dialog.findViewById(R.id.dialog_rename_text);
-        Typeface typeface = Typeface.createFromAsset(getAssets(), MAIN_FONT_NAME);
+        Typeface typeface = Typeface.createFromAsset(context.getAssets(), MAIN_FONT_NAME);
         renameText.setTypeface(typeface);
 
         if (!IS_USER_CHOSEN){
