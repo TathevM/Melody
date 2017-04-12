@@ -123,7 +123,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
         public boolean onLongClick(View view) {
             if (onListItemLongClickListener!=null){
                 if (!IS_USER_CHOSEN) {
-                    onListItemLongClickListener.onItemLongClick(usersList.get(getAdapterPosition()).getID(), view);
+                    onListItemLongClickListener.onItemLongClick(getAdapterPosition(), view);
                 }
                 else
                     onListItemLongClickListener.onItemLongClick(getAdapterPosition(), view);

@@ -31,6 +31,7 @@ import com.team_red.melody.app.MelodyApplication;
 import com.team_red.melody.filemanager.LoadedData;
 import com.team_red.melody.filemanager.MelodyExporter;
 import com.team_red.melody.filemanager.MelodyFileManager;
+import com.team_red.melody.filemanager.MelodyPDF;
 import com.team_red.melody.melodyboard.MelodyBoard;
 import com.team_red.melody.models.Composition;
 import com.team_red.melody.models.MelodyAdapter;
@@ -69,7 +70,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mDbManager = new DbManager(this);
-
 
         initActivity();
         getInitData();
@@ -275,6 +275,8 @@ public class MainActivity extends AppCompatActivity
                 ArrayList<Integer> sound1 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1(), FLAG_EXPORT));
                 melodyExporter.setSound1(sound1);
                 melodyExporter.mergeSongs(currentComposition);
+            MelodyPDF melodyPDF = new MelodyPDF();
+            melodyPDF.export(melodyAdapter.getMelodyStringList1());
         }
         else {
             requestPermission();

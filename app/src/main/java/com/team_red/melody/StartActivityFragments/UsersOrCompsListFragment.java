@@ -49,7 +49,7 @@ public class UsersOrCompsListFragment extends Fragment {
         adapter.setOnListItemLongClickListener(new RVAdapter.OnListItemLongClickListener() {
             @Override
             public void onItemLongClick(int ID, View view) {
-                adapter.renameCompOrUser(ID-1); // Inchu Vahan ?
+                adapter.renameCompOrUser(ID); // Inchu Vahan ?
             }
         });
         adapter.setOnListItemClickListener(new RVAdapter.OnListItemClickListener() {
