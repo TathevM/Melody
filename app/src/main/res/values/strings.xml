@@ -75,5 +75,6 @@
     <string name="double_line_radio_button">Double</string>
     <string name="give_a_name_to_your_masterpiece">Give a Name to Your Masterpiece</string>
     <string name="label_composers">Composers</string>
+    <string name="string_save_ok">Melody saved</string>
 
 </resources>

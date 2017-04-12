@@ -215,6 +215,7 @@ public class MainActivity extends AppCompatActivity
             MelodyFileManager.getManager().saveTwoHandedComposition(a, b, currentUser.getUserName(), currentComposition.getCompositionName(),
                     currentComposition.getJsonFileName(), currentComposition.getCompositionID());
         }
+        Toast.makeText(this , R.string.string_save_ok , Toast.LENGTH_SHORT).show();
     }
 
     private void play() {
@@ -277,6 +278,7 @@ public class MainActivity extends AppCompatActivity
         }
         else {
             requestPermission();
+            export();
         }
     }
 
