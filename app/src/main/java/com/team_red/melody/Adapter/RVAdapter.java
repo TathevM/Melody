@@ -1,5 +1,6 @@
 package com.team_red.melody.Adapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
@@ -8,11 +9,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.team_red.melody.DBs.DbManager;
+
 import com.team_red.melody.app.MelodyApplication;
 import com.team_red.melody.R;
 import com.team_red.melody.models.MelodyStatics;
@@ -20,6 +27,8 @@ import com.team_red.melody.models.Composition;
 import com.team_red.melody.models.User;
 
 import java.util.ArrayList;
+
+import static com.team_red.melody.models.MelodyStatics.MAIN_FONT_NAME;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
 
@@ -34,9 +43,14 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
     }
 
     private OnListItemClickListener onListItemClickListener;
+    private OnListItemLongClickListener onListItemLongClickListener;
 
     public void setOnListItemClickListener(OnListItemClickListener onListItemClickListener) {
         this.onListItemClickListener = onListItemClickListener;
+    }
+
+    public void setOnListItemLongClickListener(OnListItemLongClickListener onListItemLongClickListener) {
+        this.onListItemLongClickListener = onListItemLongClickListener;
     }
 
     public void setUsersList(ArrayList<User> usersList) {
@@ -46,7 +60,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
 
     public void setCompositionsList(ArrayList<Composition> compositionsList) {
         this.compositionsList = compositionsList;
-//        notifyDataSetChanged();
     }
 
     @Override
@@ -79,7 +92,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
     }
 
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener , View.OnLongClickListener{
 
         private TextView mUserOrCompName;
         private ImageButton mDeleteButton;
@@ -91,7 +104,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
             mUserOrCompName.setTypeface(typeface);
             mDeleteButton = (ImageButton) itemView.findViewById(R.id.delete_button);
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
+
 
         @Override
         public void onClick(View view) {
@@ -103,10 +118,83 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
                     onListItemClickListener.onItemClick(compositionsList.get(getAdapterPosition()).getCompositionID(), view);
             }
         }
+
+        @Override
+        public boolean onLongClick(View view) {
+            if (onListItemLongClickListener!=null){
+                if (!IS_USER_CHOSEN) {
+                    onListItemLongClickListener.onItemLongClick(usersList.get(getAdapterPosition()).getID(), view);
+                }
+                else
+                    onListItemLongClickListener.onItemLongClick(getAdapterPosition(), view);
+            }
+            return false;
+        }
     }
 
     public interface OnListItemClickListener{
         void onItemClick(int ID, View view);
+    }
+
+    public interface OnListItemLongClickListener{
+        void onItemLongClick(int ID, View view);
+    }
+
+    public void renameCompOrUser(final int position){
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.layout_rename_dialog);
+        dialog.setTitle(R.string.dialog_rename);
+        final EditText renameText = (EditText) dialog.findViewById(R.id.dialog_rename_text);
+        Typeface typeface = Typeface.createFromAsset(getAssets(), MAIN_FONT_NAME);
+        renameText.setTypeface(typeface);
+
+        if (!IS_USER_CHOSEN){
+            renameText.setText( usersList.get(position).getUserName());
+        }
+        else {
+            renameText.setText( compositionsList.get(position).getCompositionName());
+        }
+
+        Window window = dialog.getWindow();
+        window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT , LinearLayout.LayoutParams.WRAP_CONTENT);
+        Button dialogOK = (Button) dialog.findViewById(R.id.button_dialog_accept);
+        dialogOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String renamed = renameText.getText().toString();
+                if (renamed.equals("")){
+                    if(!IS_USER_CHOSEN){
+                        Toast.makeText(context, R.string.new_user_hint, Toast.LENGTH_SHORT) .show();
+                    }
+                    else{
+                        Toast.makeText( context, R.string.no_title, Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    if (IS_USER_CHOSEN) {
+                        compositionsList.get(position).setCompositionName(renamed);
+                        notifyDataSetChanged();
+                        int compID = compositionsList.get(position).getCompositionID();
+                        dbManager.renameComposition(compID, renamed);
+                    }
+                    else {
+                        usersList.get(position).setUserName(renamed);
+                        notifyDataSetChanged();
+                        int userID = usersList.get(position).getID();
+                        dbManager.renameUser(userID ,renamed);
+                    }
+                    dialog.dismiss();
+                }
+            }
+        });
+        dialog.findViewById(R.id.button_dialog_decline).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     private void onDeleteClick(final int position){

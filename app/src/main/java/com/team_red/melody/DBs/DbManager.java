@@ -103,6 +103,20 @@ public class DbManager {
         return compositions;
     }
 
+    public void renameComposition( int position , String compName){
+        ContentValues cv = new ContentValues();
+        cv.put(TableManager.COMPOSITION_NAME, compName);
+
+        mDb.update(TableManager.COMPOSITIONS_TABLE, cv , "_id=" + position , null);
+    }
+
+    public void renameUser( int position , String userName){
+        ContentValues cv = new ContentValues();
+        cv.put(TableManager.USERNAME, userName);
+
+        mDb.update(TableManager.USERS_TABLE, cv , "_id=" + position , null);
+    }
+
     public void deleteCompByID( int compositionID ){
             mDb.delete(TableManager.COMPOSITIONS_TABLE, TableManager.COMPOSITION_ID + "=" + compositionID, null);
     }

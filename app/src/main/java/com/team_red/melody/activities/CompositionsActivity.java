@@ -114,6 +114,12 @@ public class CompositionsActivity extends AppCompatActivity
         rv.setLayoutManager(llm);
         rv.setAdapter(adapter);
         rv.setHasFixedSize(true);
+        adapter.setOnListItemLongClickListener(new RVAdapter.OnListItemLongClickListener() {
+            @Override
+            public void onItemLongClick(int ID, View view) {
+                adapter.renameCompOrUser(ID);
+            }
+        });
         adapter.setOnListItemClickListener(new RVAdapter.OnListItemClickListener() {
             @Override
             public void onItemClick(int ID, View view) {

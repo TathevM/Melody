@@ -30,7 +30,6 @@ public class UsersOrCompsListFragment extends Fragment {
         return inflater.inflate(R.layout.users_or_compositions_list_fragment, container , false);
     }
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +46,12 @@ public class UsersOrCompsListFragment extends Fragment {
         rv.setLayoutManager(llm);
         rv.setAdapter(adapter);
         rv.setHasFixedSize(true);
+        adapter.setOnListItemLongClickListener(new RVAdapter.OnListItemLongClickListener() {
+            @Override
+            public void onItemLongClick(int ID, View view) {
+                adapter.renameCompOrUser(ID-1); // Inchu Vahan ?
+            }
+        });
         adapter.setOnListItemClickListener(new RVAdapter.OnListItemClickListener() {
             @Override
             public void onItemClick(int ID, View view1) {
