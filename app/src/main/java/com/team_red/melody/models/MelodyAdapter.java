@@ -6,8 +6,10 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.team_red.melody.R;
+import com.team_red.melody.filemanager.MelodyPDF;
 import com.team_red.melody.melodyboard.MelodyBoard;
 import com.team_red.melody.widget.MelodyEditText;
 

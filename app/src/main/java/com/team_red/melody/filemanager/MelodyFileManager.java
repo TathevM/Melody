@@ -33,9 +33,10 @@ public class MelodyFileManager {
     public static final String COMPOSITION_ARRAY2_JSON_TAG = "composition2";
     public static final String COMPOSITION_ID_TAG = "_id";
     public static final String MAX_CHARACTERS_TAG = "max_chars_per_line";
-    public static String COMPOSITION_JSON_DIR = MelodyApplication.getContext().getFilesDir()  + File.separator;
-    public static String COMPOSITION_TYPE_TAG = "hand_type";
-    public static String EXPORTED_FILE_DIRECTORY = "/Melody";
+    public static final String COMPOSITION_JSON_DIR = MelodyApplication.getContext().getFilesDir()  + File.separator;
+    public static final String COMPOSITION_TYPE_TAG = "hand_type";
+    public static final String EXPORTED_FILE_DIRECTORY = "/Melody";
+    public static final String MELODY_DIR = "/Music";
 
     private static MelodyFileManager melodyFileManager;
     private int currentMaxCharacters;

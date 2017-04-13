@@ -12,8 +12,12 @@
         app:showAsAction="ifRoom"
         android:title="@string/toolbar_save"
         android:orderInCategory="90"/>
-    <item android:id="@+id/action_export"
+    <item android:id="@+id/action_export_mp3"
         android:orderInCategory="110"
-        android:title="@string/toolbar_export"
+        android:title="@string/toolbar_export_MP3"
+        app:showAsAction="never"/>
+    <item android:id="@+id/action_export_pdf"
+        android:orderInCategory="120"
+        android:title="@string/toolbar_export_PDF"
         app:showAsAction="never"/>
 </menu>

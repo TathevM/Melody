@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -58,10 +59,12 @@ public class MainActivity extends AppCompatActivity
     private MelodyBoard mMelodyBoard;
     private MelodyAdapter melodyAdapter;
     private MenuItem playButton;
+    private MenuItem exportPdfButton;
     private User currentUser;
     private Composition currentComposition;
     private DbManager mDbManager;
     private boolean hasPermission;
+    private boolean isPdfExporting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +152,7 @@ public class MainActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         playButton = menu.findItem(R.id.action_play_sound);
+        exportPdfButton = menu.findItem(R.id.action_export_pdf);
         return true;
     }
 
@@ -164,8 +168,11 @@ public class MainActivity extends AppCompatActivity
             case R.id.action_play_sound:
                 play();
                 break;
-            case R.id.action_export:
-                export();
+            case R.id.action_export_mp3:
+                exportToMP3();
+                break;
+            case R.id.action_export_pdf:
+                exportToPdf();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -180,7 +187,6 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_change_theme) {
-            // Handle the camera action
         } else if (id == R.id.nav_change_user) {
             alertSaveData(id);
         } else if (id == R.id.nav_compositions) {
@@ -269,19 +275,56 @@ public class MainActivity extends AppCompatActivity
                 .show();
     }
 
-    private void export(){
+    private void exportToMP3(){
         if(hasPermission) {
                 MelodyExporter melodyExporter = new MelodyExporter(this);
                 ArrayList<Integer> sound1 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1(), FLAG_EXPORT));
                 melodyExporter.setSound1(sound1);
                 melodyExporter.mergeSongs(currentComposition);
-            MelodyPDF melodyPDF = new MelodyPDF();
-            melodyPDF.export(melodyAdapter.getMelodyStringList1());
         }
         else {
             requestPermission();
-            export();
+            exportToMP3();
         }
+    }
+
+    private void exportToPdf(){
+        if(hasPermission) {
+            toggleExportPdf(false);
+            isPdfExporting = true;
+            final Handler h = new Handler();
+            h.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                   if(isPdfExporting)
+                       h.postDelayed(this, 1000);
+                    else
+                        toggleExportPdf(true);
+                }
+            }, 1000);
+            RecyclerView rv = (RecyclerView) findViewById(R.id.composition);
+            TextView compView = (TextView) findViewById(R.id.composition_label);
+            MelodyPDF melodyPDF = new MelodyPDF();
+            melodyPDF.export(compView, rv, currentComposition, new MelodyPDF.IOnPDFExportFinishedListener() {
+                @Override
+                public void onPdfExportFinished() {
+                    Toast.makeText(getApplicationContext() , R.string.pdf_export_complete , Toast.LENGTH_SHORT).show();
+                    isPdfExporting = false;
+                }
+            });
+        }
+        else {
+            requestPermission();
+            exportToPdf();
+        }
+    }
+
+    private void toggleExportPdf(boolean state){
+        exportPdfButton.setEnabled(state);
+        if (state)
+            exportPdfButton.setTitle(R.string.toolbar_export_PDF);
+        else
+            exportPdfButton.setTitle(R.string.pdf_exporting_in_process);
     }
 
     private void exitToCompositions(){

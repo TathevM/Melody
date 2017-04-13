@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import static com.team_red.melody.filemanager.MelodyFileManager.COMPOSITION_JSON_DIR;
 import static com.team_red.melody.filemanager.MelodyFileManager.EXPORTED_FILE_DIRECTORY;
+import static com.team_red.melody.filemanager.MelodyFileManager.MELODY_DIR;
 
 public class MelodyExporter {
 
@@ -81,9 +82,9 @@ public class MelodyExporter {
                 File root = android.os.Environment.getExternalStorageDirectory();
                 String username = MelodyApplication.getLoggedInUser().getUserName();
                 String compName = mComposition.getCompositionName();
-                File dir = new File(root.getAbsolutePath() + EXPORTED_FILE_DIRECTORY);
+                File dir = new File(root.getAbsolutePath() + EXPORTED_FILE_DIRECTORY + MELODY_DIR);
                 dir.mkdirs();
-                File mergedFile = new File(dir, username + " " + compName + ".mp3");
+                File mergedFile = new File(dir, username + " - " + compName + ".mp3");
                 ArrayList<File> mp3Files = prepareExport();
                 FileInputStream fisToFinal = null;
                 FileOutputStream fos = null;
