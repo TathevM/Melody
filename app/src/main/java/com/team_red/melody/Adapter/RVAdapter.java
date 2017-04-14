@@ -150,9 +150,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
 
         if (!IS_USER_CHOSEN){
             renameText.setText( usersList.get(position).getUserName());
+            renameText.setSelection(renameText.getText().length());
         }
         else {
             renameText.setText( compositionsList.get(position).getCompositionName());
+            renameText.setSelection(renameText.getText().length());
         }
 
         Window window = dialog.getWindow();

@@ -54,8 +54,8 @@
     <string name="nav_communicate">Communicate</string>
     <string name="toolbar_play">Play</string>
     <string name="toolbar_save">Save</string>
-    <string name="toolbar_export_MP3">Export as mp3</string>
-    <string name="toolbar_export_PDF">Export as pdf</string>
+    <string name="toolbar_export_MP3">Export as .mp3</string>
+    <string name="toolbar_export_PDF">Export as .pdf</string>
     <string name="transition_profile">profile</string>
     <string name="alert_leave_comp">Exit</string>
     <string name="alert_save_comp">Save Composition before exit?</string>

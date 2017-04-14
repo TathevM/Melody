@@ -50,7 +50,7 @@ public class ScreensaverActivity extends AppCompatActivity {
                 finish();
 
             }
-        }, 2000);
+        }, 3500);
 
     }
 }
