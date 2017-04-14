@@ -284,7 +284,6 @@ public class MainActivity extends AppCompatActivity
         }
         else {
             requestPermission();
-            exportToMP3();
         }
     }
 
@@ -315,7 +314,6 @@ public class MainActivity extends AppCompatActivity
         }
         else {
             requestPermission();
-            exportToPdf();
         }
     }
 
