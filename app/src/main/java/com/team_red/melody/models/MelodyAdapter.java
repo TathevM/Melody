@@ -43,7 +43,8 @@ public class MelodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public void setMelodyStringList1(ArrayList<String> melodyStringList1) {
         this.melodyStringList1 = melodyStringList1;
-        this.melodyStringList1.add("");
+        for (int i = 0; i < 10; i++)
+            this.melodyStringList1.add("");
     }
 
     public ArrayList<String> getMelodyStringList2() {
@@ -52,10 +53,18 @@ public class MelodyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public void setMelodyStringList2(ArrayList<String> melodyStringList2) {
         this.melodyStringList2 = melodyStringList2;
-        this.melodyStringList2.add("");
+        for (int i = 0; i < 10; i++)
+            this.melodyStringList2.add("");
     }
 
     public void addNewLinesToList() {
+        if(melodyStringList2 == null && melodyStringList1.get(getItemCount() -1).isEmpty())
+            return;
+        else if(melodyStringList2 != null){
+            if(melodyStringList1.get(getItemCount() - 1).isEmpty() && melodyStringList2.get(getItemCount() - 1).isEmpty())
+                return;
+        }
+
         if (melodyStringList1 != null) {
             for (int i = 0; i < 10; i++)
                 melodyStringList1.add("");
