@@ -32,6 +32,10 @@
 
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".activities.ShareActivity"
+
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".activities.CompositionsActivity"
             android:label="Your Compositions"
             android:theme="@style/AppTheme.NoActionBar">

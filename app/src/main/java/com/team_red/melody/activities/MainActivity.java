@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_compositions) {
             alertSaveData(id);
         }  else if (id == R.id.nav_share) {
-
+            alertSaveData(id);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -257,18 +257,47 @@ public class MainActivity extends AppCompatActivity
                 .setPositiveButton(R.string.toolbar_save, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         save();
-                        if(id == R.id.nav_compositions)
-                            exitToCompositions();
-                        else
-                            exitToStart();
+
+                        switch (id){
+                            case (R.id.nav_compositions):{
+                                exitToCompositions();
+                                break;
+                            }
+                            case (R.id.nav_share):{
+                                exitToShare();
+                                break;
+                            }
+                            case (R.id.nav_change_user):{
+                                exitToStart();
+                                break;
+                            }
+                        }
+//                        if(id == R.id.nav_compositions)
+//                            exitToCompositions();
+//                        else
+//                            exitToStart();
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        if(id == R.id.nav_compositions)
-                            exitToCompositions();
-                        else
-                            exitToStart();
+//                        if(id == R.id.nav_compositions)
+//                            exitToCompositions();
+//                        else
+//                            exitToStart();
+                        switch (id){
+                            case (R.id.nav_compositions):{
+                                exitToCompositions();
+                                break;
+                            }
+                            case (R.id.nav_share):{
+                                exitToShare();
+                                break;
+                            }
+                            case (R.id.nav_change_user):{
+                                exitToStart();
+                                break;
+                            }
+                        }
                     }
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
@@ -333,6 +362,12 @@ public class MainActivity extends AppCompatActivity
 
     private void exitToStart(){
         Intent intent = new Intent(MainActivity.this, StartActivity.class);
+        startActivity(intent);
+        this.finish();
+    }
+
+    private void exitToShare(){
+        Intent intent = new Intent(MainActivity.this, ShareActivity.class);
         startActivity(intent);
         this.finish();
     }

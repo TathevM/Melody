@@ -3,9 +3,12 @@ package com.team_red.melody.Adapter;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +29,16 @@ import com.team_red.melody.models.MelodyStatics;
 import com.team_red.melody.models.Composition;
 import com.team_red.melody.models.User;
 
+import java.io.File;
 import java.util.ArrayList;
 
+import static com.team_red.melody.filemanager.MelodyFileManager.EXPORTED_FILE_DIRECTORY;
+import static com.team_red.melody.filemanager.MelodyFileManager.MELODY_DIR;
+import static com.team_red.melody.filemanager.MelodyFileManager.SHEET_DIR;
 import static com.team_red.melody.models.MelodyStatics.MAIN_FONT_NAME;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
+
 
     public boolean  IS_USER_CHOSEN = false;
     private ArrayList<User> usersList = new ArrayList<>();
@@ -67,6 +75,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
         if (!IS_USER_CHOSEN) {
             holder.mUserOrCompName.setText(usersList.get(position).getUserName());
             holder.mDeleteButton.setVisibility(View.GONE);
+
         }
         else {
             holder.mUserOrCompName.setText(compositionsList.get(position).getCompositionName());
@@ -140,13 +149,46 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
         void onItemLongClick(int ID, View view);
     }
 
+    public void shareComp(final int position){ // or share comp (String melody , String type); Հակված եմ ես տարբերակին
+        String sharePath;
+
+        String melody = MelodyApplication.getLoggedInUser().getUserName() + " - "
+                + compositionsList.get(position).getCompositionName();
+
+        String MP3_SHARE_PATH = android.os.Environment.getExternalStorageDirectory() + EXPORTED_FILE_DIRECTORY +
+                MELODY_DIR + "/";
+        String PDF_SHARE_PATH = android.os.Environment.getExternalStorageDirectory() + EXPORTED_FILE_DIRECTORY +
+                SHEET_DIR+ "/";
+
+        Intent share = new Intent(Intent.ACTION_SEND);
+        if ("type" == "mp3"){ // if we use shareComp(String melody,String type) would be great
+            sharePath = MP3_SHARE_PATH + melody + ".mp3";
+            share.setType("audio/mp3");
+        }
+        else{
+            sharePath = PDF_SHARE_PATH + melody + ".pdf";
+            share.setType("application/pdf");
+        }
+
+
+        File file = new File(sharePath);
+        Uri uri = Uri.fromFile(file);
+        Log.e("bbb" , sharePath);
+
+        share.putExtra(Intent.EXTRA_STREAM, uri);
+        context.startActivity(Intent.createChooser(share, "Sharing: " + melody));
+    }
+
     public void renameCompOrUser(final int position){
+
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.layout_rename_dialog);
         dialog.setTitle(R.string.dialog_rename);
+
         final EditText renameText = (EditText) dialog.findViewById(R.id.dialog_rename_text);
         Typeface typeface = Typeface.createFromAsset(context.getAssets(), MAIN_FONT_NAME);
         renameText.setTypeface(typeface);
+
 
         if (!IS_USER_CHOSEN){
             renameText.setText( usersList.get(position).getUserName());

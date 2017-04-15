@@ -117,7 +117,8 @@ public class CompositionsActivity extends AppCompatActivity
         adapter.setOnListItemLongClickListener(new RVAdapter.OnListItemLongClickListener() {
             @Override
             public void onItemLongClick(int ID, View view) {
-                adapter.renameCompOrUser(ID);
+//                adapter.renameCompOrUser(ID);
+                adapter.shareComp(ID);
             }
         });
         adapter.setOnListItemClickListener(new RVAdapter.OnListItemClickListener() {

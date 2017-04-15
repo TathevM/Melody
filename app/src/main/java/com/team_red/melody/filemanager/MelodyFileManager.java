@@ -37,6 +37,7 @@ public class MelodyFileManager {
     public static final String COMPOSITION_TYPE_TAG = "hand_type";
     public static final String EXPORTED_FILE_DIRECTORY = "/Melody";
     public static final String MELODY_DIR = "/Music";
+    public static final String SHEET_DIR = "/Sheets";
 
     private static MelodyFileManager melodyFileManager;
     private int currentMaxCharacters;
