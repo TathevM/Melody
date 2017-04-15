@@ -12,6 +12,11 @@
         app:showAsAction="ifRoom"
         android:title="@string/toolbar_save"
         android:orderInCategory="90"/>
+    <item android:id="@+id/action_share"
+        android:icon="@drawable/key_share_button"
+        app:showAsAction="ifRoom"
+        android:title="@string/toolbar_share"
+        android:orderInCategory="90"/>
     <item android:id="@+id/action_export_mp3"
         android:orderInCategory="110"
         android:title="@string/toolbar_export_MP3"
