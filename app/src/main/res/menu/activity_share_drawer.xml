@@ -14,9 +14,10 @@
             android:id="@+id/nav_compositions"
             android:icon="@drawable/icon_compositions"
             android:title="@string/nav_compositions" />
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_menu_share"
+            android:title="@string/nav_share" />
     </group>
-    <item
-        android:id="@+id/nav_share"
-        android:icon="@drawable/ic_menu_share"
-        android:title="@string/nav_share" />
+
 </menu>

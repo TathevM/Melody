@@ -76,9 +76,10 @@
     <string name="double_line_radio_button">Double</string>
     <string name="give_a_name_to_your_masterpiece">Give a Name to Your Masterpiece</string>
     <string name="label_composers">Composers</string>
-    <string name="label_files">Your Files</string>
+    <string name="label_files">Select File</string>
     <string name="string_save_ok">Melody saved</string>
     <string name="pdf_export_complete">PDF saved in folder</string>
     <string name="pdf_exporting_in_process">Now Exporting...</string>
+    <string name="share_label">Your Files</string>
 
 </resources>

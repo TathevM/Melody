@@ -34,7 +34,6 @@ import com.team_red.melody.models.User;
 
 import static com.team_red.melody.StartActivityFragments.LoginFragment.COMP_ID_TAG;
 import static com.team_red.melody.models.MelodyStatics.MAIN_FONT_NAME;
-import static com.team_red.melody.models.MelodyStatics.NAVIGATION_FONT_NAME;
 import static com.team_red.melody.models.MelodyStatics.SHEET_TYPE_ONE_HANDED;
 import static com.team_red.melody.models.MelodyStatics.SHEET_TYPE_TWO_HANDED;
 
@@ -88,6 +87,8 @@ public class CompositionsActivity extends AppCompatActivity
             }
         });
 
+        navigationView.setCheckedItem(R.id.nav_compositions);
+
         rv = (RecyclerView) findViewById(R.id.compositionsList);
 
         adapter = new RVAdapter(this);
@@ -117,8 +118,7 @@ public class CompositionsActivity extends AppCompatActivity
         adapter.setOnListItemLongClickListener(new RVAdapter.OnListItemLongClickListener() {
             @Override
             public void onItemLongClick(int ID, View view) {
-//                adapter.renameCompOrUser(ID);
-                adapter.shareComp(ID);
+             adapter.renameCompOrUser(ID);
             }
         });
         adapter.setOnListItemClickListener(new RVAdapter.OnListItemClickListener() {
@@ -180,6 +180,11 @@ public class CompositionsActivity extends AppCompatActivity
 
         if (id == R.id.nav_change_user) {
             Intent i = new Intent(CompositionsActivity.this, StartActivity.class);
+            startActivity(i);
+            this.finish();
+        }else if(id == R.id.nav_share)
+        {
+            Intent i = new Intent(CompositionsActivity.this, ShareActivity.class);
             startActivity(i);
             this.finish();
         }

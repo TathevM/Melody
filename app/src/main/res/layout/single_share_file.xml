@@ -22,19 +22,6 @@
             android:layout_marginEnd="@dimen/margin_medium"
             android:src="@drawable/icon_pdf" />
 
-        <ImageButton
-            android:id="@+id/type_image1"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_weight="0.1"
-            android:layout_gravity="center_vertical"
-            android:visibility="visible"
-            android:layout_marginRight="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:src="@drawable/mp3" />
-
-
-
         <TextView
             android:id="@+id/share_item"
             android:textSize="@dimen/user_title_text_size"

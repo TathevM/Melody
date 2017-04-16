@@ -28,14 +28,14 @@ import static com.team_red.melody.filemanager.MelodyFileManager.SHEET_DIR;
 public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.ViewHolder> {
 
     String MP3_SHARE_PATH = android.os.Environment.getExternalStorageDirectory()
-            + EXPORTED_FILE_DIRECTORY + MELODY_DIR;
+            + EXPORTED_FILE_DIRECTORY + MELODY_DIR + "/";
     String PDF_SHARE_PATH = android.os.Environment.getExternalStorageDirectory()
-            + EXPORTED_FILE_DIRECTORY + SHEET_DIR;
+            + EXPORTED_FILE_DIRECTORY + SHEET_DIR +"/";
 
     private Context context;
-    File[] files1;
-    File[] files2;
-    List<String> mFiles = new ArrayList<>();
+    private File[] files1;
+    private File[] files2;
+    private List<String> mFiles = new ArrayList<>();
 
     private OnListItemClickListener onListItemClickListener;
 
@@ -79,6 +79,9 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         holder.mShareItem.setText(mFiles.get(position));
+        if(mFiles.get(holder.getAdapterPosition()).endsWith("mp3")) {
+            holder.mTypeImage.setImageResource(R.drawable.icon_mp3);
+        }
 
 //        holder.mTypeImage.setImageDrawable();
 
@@ -94,10 +97,9 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.ViewHolder> 
             Typeface typeface = Typeface.createFromAsset(MelodyApplication.getContext().getAssets(), MelodyStatics.MAIN_FONT_NAME);
             mShareItem.setTypeface(typeface);
             mShareItem.setTextSize(30);
-
-            // if substring = mp3, type_image1, else - type_image
             mTypeImage = (ImageView) itemView.findViewById(R.id.type_image);
-            mTypeImage = (ImageView) itemView.findViewById(R.id.type_image1);
+            // if substring = mp3, type_image1, else - type_image
+
 
             itemView.setOnClickListener(this);
         }
@@ -105,28 +107,27 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.ViewHolder> 
         @Override
         public void onClick(View view) {
             onListItemClickListener.onItemClick(getAdapterPosition(), view);
-
         }
     }
-
     public void share(int position){
         String sharePath;
         String melody = mFiles.get(position);
 
         Intent share = new Intent(Intent.ACTION_SEND);
-        if (melody.substring(melody.length()-4 , melody.length()-1).equalsIgnoreCase("mp3")){
-            sharePath = "/" + MP3_SHARE_PATH + melody;
+        if (melody.endsWith("mp3")){
+            sharePath = MP3_SHARE_PATH + "/" + melody;
             share.setType("audio/mp3");
+            //mTypeImage = (ImageView) itemView.findViewById(R.id.type_image);
+
         }
         else{
-            sharePath = "/" + PDF_SHARE_PATH + melody;
+            sharePath = PDF_SHARE_PATH + "/" + melody;
             share.setType("application/pdf");
+           /// mTypeImage = (ImageView) itemView.findViewById(R.id.type_image1);
+
         }
-
-
         File file = new File(sharePath);
         Uri uri = Uri.fromFile(file);
-
         share.putExtra(Intent.EXTRA_STREAM, uri);
         context.startActivity(Intent.createChooser(share, "Sharing: " + melody));
     }
@@ -134,4 +135,5 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.ViewHolder> 
     public interface OnListItemClickListener{
         void onItemClick(int position, View view);
     }
+
 }

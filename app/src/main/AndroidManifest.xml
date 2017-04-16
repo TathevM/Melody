@@ -33,7 +33,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.ShareActivity"
-
+            android:label="@string/share_label"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.CompositionsActivity"
