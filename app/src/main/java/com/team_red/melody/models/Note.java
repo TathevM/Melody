@@ -103,7 +103,8 @@ public class Note implements Parcelable {
                         if(sign%10 == NATURAL_DIVISOR || sign == 0){
                             temp = "n";
                         }
-        return temp + octave + "_" + value;
+                        int tempValue = (value / 10) * 10;
+        return temp + octave + "_" + tempValue;
     }
 
     public int getDuration(){

@@ -17,7 +17,7 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.team_red.melody.app.MelodyApplication;
 import com.team_red.melody.models.Composition;
-import com.team_red.melody.models.MelodyAdapter;
+import com.team_red.melody.Adapter.MelodyAdapter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

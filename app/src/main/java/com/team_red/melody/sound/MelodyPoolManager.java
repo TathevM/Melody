@@ -83,13 +83,6 @@ public class MelodyPoolManager {
         void onFinishPlayBack();
     }
 
-//    private int maxSampleId() {
-//        int sampleId = 0;
-//        for (SoundSampleEntity entry : loadedSounds1) {
-//            sampleId = entry.getSampleId() > sampleId ? entry.getSampleId() : sampleId;
-//        }
-//        return sampleId;
-//    }
 
     private SoundSampleEntity getEntity(int sampleId) {
         for (SoundSampleEntity entry : loadedSounds1) {
@@ -104,15 +97,6 @@ public class MelodyPoolManager {
         }
         return null;
     }
-
-//    public void playSound(int resourceId) {
-//        if (isPlaySound1()) {
-//            SoundSampleEntity entity = hashMap.get(resourceId);
-//            if (entity.getSampleId() > 0 && entity.isLoaded()) {
-//                soundPool.play(entity.getSampleId(), .99f, .99f, 1, 0, 1f);
-//            }
-//        }
-//    }
 
     public void playMelody(){
         h = new Handler();

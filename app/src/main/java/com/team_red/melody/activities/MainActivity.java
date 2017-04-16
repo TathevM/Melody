@@ -35,7 +35,7 @@ import com.team_red.melody.filemanager.MelodyFileManager;
 import com.team_red.melody.filemanager.MelodyPDF;
 import com.team_red.melody.melodyboard.MelodyBoard;
 import com.team_red.melody.models.Composition;
-import com.team_red.melody.models.MelodyAdapter;
+import com.team_red.melody.Adapter.MelodyAdapter;
 import com.team_red.melody.models.Note;
 import com.team_red.melody.models.User;
 import com.team_red.melody.sound.MelodyPoolManager;
