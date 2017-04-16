@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.team_red.melody.activities.ShareActivity"
+    tools:showIn="@layout/app_bar_start"
+    android:weightSum="1">
+
+    <com.team_red.melody.widget.MelodyEditText
+        android:layout_width="match_parent"
+        android:enabled="false"
+        android:layout_height="wrap_content"
+        android:id="@+id/page_label"
+        android:text="@string/label_files"
+        android:textColor="@color/colorMain"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginTop="7dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginLeft="@dimen/margin_separator"
+        android:layout_marginRight="@dimen/margin_separator"
+        android:layout_marginStart="@dimen/margin_separator"
+        android:layout_marginEnd="@dimen/margin_separator"
+        android:background="@color/colorMain"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/shareList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginRight="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_small">
+
+    </android.support.v7.widget.RecyclerView>
+    <!--<FrameLayout-->
+        <!--android:id="@+id/AccountChooser"-->
+        <!--android:layout_weight="0.4"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+    <!--</FrameLayout>-->
+
+    <!--<FrameLayout-->
+        <!--android:id="@+id/Login"-->
+        <!--android:layout_weight="0.6"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+    <!--</FrameLayout>-->
+</LinearLayout>

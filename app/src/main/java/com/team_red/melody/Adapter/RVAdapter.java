@@ -20,13 +20,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.team_red.melody.DBs.DbManager;
-
-import com.team_red.melody.app.MelodyApplication;
 import com.team_red.melody.R;
-import com.team_red.melody.models.MelodyStatics;
+import com.team_red.melody.app.MelodyApplication;
 import com.team_red.melody.models.Composition;
+import com.team_red.melody.models.MelodyStatics;
 import com.team_red.melody.models.User;
 
 import java.io.File;
@@ -261,4 +259,5 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
+
 }

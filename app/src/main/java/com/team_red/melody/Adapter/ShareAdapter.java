@@ -3,6 +3,7 @@ package com.team_red.melody.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.team_red.melody.R;
+import com.team_red.melody.app.MelodyApplication;
+import com.team_red.melody.models.MelodyStatics;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -82,16 +85,20 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.ViewHolder> 
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-
         private TextView mShareItem;
         private ImageView mTypeImage;
-
 
         ViewHolder(View itemView) {
             super(itemView);
             mShareItem = (TextView) itemView.findViewById(R.id.share_item);
+            Typeface typeface = Typeface.createFromAsset(MelodyApplication.getContext().getAssets(), MelodyStatics.MAIN_FONT_NAME);
+            mShareItem.setTypeface(typeface);
+            mShareItem.setTextSize(30);
+
+            // if substring = mp3, type_image1, else - type_image
             mTypeImage = (ImageView) itemView.findViewById(R.id.type_image);
+            mTypeImage = (ImageView) itemView.findViewById(R.id.type_image1);
+
             itemView.setOnClickListener(this);
         }
 
@@ -105,7 +112,6 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.ViewHolder> 
     public void share(int position){
         String sharePath;
         String melody = mFiles.get(position);
-
 
         Intent share = new Intent(Intent.ACTION_SEND);
         if (melody.substring(melody.length()-4 , melody.length()-1).equalsIgnoreCase("mp3")){

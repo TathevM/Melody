@@ -28,7 +28,7 @@ import static com.team_red.melody.filemanager.MelodyFileManager.EXPORTED_FILE_DI
 public class MelodyPDF {
 
     private static final String HANDLER_THREAD = "handlerThread";
-    private static final String PDF_DIR = "/Sheets";
+    public static final String PDF_DIR = "/Sheets";
 
     private Composition mComposition;
     private IOnPDFExportFinishedListener mOnPDFExportFinishedListener;
