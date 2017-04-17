@@ -65,7 +65,9 @@
     <string name="dialog_rename">Rename</string>
     <string name="toast_no_name">Write Your Name Maestro</string>
     <string name="alert_delete_title">Delete</string>
-    <string name="alert_delete_text">Do you really want to delete it?</string>
+    <string name="alert_delete_text">Do you really want to delete this melody?</string>
+    <string name="alert_delete_user_title">Warning</string>
+    <string name="alert_delete_user_text">All melodies of this user will be lost! \nDelete anyway? </string>
     <string name="export_dir_help">File saved in folder</string>
     <string name="sound_pool_exception">Sounds not set</string>
     <string name="title_activity_start">StartActivity</string>

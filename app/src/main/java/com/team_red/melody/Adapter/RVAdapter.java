@@ -7,9 +7,12 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -69,22 +72,36 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder,int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         if (!IS_USER_CHOSEN) {
             holder.mUserOrCompName.setText(usersList.get(position).getUserName());
-            holder.mDeleteButton.setVisibility(View.GONE);
+//            holder.mDeleteButton.setVisibility(View.GONE);
 
         }
         else {
             holder.mUserOrCompName.setText(compositionsList.get(position).getCompositionName());
-            holder.mDeleteButton.setVisibility(View.VISIBLE);
-            holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onDeleteClick(holder.getAdapterPosition());
-                }
-            });
+//            holder.mDeleteButton.setVisibility(View.VISIBLE);
+
+//            holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    onDeleteClick(holder.getAdapterPosition());
+//                }
+//            });
         }
+//        holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                onDeleteClick(holder.getAdapterPosition());
+//            }
+//        });
+//        holder.mUserOrCompName.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View view) {
+//                showPopup(position,view);
+//                return false;
+//            }
+//        });
     }
 
     @Override
@@ -102,14 +119,14 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener , View.OnLongClickListener{
 
         private TextView mUserOrCompName;
-        private ImageButton mDeleteButton;
+//        private ImageButton mDeleteButton;
 
         ViewHolder(View itemView) {
             super(itemView);
             mUserOrCompName = (TextView) itemView.findViewById(R.id.userOrCompName);
             Typeface typeface = Typeface.createFromAsset(MelodyApplication.getContext().getAssets(), MelodyStatics.MAIN_FONT_NAME);
             mUserOrCompName.setTypeface(typeface);
-            mDeleteButton = (ImageButton) itemView.findViewById(R.id.delete_button);
+//            mDeleteButton = (ImageButton) itemView.findViewById(R.id.delete_button);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
         }
@@ -145,36 +162,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
 
     public interface OnListItemLongClickListener{
         void onItemLongClick(int ID, View view);
-    }
-
-    public void shareComp(final int position){ // or share comp (String melody , String type); Հակված եմ ես տարբերակին
-        String sharePath;
-
-        String melody = MelodyApplication.getLoggedInUser().getUserName() + " - "
-                + compositionsList.get(position).getCompositionName();
-
-        String MP3_SHARE_PATH = android.os.Environment.getExternalStorageDirectory() + EXPORTED_FILE_DIRECTORY +
-                MELODY_DIR + "/";
-        String PDF_SHARE_PATH = android.os.Environment.getExternalStorageDirectory() + EXPORTED_FILE_DIRECTORY +
-                SHEET_DIR+ "/";
-
-        Intent share = new Intent(Intent.ACTION_SEND);
-        if ("type" == "mp3"){ // if we use shareComp(String melody,String type) would be great
-            sharePath = MP3_SHARE_PATH + melody + ".mp3";
-            share.setType("audio/mp3");
-        }
-        else{
-            sharePath = PDF_SHARE_PATH + melody + ".pdf";
-            share.setType("application/pdf");
-        }
-
-
-        File file = new File(sharePath);
-        Uri uri = Uri.fromFile(file);
-        Log.e("bbb" , sharePath);
-
-        share.putExtra(Intent.EXTRA_STREAM, uri);
-        context.startActivity(Intent.createChooser(share, "Sharing: " + melody));
     }
 
     public void renameCompOrUser(final int position){
@@ -239,25 +226,73 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
         dialog.show();
     }
 
-    private void onDeleteClick(final int position){
+    public void onDeleteClick(final int position){
 
-        new AlertDialog.Builder(context)
-                .setTitle(R.string.alert_delete_title)
-                .setMessage(R.string.alert_delete_text)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dbManager.deleteCompByID(compositionsList.get(position).getCompositionID());
-                        compositionsList.remove(position);
-                        notifyDataSetChanged();
+        if (IS_USER_CHOSEN){
+            new AlertDialog.Builder(context)
+                    .setTitle(R.string.alert_delete_title)
+                    .setMessage(R.string.alert_delete_text)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dbManager.deleteCompByID(compositionsList.get(position).getCompositionID());
+                            compositionsList.remove(position);
+                            notifyDataSetChanged();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
+        else {
+            new AlertDialog.Builder(context)
+                    .setTitle(R.string.alert_delete_user_title)
+                    .setMessage(R.string.alert_delete_user_text)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dbManager.deleteUserByID(usersList.get(position).getID());
+                            usersList.remove(position);
+                            notifyDataSetChanged();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
+
+    }
+
+    public void showPopup(final int position , View view){
+
+        PopupMenu popup = new PopupMenu(context, view.findViewById(R.id.userOrCompName));
+        popup.getMenuInflater().inflate(R.menu.popup_menu, popup.getMenu());
+        popup.setGravity(Gravity.END);
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.action_delete:
+                    {
+                        onDeleteClick(position);
+                        break;
                     }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
+                    case R.id.action_rename:
+                    {
+                        renameCompOrUser(position);
+                        break;
                     }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
+                }
+                return true;
+            }
+        });
+        popup.show();
     }
 
 }

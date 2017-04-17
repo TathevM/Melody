@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -48,8 +50,8 @@ public class UsersOrCompsListFragment extends Fragment {
         rv.setHasFixedSize(true);
         adapter.setOnListItemLongClickListener(new RVAdapter.OnListItemLongClickListener() {
             @Override
-            public void onItemLongClick(int ID, View view) {
-                adapter.renameCompOrUser(ID);
+            public void onItemLongClick(final int ID, View view) {
+                adapter.showPopup(ID, view);
             }
         });
         adapter.setOnListItemClickListener(new RVAdapter.OnListItemClickListener() {

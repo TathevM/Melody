@@ -121,6 +121,12 @@ public class DbManager {
             mDb.delete(TableManager.COMPOSITIONS_TABLE, TableManager.COMPOSITION_ID + "=" + compositionID, null);
     }
 
+    public void deleteUserByID ( int userID){
+            mDb.delete(TableManager.COMPOSITIONS_TABLE, TableManager.COMPOSITOR_ID + "=" + userID, null);
+            mDb.delete(TableManager.USERS_TABLE, TableManager.USER_ID + "=" + userID, null);
+
+    }
+
 }
 
 
