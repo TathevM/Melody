@@ -16,6 +16,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -40,6 +43,7 @@ import static com.team_red.melody.models.MelodyStatics.MAIN_FONT_NAME;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
 
+    private final static int FADE_DURATION = 900;
 
     public boolean  IS_USER_CHOSEN = false;
     private ArrayList<User> usersList = new ArrayList<>();
@@ -73,35 +77,19 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        if (!IS_USER_CHOSEN) {
-            holder.mUserOrCompName.setText(usersList.get(position).getUserName());
-//            holder.mDeleteButton.setVisibility(View.GONE);
+            if (!IS_USER_CHOSEN) {
+                holder.mUserOrCompName.setText(usersList.get(position).getUserName());
+            }
+            else {
+                holder.mUserOrCompName.setText(compositionsList.get(position).getCompositionName());
+            }
+            setFadeAnimation(holder.itemView);
+    }
 
-        }
-        else {
-            holder.mUserOrCompName.setText(compositionsList.get(position).getCompositionName());
-//            holder.mDeleteButton.setVisibility(View.VISIBLE);
-
-//            holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    onDeleteClick(holder.getAdapterPosition());
-//                }
-//            });
-        }
-//        holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                onDeleteClick(holder.getAdapterPosition());
-//            }
-//        });
-//        holder.mUserOrCompName.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View view) {
-//                showPopup(position,view);
-//                return false;
-//            }
-//        });
+    private void setFadeAnimation(View view) {
+        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(FADE_DURATION);
+        view.startAnimation(anim);
     }
 
     @Override
@@ -255,6 +243,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
                         public void onClick(DialogInterface dialog, int which) {
                             dbManager.deleteUserByID(usersList.get(position).getID());
                             usersList.remove(position);
+
                             notifyDataSetChanged();
                         }
                     })

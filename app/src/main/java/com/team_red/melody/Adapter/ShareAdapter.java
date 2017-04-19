@@ -12,6 +12,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,6 +31,8 @@ import static com.team_red.melody.filemanager.MelodyFileManager.PDF_SHARE_PATH;
 
 
 public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.ViewHolder> {
+
+    private final static int ANIM_DURATION = 500;
 
     private Context context;
     private File[] files1;
@@ -80,8 +85,15 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.ViewHolder> 
             holder.mTypeImage.setImageResource(R.drawable.icon_mp3);
         }
 
-//        holder.mTypeImage.setImageDrawable();
+        moveInAnimation(holder.itemView);
+        ;
 
+    }
+
+    private void moveInAnimation(View view) {
+        Animation anim = AnimationUtils.loadAnimation(context, R.anim.move_right);
+        anim.setDuration(ANIM_DURATION);
+        view.startAnimation(anim);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -107,6 +119,7 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.ViewHolder> 
         }
     }
 
+    public void open(int position){
         String openPath;
         String melody = mFiles.get(position);
 
@@ -155,6 +168,7 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.ViewHolder> 
                 switch (item.getItemId()){
                     case R.id.action_open:
                     {
+                        open(position);
                         break;
                     }
                     case R.id.action_share:
