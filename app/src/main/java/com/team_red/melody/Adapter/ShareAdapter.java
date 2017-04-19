@@ -5,8 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -20,17 +23,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.team_red.melody.filemanager.MelodyFileManager.EXPORTED_FILE_DIRECTORY;
-import static com.team_red.melody.filemanager.MelodyFileManager.MELODY_DIR;
-import static com.team_red.melody.filemanager.MelodyFileManager.SHEET_DIR;
+import static com.team_red.melody.filemanager.MelodyFileManager.MP3_SHARE_PATH;
+import static com.team_red.melody.filemanager.MelodyFileManager.PDF_SHARE_PATH;
 
 
 public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.ViewHolder> {
-
-    String MP3_SHARE_PATH = android.os.Environment.getExternalStorageDirectory()
-            + EXPORTED_FILE_DIRECTORY + MELODY_DIR + "/";
-    String PDF_SHARE_PATH = android.os.Environment.getExternalStorageDirectory()
-            + EXPORTED_FILE_DIRECTORY + SHEET_DIR +"/";
 
     private Context context;
     private File[] files1;
@@ -49,7 +46,7 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.ViewHolder> 
         this.context = context;
     }
 
-    void getFiles(){
+    private void getFiles(){
 
         File dirMP3 = new File(MP3_SHARE_PATH);
         files1 = dirMP3.listFiles();
@@ -109,6 +106,25 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.ViewHolder> 
             onListItemClickListener.onItemClick(getAdapterPosition(), view);
         }
     }
+
+        String openPath;
+        String melody = mFiles.get(position);
+
+        Intent open = new Intent(Intent.ACTION_VIEW);
+        if (melody.endsWith("mp3")){
+            openPath = MP3_SHARE_PATH + "/" + melody;
+            open.setDataAndType(Uri.fromFile(new File(openPath)), "audio/mp3");
+        }
+        else{
+            openPath = PDF_SHARE_PATH + "/" + melody;
+            open.setDataAndType(Uri.fromFile(new File(openPath)), "application/pdf");
+        }
+
+        // context.startActivity(Intent.createChooser(open, "Choose application to preview"));
+        // OR
+        context.startActivity(open);
+    }
+
     public void share(int position){
         String sharePath;
         String melody = mFiles.get(position);
@@ -117,20 +133,42 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.ViewHolder> 
         if (melody.endsWith("mp3")){
             sharePath = MP3_SHARE_PATH + "/" + melody;
             share.setType("audio/mp3");
-            //mTypeImage = (ImageView) itemView.findViewById(R.id.type_image);
-
         }
         else{
             sharePath = PDF_SHARE_PATH + "/" + melody;
             share.setType("application/pdf");
-           /// mTypeImage = (ImageView) itemView.findViewById(R.id.type_image1);
-
         }
         File file = new File(sharePath);
         Uri uri = Uri.fromFile(file);
         share.putExtra(Intent.EXTRA_STREAM, uri);
         context.startActivity(Intent.createChooser(share, "Sharing: " + melody));
     }
+
+    public void showPopup(final int position , View view){
+
+        PopupMenu popup = new PopupMenu(context, view.findViewById(R.id.share_item));
+        popup.getMenuInflater().inflate(R.menu.popup_menu_share, popup.getMenu());
+        popup.setGravity(Gravity.END);
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.action_open:
+                    {
+                        break;
+                    }
+                    case R.id.action_share:
+                    {
+                        share(position);
+                        break;
+                    }
+                }
+                return true;
+            }
+        });
+        popup.show();
+    }
+
 
     public interface OnListItemClickListener{
         void onItemClick(int position, View view);

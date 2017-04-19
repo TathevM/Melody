@@ -83,5 +83,8 @@
     <string name="pdf_export_complete">PDF saved in folder</string>
     <string name="pdf_exporting_in_process">Now Exporting...</string>
     <string name="share_label">Your Files</string>
+    <string name="popup_open">Open</string>
+    <string name="popup_share">Share</string>
+
 
 </resources>

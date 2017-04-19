@@ -65,7 +65,7 @@ public class ShareActivity extends AppCompatActivity
         adapter.setOnListItemClickListener(new ShareAdapter.OnListItemClickListener() {
             @Override
             public void onItemClick(int position, View view) {
-                adapter.share(position);
+        adapter.showPopup(position, view);
             }
         });
     }

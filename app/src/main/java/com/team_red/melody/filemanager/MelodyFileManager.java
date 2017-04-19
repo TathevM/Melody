@@ -38,6 +38,10 @@ public class MelodyFileManager {
     public static final String EXPORTED_FILE_DIRECTORY = "/Melody";
     public static final String MELODY_DIR = "/Music";
     public static final String SHEET_DIR = "/Sheets";
+    public static final String MP3_SHARE_PATH = android.os.Environment.getExternalStorageDirectory()
+            + EXPORTED_FILE_DIRECTORY + MELODY_DIR + "/";
+    public static final String PDF_SHARE_PATH = android.os.Environment.getExternalStorageDirectory()
+            + EXPORTED_FILE_DIRECTORY + SHEET_DIR +"/";
 
     private static MelodyFileManager melodyFileManager;
     private int currentMaxCharacters;
