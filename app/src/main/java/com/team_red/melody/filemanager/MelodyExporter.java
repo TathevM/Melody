@@ -31,10 +31,15 @@ public class MelodyExporter {
     private Context mContext;
     private Composition mComposition;
     private MPEG mpeg;
+    private ArrayList<Integer> delays;
 
     public MelodyExporter( Context context) {
         this.mContext = context;
         mFrameSize = FRAME_SIZE;
+    }
+
+    public void setDelays(ArrayList<Integer> delays) {
+        this.delays = delays;
     }
 
     public void setSound1(ArrayList<Integer> sound1) {
@@ -95,6 +100,7 @@ public class MelodyExporter {
                         File mp3File = mp3Files.get(i);
                         mpeg.read(mp3File);
                         mHeaderPosition = mpeg.getHeaderPosition();
+                        int currentDelay = delays.get(i) / 26;
                         if (!mp3File.exists())
                             continue;
                         FileInputStream fisSong = new FileInputStream(mp3File);
@@ -105,7 +111,7 @@ public class MelodyExporter {
                         try {
                             int k = 0;
                             for (int readNum; (readNum = fisSong.read(buf)) != -1; k++) {
-                                if (k == 12)
+                                if (k == currentDelay)
                                     break;
                                 fos.write(buf, 0, readNum);
                             }
