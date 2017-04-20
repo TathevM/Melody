@@ -93,8 +93,7 @@ public class MainActivity extends AppCompatActivity
 
         currentUser = MelodyApplication.getLoggedInUser();
         navigationUsername.setText(currentUser.getUserName());
-
-        hasPermission = (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+        requestPermission();
     }
 
     private void getInitData() {
@@ -403,5 +402,7 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         }
+
+        hasPermission = (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
     }
 }
