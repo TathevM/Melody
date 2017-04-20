@@ -311,6 +311,7 @@ public class MainActivity extends AppCompatActivity
                 MelodyExporter melodyExporter = new MelodyExporter(this);
             ArrayList<Note> notes1 = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1(), FLAG_EXPORT);
             melodyExporter.setDelays(MelodyFileManager.getManager().getDelays(notes1));
+            melodyExporter.setNotes(notes1);
                 ArrayList<Integer> sound1 = MelodyFileManager.getManager().getResIDOfMusic(notes1);
                 melodyExporter.setSound1(sound1);
                 melodyExporter.mergeSongs(currentComposition);

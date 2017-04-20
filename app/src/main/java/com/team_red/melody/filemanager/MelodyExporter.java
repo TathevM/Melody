@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.team_red.melody.R;
 import com.team_red.melody.app.MelodyApplication;
 import com.team_red.melody.models.Composition;
+import com.team_red.melody.models.Note;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,6 +33,7 @@ public class MelodyExporter {
     private Composition mComposition;
     private MPEG mpeg;
     private ArrayList<Integer> delays;
+    private ArrayList<Note> notes;
 
     public MelodyExporter( Context context) {
         this.mContext = context;
@@ -44,6 +46,14 @@ public class MelodyExporter {
 
     public void setSound1(ArrayList<Integer> sound1) {
         this.sound1 = sound1;
+    }
+
+    public void setNotes(ArrayList<Note> notes) {
+        this.notes = notes;
+        for (int i = 0; i < this.notes.size(); i++){
+            if(notes.get(i).getValue() == 180 || notes.get(i).getValue() == 181)
+                notes.remove(i);
+        }
     }
 
     private ArrayList<File> prepareExport(){
@@ -98,11 +108,19 @@ public class MelodyExporter {
                     fisToFinal = new FileInputStream(mergedFile);
                     for (int i = 0; i < mp3Files.size(); i++) {
                         File mp3File = mp3Files.get(i);
+                        if (notes.get(i).getValue() <= 167)
+                            continue;
                         mpeg.read(mp3File);
                         mHeaderPosition = mpeg.getHeaderPosition();
                         int currentDelay = delays.get(i) / 26;
                         if (!mp3File.exists())
                             continue;
+                        try {
+                            if(notes.get(i+1).getValue() <= 167)
+                            currentDelay = currentDelay + delays.get(i+1) / 26;
+                        }catch (Exception ex){
+                            ex.printStackTrace();
+                        }
                         FileInputStream fisSong = new FileInputStream(mp3File);
                         SequenceInputStream sis = new SequenceInputStream(fisToFinal, fisSong);
                         byte[] t = new byte[mHeaderPosition];
