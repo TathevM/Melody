@@ -225,10 +225,13 @@ public class MainActivity extends AppCompatActivity
 
     private void play() {
         togglePlayButton(false);
-        ArrayList<Integer> sounds1 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1(), FLAG_PLAY));
+        ArrayList<Note> notes1 = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList1(), FLAG_PLAY);
+        ArrayList<Integer> sounds1 = MelodyFileManager.getManager().getResIDOfMusic(notes1);
         MelodyPoolManager.getInstance().setSounds1(sounds1);
+        MelodyPoolManager.getInstance().setDelays(MelodyFileManager.getManager().getDelays(notes1));
         if (melodyAdapter.getCompositionType() == SHEET_TYPE_TWO_HANDED) {
-            ArrayList<Integer> sounds2 = MelodyFileManager.getManager().getResIDOfMusic(MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList2(), FLAG_PLAY));
+            ArrayList<Note> notes2 = MelodyFileManager.getManager().MakeNotesFromString(melodyAdapter.getMelodyStringList2(), FLAG_PLAY);
+            ArrayList<Integer> sounds2 = MelodyFileManager.getManager().getResIDOfMusic(notes2);
             MelodyPoolManager.getInstance().setSounds2(sounds2);
         }
         try {

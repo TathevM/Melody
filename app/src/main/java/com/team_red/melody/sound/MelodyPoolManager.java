@@ -22,12 +22,13 @@ public class MelodyPoolManager {
     private ArrayList<SoundSampleEntity> loadedSounds2;
     private boolean isPlaySound1;
     private boolean isPlaySound2;
+    private ArrayList<Integer> delays;
 
     private Handler h;
     private Handler p;
     private int handlerCounter;
     private int handlerCounter2;
-    private int delay = 300;
+
     private Runnable mRunnable1;
     private Runnable mRunnable2;
 
@@ -49,6 +50,10 @@ public class MelodyPoolManager {
         if (instance == null) {
             instance = new MelodyPoolManager();
         }
+    }
+
+    public void setDelays(ArrayList<Integer> delays) {
+        this.delays = delays;
     }
 
     public ArrayList<Integer> getSounds2() {
@@ -110,7 +115,7 @@ public class MelodyPoolManager {
                         soundPool.play(entity.getSampleId(), .99f, .99f, 1, 0, 1f);
                     }
                     mRunnable1 = this;
-                    h.postDelayed(mRunnable1, delay);
+                    h.postDelayed(mRunnable1, delays.get(handlerCounter));
                     handlerCounter++;
                 }
                 else {
@@ -124,6 +129,7 @@ public class MelodyPoolManager {
     public void playMelody(final IMelodyPoolPlaybackFinished callback){
         h = new Handler();
         handlerCounter = 0;
+
         h.post(new Runnable() {
             @Override
             public void run() {
@@ -134,7 +140,7 @@ public class MelodyPoolManager {
                         soundPool.play(entity.getSampleId(), .99f, .99f, 1, 0, 1f);
                     }
                     mRunnable1 = this;
-                    h.postDelayed(mRunnable1, delay);
+                    h.postDelayed(mRunnable1, delays.get(handlerCounter));
                     handlerCounter++;
                 }
                 else {
@@ -162,7 +168,7 @@ public class MelodyPoolManager {
                             Log.d("playing" , "sound2");
                         }
                         mRunnable2 = this;
-                        p.postDelayed(mRunnable2 , delay);
+                        p.postDelayed(mRunnable2 , delays.get(handlerCounter2));
                         handlerCounter2++;
                     }
                     else {

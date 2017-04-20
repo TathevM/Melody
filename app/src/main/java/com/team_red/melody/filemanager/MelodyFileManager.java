@@ -106,7 +106,7 @@ public class MelodyFileManager {
         ArrayList<Integer> result = new ArrayList<>();
         for(int i = 0; i < input.size(); i++)
         {
-            if(220 <= input.get(i).getValue() && input.get(i).getValue() < 290 ) {
+            if((220 <= input.get(i).getValue() && input.get(i).getValue() < 290) || (164 <= input.get(i).getValue() && input.get(i).getValue() <= 167) ) {
                 String tempName = input.get(i).toString() ;
                 try {
                     int id = R.raw.class.getField(tempName).getInt(null);
@@ -232,6 +232,10 @@ public class MelodyFileManager {
                 }
                 else if(code > 400)
                     prevSign = code;
+                else if(code >= 164 && code <= 167)
+                {
+                    result.add(new Note(code, 0, 0));
+                }
             }
         }
         currentMaxCharacters = maxCharactersPerLine;
@@ -259,8 +263,14 @@ public class MelodyFileManager {
                         octave = 5;
                     }
                     if (code > 400 || code % 10 >= 5) {
-                        prevSign = code;
-                        continue;
+                        if(code >170) {
+                            prevSign = code;
+                            continue;
+                        }
+                    }
+                    if(code >= 164 && code <= 167){
+                        prevSign = 0;
+                        octave = 0;
                     }
                     result.add(new Note(code, prevSign, octave));
                     prevSign = 0;
@@ -275,8 +285,14 @@ public class MelodyFileManager {
                         octave = 3;
                     }
                     if (code > 400 || code % 10 >= 5) {
-                        prevSign = code;
-                        continue;
+                        if(code >170) {
+                            prevSign = code;
+                            continue;
+                        }
+                    }
+                    if(code >= 164 && code <= 167){
+                        prevSign = 0;
+                        octave = 0;
                     }
                     result.add(new Note(code, prevSign, octave));
                     prevSign = 0;
@@ -309,5 +325,27 @@ public class MelodyFileManager {
             result.add(temp.toString());
         }
         return result;
+    }
+
+    public ArrayList<Integer> getDelays(ArrayList<Note> input){
+        ArrayList<Integer> delays = new ArrayList<>();
+        for (int i=0;i < input.size(); i++){
+            if(input.get(i).getValue() == 167){
+                delays.add(250);
+            }
+            if(input.get(i).getValue() == 166){
+                delays.add(500);
+            }
+            if(input.get(i).getValue() == 165){
+                delays.add(1000);
+            }
+            if(input.get(i).getValue() == 164){
+                delays.add(750);
+            }
+            if(input.get(i).getValue()>= 190){
+                delays.add(input.get(i).getDuration());
+            }
+        }
+        return delays;
     }
 }

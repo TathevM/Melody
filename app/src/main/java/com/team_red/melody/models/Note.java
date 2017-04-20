@@ -84,26 +84,26 @@ public class Note implements Parcelable {
     @Override
     public String toString() {
         String temp="";
-        if(sign%10==SHARP_DIVISOR){
-            temp = "s";
-        }
-        else
-            if(sign%10==DOUBLE_SHARP_DIVISOR){
+        int tempValue;
+        if(value > 167) {
+            if (sign % 10 == SHARP_DIVISOR) {
+                temp = "s";
+            } else if (sign % 10 == DOUBLE_SHARP_DIVISOR) {
                 temp = "p";
+            } else if (sign % 10 == FLAT_DIVISOR) {
+                temp = "f";
+            } else if (sign % 10 == DOUBLE_FLAT_DIVISOR) {
+                temp = "t";
+            } else if (sign % 10 == NATURAL_DIVISOR || sign == 0) {
+                temp = "n";
             }
-            else
-                if(sign%10 == FLAT_DIVISOR){
-                    temp = "f";
-                }
-                else
-                    if(sign%10 == DOUBLE_FLAT_DIVISOR){
-                        temp = "t";
-                    }
-                    else
-                        if(sign%10 == NATURAL_DIVISOR || sign == 0){
-                            temp = "n";
-                        }
-                        int tempValue = (value / 10) * 10;
+            tempValue = (value / 10) * 10;
+        }
+        else {
+            temp = "n";
+            octave = 0;
+            tempValue = value;
+        }
         return temp + octave + "_" + tempValue;
     }
 
@@ -114,15 +114,15 @@ public class Note implements Parcelable {
         }
         else
             if(value%10==1){
-                result = 500;
+                result = 750;
             }
             else
                 if(value%10==2){
-                    result = 250;
+                    result = 500;
                 }
                 else
                     if(value%10==3){
-                        result = 125;
+                        result = 250;
                     }
         return result;
     }
